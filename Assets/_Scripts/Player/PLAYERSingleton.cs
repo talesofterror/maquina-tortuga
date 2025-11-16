@@ -76,7 +76,7 @@ public class PLAYERSingleton : MonoBehaviour
       playerIsAttacking = true;
       string id = "SlashTrigger";
       StartCoroutine(animations.WaitAndFreeze(PLAYERSingleton.i.animations.stateInfo.length, id));
-      // Invoke("SetPlayerIsAttackingFalse", PLAYERSingleton.i.animations.stateInfo.length);
+      Invoke("SetPlayerIsAttackingFalse", PLAYERSingleton.i.animations.stateInfo.length);
     }
   }
 
