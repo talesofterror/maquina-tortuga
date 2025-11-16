@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3350039318783016263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: yFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 3124971200803149867}
   - component: {fileID: 4468651288027079490}
   - component: {fileID: 9074840507796054793}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform v2
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -402,9 +402,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f5750f4915fedb4584d028fdc0862b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Platform
-  _speed: 0.5
+  speed: 0
   platformEnabled: 1
   yFloor: {fileID: 3350039318783016263}
+  inTransit: 0
 --- !u!54 &9074840507796054793
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -440,6 +441,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1912460945869261464}
     m_Modifications:
+    - target: {fileID: 204854205648950321, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4021325189905389903, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10
@@ -535,6 +540,14 @@ PrefabInstance:
     - target: {fileID: 7547125410224573380, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
       propertyPath: m_Name
       value: WaypointSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7547125410224573380, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004135551943359574, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

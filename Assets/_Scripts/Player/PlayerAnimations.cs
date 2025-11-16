@@ -18,26 +18,18 @@ public class PlayerAnimations : MonoBehaviour
     FightSlash1 = Animator.StringToHash("slash1");
   }
 
-  public float currentAnimationLength()
+  public float CurrentAnimationLength()
   {
     return stateInfo.length;
   }
 
-  public IEnumerator waitForLength(float time, string animation)
+  public IEnumerator WaitAndFreeze(float time, string animation)
   {
-    Debug.Log("waitForLength coroutine started");
-    // PLAYERSingleton.i.movementEnabled = false;
-    // PLAYERSingleton.i.vController.setStopMove(true);
-    // Debug.Log("movement enabled?: " + PLAYERSingleton.i.movementEnabled);
-    Debug.Log(stateInfo.length);
     PLAYERSingleton.i.animations.animator.SetTrigger(animation);
     PLAYERSingleton.i.freezeMovement = true;
     yield return new WaitForSeconds(time);
-    // PLAYERSingleton.i.animations.animator.ResetTrigger(animation);
+
     PLAYERSingleton.i.freezeMovement = false;
-    // PLAYERSingleton.i.movementEnabled = true;
-    // PLAYERSingleton.i.vController.setStopMove(false);
-    // Debug.Log("movement enabled?: " + PLAYERSingleton.i.movementEnabled);
   }
 
 }

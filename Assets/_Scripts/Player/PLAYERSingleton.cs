@@ -16,6 +16,7 @@ public class PLAYERSingleton : MonoBehaviour
 
   [HideInInspector] public Rigidbody rB;
   [HideInInspector] public PlayerMode playerMode;
+  [HideInInspector] public bool playerIsAttacking;
 
   public bool endlessJumping;
 
@@ -72,9 +73,16 @@ public class PLAYERSingleton : MonoBehaviour
   {
     if ( GMSingleton.i.inputManager.attack.WasReleasedThisFrame())
     {
+      playerIsAttacking = true;
       string id = "SlashTrigger";
-      StartCoroutine(animations.waitForLength(PLAYERSingleton.i.animations.stateInfo.length, id));
+      StartCoroutine(animations.WaitAndFreeze(PLAYERSingleton.i.animations.stateInfo.length, id));
+      // Invoke("SetPlayerIsAttackingFalse", PLAYERSingleton.i.animations.stateInfo.length);
     }
+  }
+
+  void SetPlayerIsAttackingFalse ()
+  {
+    playerIsAttacking = false;
   }
 
   void ListenForModeChange()
@@ -99,7 +107,7 @@ public class PLAYERSingleton : MonoBehaviour
     // }
   }
 
-  public void setControlsActive(bool state)
+  public void SetControlsActiveState(bool state)
   {
     movementEnabled = state;
   }

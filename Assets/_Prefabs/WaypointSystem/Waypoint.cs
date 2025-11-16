@@ -13,14 +13,7 @@ public class Waypoint : MonoBehaviour
 
   public void SetLocation(WaypointSystem hostSystem)
   {
-    if (hostSystem.hostRB)
-    {
       location = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-    }
-    else
-    {
-      location = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-    }
   }
 
   void OnDrawGizmos()

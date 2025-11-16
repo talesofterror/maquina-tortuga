@@ -11,6 +11,7 @@ public class WaypointSystem : MonoBehaviour
   public Waypoint[] waypointArray;
   public List<Waypoint> waypoints;
   public Waypoint self;
+  [HideInInspector] public Waypoint activeWaypointTarget;
 
   public float speed = 0.5f;
   float gizmoSize = 0.5f;
@@ -47,6 +48,7 @@ public class WaypointSystem : MonoBehaviour
     for (int i = 0; i < waypoints.Count; i++)
     {
       waypoints[i].SetLocation(this);
+      waypoints[i].name = "Wayoint " + i;
     }
 
     for (int i = 0; i < waypoints.Count; i++)
@@ -57,9 +59,9 @@ public class WaypointSystem : MonoBehaviour
         ? gizmoSize
         : waypoints[i].gizmoSize;
 
-      waypoints[i].neighborNext = i < waypoints.Count - 1
-        ? waypoints[i + 1]
-        : waypoints[0];
+      waypoints[i].neighborNext = i == waypoints.Count - 1
+        ? waypoints[0]
+        : waypoints[i + 1];
 
       waypoints[i].neighborPrevious = i == 0
         ? waypoints[waypoints.Count - 1]
