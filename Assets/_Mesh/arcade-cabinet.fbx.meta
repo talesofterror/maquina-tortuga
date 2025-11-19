@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: screen
+    second: {fileID: 2100000, guid: 4f4be4eb31854c040812a3d9304ef9cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: title lights
     second: {fileID: 2100000, guid: 432cb0908f362724386ffdac757fce4a, type: 2}
   - first:

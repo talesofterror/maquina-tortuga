@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MovingPlatform : MonoBehaviour
 {
@@ -19,9 +18,6 @@ public class MovingPlatform : MonoBehaviour
   public bool platformEnabled = true;
   void Awake()
   {
-    SceneManager.sceneLoaded += OnSceneLoaded;
-    SceneManager.sceneLoaded += OnSceneUnloaded;
-
     rB = GetComponent<Rigidbody>();
   }
 
@@ -32,18 +28,6 @@ public class MovingPlatform : MonoBehaviour
     _previousPosition = rB.position;
     platformEnabled = true;
     if (randomOffset) offset = Random.Range(1, 10);
-  }
-
-  void OnSceneUnloaded(Scene scene, LoadSceneMode mode)
-  {
-  }
-
-  void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-  {
-  }
-
-  void OnDestroy()
-  {
   }
 
   private void FixedUpdate()

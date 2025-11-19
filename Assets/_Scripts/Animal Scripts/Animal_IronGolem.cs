@@ -57,6 +57,10 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     {
       Walk();
     }
+    if (mode == EnemyMode.Alert)
+    {
+
+    }
     if (mode == EnemyMode.Attack)
     {
 
@@ -90,15 +94,21 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   public void Walk()
   {
+
     if (!inTransit)
     {
-      Debug.Log(rB);
       inTransit = true;
       waypointSystem.speed = speed;
       StartCoroutine(MovementMotor());
     }
 
-    if (inTransit) transform.rotation = Quaternion.LookRotation(transform.position - waypointSystem.activeWaypointTarget.location);
+    if (direction.sqrMagnitude > 0)
+    transform.rotation = Quaternion.LookRotation(-direction);
+
+    // if (inTransit) transform.rotation = Quaternion.LookRotation(transform.position - waypointSystem.activeWaypointTarget.location); // memory leak
+    // float yTarget = waypointSystem.activeWaypointTarget.neighborNext.location.y + transform.position.y;
+    // Vector3 lookAtTarget = new Vector3(waypointSystem.activeWaypointTarget.neighborNext.location.x, yTarget, waypointSystem.activeWaypointTarget.neighborNext.location.z);
+    // if (inTransit) transform.LookAt(lookAtTarget);
   }
 
   public void TakeDamage(int amount)
@@ -124,10 +134,8 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
       float distance = Vector3.Distance(waypointSystem.waypoints[i].location, waypointSystem.waypoints[i].neighborNext.location);
       float calculatedSpeed = distance / speed;
 
-      Debug.Log("Next Waypoint: " + waypointSystem.waypoints[i].neighborNext.name);
-
-      Vector3 lookAtTarget = new Vector3(waypointSystem.waypoints[i].neighborNext.transform.position.x, transform.position.y, waypointSystem.waypoints[i].neighborNext.transform.position.z);
-      
+      // Debug.Log("Next Waypoint: " + waypointSystem.waypoints[i].neighborNext.name);
+      // Debug.Log("Next Waypoint position: " + waypointSystem.waypoints[i].neighborNext.location);
 
       for (float j = 0; j < 1; j += Time.deltaTime / calculatedSpeed)
       {

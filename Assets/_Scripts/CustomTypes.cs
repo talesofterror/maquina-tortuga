@@ -32,6 +32,7 @@ public enum EnemyMode
 {
   Idle,
   Patrol,
+  Alert,
   Attack,
   Retreat
 }
