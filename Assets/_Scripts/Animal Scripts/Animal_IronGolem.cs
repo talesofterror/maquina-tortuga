@@ -111,6 +111,12 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     // if (inTransit) transform.LookAt(lookAtTarget);
   }
 
+  public void Die()
+  {
+    Destroy(gameObject);
+    animator.SetTrigger("Die");
+  }
+
   public void TakeDamage(int amount)
   {
     hp = hp - amount;

@@ -40,4 +40,9 @@ public class SceneLoader : MonoBehaviour
     SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
   }
 
+  void OnDrawGizmos () {
+    Gizmos.color = Color.cyan;
+    Gizmos.DrawWireSphere(GetComponentInChildren<SceneSpawnPoint>().transform.position, 1);
+  }
+
 }

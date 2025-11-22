@@ -7,6 +7,6 @@ public static class LeakDetectionBootstrap
     static void EnableLeakTracing()
     {
         // Unity.Collections.LowLevel.Unsafe.UnsafeUtility.SetLeakDetectionMode(Unity.Collections.NativeLeakDetectionMode.EnabledWithStackTrace);
-        Debug.Log("Leak detection with stack traces enabled.");
+        // Debug.Log("Leak detection with stack traces enabled.");
     }
 }

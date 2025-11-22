@@ -7,6 +7,8 @@ public class PlayerInteract : MonoBehaviour
   RaycastHit rayHitInteractable;
   [HideInInspector] public bool isTargettingInteractable;
 
+  Interactable currentInteractable;
+
   void FixedUpdate()
   {
 
@@ -14,16 +16,21 @@ public class PlayerInteract : MonoBehaviour
     {
       if (rayHitInteractable.transform.CompareTag("Interactable") && !isTargettingInteractable)
       {
-        isTargettingInteractable = true;
-        rayHitInteractable.transform.GetComponentInParent<Interactable>().Focused();
-        Debug.Log("RAYCAST HIT");
-        Debug.Log("isTargettingInteractable: " + isTargettingInteractable);
-        Debug.Log("Player Mode: " + PLAYERSingleton.i.playerMode);
+        currentInteractable = rayHitInteractable.transform.GetComponentInParent<Interactable>();
+        if (currentInteractable != null)
+        {
+            isTargettingInteractable = true;
+            currentInteractable.Focused();
+            Debug.Log("RAYCAST HIT");
+            Debug.Log("isTargettingInteractable: " + isTargettingInteractable);
+            Debug.Log("Player Mode: " + PLAYERSingleton.i.playerMode);
+        }
       }
     }
     else
     {
       isTargettingInteractable = false;
+      currentInteractable = null;
     }
   }
 

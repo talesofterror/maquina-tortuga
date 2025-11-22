@@ -78,7 +78,14 @@ public class PlayerDetectPlatforms : MonoBehaviour
 
       if (!cc.isJumping)
       {
-        rB.MovePosition(new Vector3(rB.position.x, platform.yFloor.position.y, rB.position.z));
+        if (platform != null && platform.yFloor != null)
+        {
+             rB.MovePosition(new Vector3(rB.position.x, platform.yFloor.position.y, rB.position.z));
+        }
+        else if (!oldMovingPlatform)
+        {
+             active = false;
+        }
       }
 
       cc.platformVelocity = calculatedVelocity;
