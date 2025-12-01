@@ -161,15 +161,15 @@ namespace Invector.vCharacterController
     public virtual void SetControllerMoveSpeed(vMovementSpeed speed)
     {
       if (speed.walkByDefault)
-        moveSpeed = Mathf.Lerp(moveSpeed, isSprinting ? speed.runningSpeed : speed.walkSpeed, speed.movementSmooth * Time.deltaTime);
+        moveSpeed = Mathf.Lerp(moveSpeed, isSprinting ? speed.runningSpeed : speed.walkSpeed, speed.movementSmooth * Time.fixedDeltaTime);
       else
-        moveSpeed = Mathf.Lerp(moveSpeed, isSprinting ? speed.sprintSpeed : speed.runningSpeed, speed.movementSmooth * Time.deltaTime);
+        moveSpeed = Mathf.Lerp(moveSpeed, isSprinting ? speed.sprintSpeed : speed.runningSpeed, speed.movementSmooth * Time.fixedDeltaTime);
     }
 
     public virtual void MoveCharacter(Vector3 _direction)
     {
       // calculate input smooth
-      inputSmooth = Vector3.Lerp(inputSmooth, input, (isStrafing ? strafeSpeed.movementSmooth : freeSpeed.movementSmooth) * Time.deltaTime);
+      inputSmooth = Vector3.Lerp(inputSmooth, input, (isStrafing ? strafeSpeed.movementSmooth : freeSpeed.movementSmooth) * Time.fixedDeltaTime);
 
       if (!isGrounded || isJumping)
       {
@@ -187,8 +187,8 @@ namespace Invector.vCharacterController
       if (_direction.magnitude > 1f)
         _direction.Normalize();
 
-      Vector3 targetPosition = (useRootMotion ? animator.rootPosition : _rigidbody.position) + _direction * (stopMove ? 0 : moveSpeed) * Time.deltaTime;
-      targetVelocity = (targetPosition - _rigidbody.position) / Time.deltaTime;
+      Vector3 targetPosition = (useRootMotion ? animator.rootPosition : _rigidbody.position) + _direction * (stopMove ? 0 : moveSpeed) * Time.fixedDeltaTime;
+      targetVelocity = (targetPosition - _rigidbody.position) / Time.fixedDeltaTime;
 
       bool useVerticalVelocity = true;
       if (useVerticalVelocity) targetVelocity.y = _rigidbody.linearVelocity.y;
@@ -236,7 +236,7 @@ namespace Invector.vCharacterController
     {
       if (!jumpAndRotate && !isGrounded) return;
       direction.y = 0f;
-      Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, .1f);
+      Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.fixedDeltaTime, .1f);
       Quaternion _newRotation = Quaternion.LookRotation(desiredForward);
       transform.rotation = _newRotation;
     }
@@ -322,12 +322,12 @@ namespace Invector.vCharacterController
           // apply extra gravity when falling
           if (!isJumping)
           {
-            _rigidbody.AddForce(transform.up * extraGravity * Time.deltaTime, ForceMode.VelocityChange);
+            _rigidbody.AddForce(transform.up * extraGravity * Time.fixedDeltaTime, ForceMode.VelocityChange);
           }
         }
         else if (!isJumping)
         {
-          _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
+          _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.fixedDeltaTime), ForceMode.VelocityChange);
         }
       }
     }

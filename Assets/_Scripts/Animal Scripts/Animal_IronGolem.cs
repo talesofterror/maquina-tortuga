@@ -30,6 +30,9 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   public float speed = 1f;
   public bool inTransit;
   public EnemyMode mode;
+  
+  public bool running;
+  public Vector3 direction;
 
   WaypointSystem waypointSystem;
 
@@ -45,54 +48,8 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     animator = GetComponent<Animator>();
     Debug.Log(animator);
   }
-
-
-  void FixedUpdate()
-  {
-    if (mode == EnemyMode.Idle)
-    {
-
-    }
-    if (mode == EnemyMode.Patrol)
-    {
-      Walk();
-    }
-    if (mode == EnemyMode.Alert)
-    {
-
-    }
-    if (mode == EnemyMode.Attack)
-    {
-
-    }
-    if (mode == EnemyMode.Retreat)
-    {
-
-    }
-
-  }
-
-  void Update()
-  {
-    AnimateRun();
-  }
-
-  void OnTriggerEnter(Collider other)
-  {
-    if (other.CompareTag("PlayerDamage") && PLAYERSingleton.i.playerIsAttacking)
-    {
-      UISingleton.i.debug.pushMessage(other.transform.root + " hit " + transform.name, "#ff3355");
-      UISingleton.i.debug.pushMessage(transform.name + " took", "#ff3355", false);
-      UISingleton.i.debug.pushMessage(" " + 10, "#ff3355", false);
-      UISingleton.i.debug.pushMessage(" damage!", "#ff3355");
-      Debug.Log(other.name + " hit " + transform.name);
-      PLAYERSingleton.i.playerIsAttacking = false;
-
-      TakeDamage(10);
-    }
-  }
-
-  public void Walk()
+  
+  public void Patrol()
   {
 
     if (!inTransit)
@@ -121,15 +78,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   {
     hp = hp - amount;
   }
-
-  public bool running;
-  public Vector3 direction;
-  void AnimateRun()
-  {
-    if (running) animator.SetBool("isRunning", true);
-    else animator.SetBool("isRunning", false);
-  }
-
+  
   IEnumerator MovementMotor()
   {
     for (int i = 0; i < waypointSystem.waypoints.Count; i++)
@@ -153,4 +102,55 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     }
     inTransit = false;
   }
+  
+  void OnTriggerEnter(Collider other)
+  {
+    if (other.CompareTag("PlayerDamage") && PLAYERSingleton.i.playerIsAttacking)
+    {
+      UISingleton.i.debug.pushMessage(other.transform.root + " hit " + transform.name, "#ff3355");
+      UISingleton.i.debug.pushMessage(transform.name + " took", "#ff3355", false);
+      UISingleton.i.debug.pushMessage(" " + 10, "#ff3355", false);
+      UISingleton.i.debug.pushMessage(" damage!", "#ff3355");
+      Debug.Log(other.name + " hit " + transform.name);
+      PLAYERSingleton.i.playerIsAttacking = false;
+
+      TakeDamage(10);
+    }
+  }
+
+  void FixedUpdate()
+  {
+    if (mode == EnemyMode.Idle)
+    {
+
+    }
+    if (mode == EnemyMode.Patrol)
+    {
+      Patrol();
+    }
+    if (mode == EnemyMode.Alert)
+    {
+
+    }
+    if (mode == EnemyMode.Attack)
+    {
+
+    }
+    if (mode == EnemyMode.Retreat)
+    {
+
+    }
+  }
+
+  void Update()
+  {
+    UpdateAnimation();
+  }
+
+  void UpdateAnimation()
+  {
+    if (running) animator.SetBool("isRunning", true);
+    else animator.SetBool("isRunning", false);
+  }
+
 }
