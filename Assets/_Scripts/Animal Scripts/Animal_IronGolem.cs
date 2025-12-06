@@ -30,15 +30,17 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   public float speed = 1f;
   public bool inTransit;
   public EnemyMode mode;
-  
+
   public bool running;
   public Vector3 direction;
 
   WaypointSystem waypointSystem;
 
   Coroutine movementMotorCoroutine;
+  Coroutine initPlayerDetected;
 
   Animator animator;
+  string activeAnimationString;
   Rigidbody rB;
 
   void Awake()
@@ -50,43 +52,63 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     animator = GetComponent<Animator>();
     playerLayerMask = LayerMask.GetMask("Player");
   }
-  
+
   public void Patrol()
   {
+    if (_prevMode != EnemyMode.Patrol) {
+      _prevMode = EnemyMode.Patrol;
+    }
 
     if (!inTransit)
     {
       inTransit = true;
       waypointSystem.speed = speed;
-      movementMotorCoroutine = StartCoroutine(MovementMotor());
+      if (movementMotorCoroutine == null)
+      {
+        initPlayerDetected = null;
+        movementMotorCoroutine = StartCoroutine(MovementMotor());
+      }
     }
 
     if (direction.sqrMagnitude > 0)
-    transform.rotation = Quaternion.LookRotation(-direction);
+      transform.rotation = Quaternion.LookRotation(-direction);
 
-    if (PlayerDetected()) {
+    if (PlayerDetected())
+    {
       Debug.Log(transform.name + " detected the player!");
+      mode = EnemyMode.Alert;
       StopCoroutine(movementMotorCoroutine);
-      StartCoroutine(InitPlayerDetected());
-    };
-
+      inTransit = false;
+      running = false;
+      if (initPlayerDetected == null)
+      {
+        movementMotorCoroutine = null;
+        initPlayerDetected = StartCoroutine(InitPlayerDetected());
+      }
+    }
   }
 
-  IEnumerator InitPlayerDetected () {
+  IEnumerator InitPlayerDetected()
+  {
     transform.LookAt(PLAYERSingleton.i.transform.position);
-    mode = EnemyMode.Alert;
     yield return null;
   }
 
   public EnemyMode _prevMode;
 
-  public void Alert () {
-    if (_prevMode == EnemyMode.Alert) {
+  public void Alert()
+  {
+    Debug.Log("Alert Function called");
 
+    if (_prevMode != EnemyMode.Alert)
+    {
+      _prevMode = EnemyMode.Alert;
     }
+
     transform.LookAt(PLAYERSingleton.i.transform.position);
 
-    if (Vector3.Distance(transform.position, PLAYERSingleton.i.transform.position) > forgetDistance) {
+    if (Vector3.Distance(transform.position, PLAYERSingleton.i.transform.position) > forgetDistance)
+    {
       mode = EnemyMode.Patrol;
     }
   }
@@ -108,7 +130,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   LayerMask playerLayerMask;
   RaycastHit playerRaycastHit;
 
-  bool PlayerDetected ()
+  bool PlayerDetected()
   {
     bool playerSighted = Physics.Raycast(
       transform.position + new Vector3(0, sightHeight, 0),
@@ -119,7 +141,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
       );
     return playerSighted;
   }
-  
+
   IEnumerator MovementMotor()
   {
 
@@ -147,8 +169,9 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
       yield return new WaitForSeconds(1);
     }
     inTransit = false;
+    movementMotorCoroutine = null;
   }
-  
+
   void OnTriggerEnter(Collider other)
   {
     if (other.CompareTag("PlayerDamage") && PLAYERSingleton.i.playerIsAttacking)
@@ -186,7 +209,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     }
     if (mode == EnemyMode.Alert)
     {
-      Debug.Log(playerRaycastHit.transform.name + " alerted " + transform.name);
+      Alert();
     }
     if (mode == EnemyMode.Attack)
     {
@@ -203,5 +226,10 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     if (running) animator.SetBool("isRunning", true);
     else animator.SetBool("isRunning", false);
   }
+
+  // void setAnimationBool(string prev, string next) {
+  //   animator.SetBool(prev, false);
+  //   animator.SetBool(next, true);
+  // }
 
 }
