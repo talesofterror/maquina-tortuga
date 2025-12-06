@@ -23,7 +23,9 @@ Shader "Custom/VolumetricFog"
       ZTest Always
       Cull Back
       Blend SrcAlpha OneMinusSrcAlpha
+      // Blend SrcAlpha Zero
       // Blend DstColor Zero
+      // Blend DstColor SrcColor
       // Blend One One
 
       HLSLPROGRAM

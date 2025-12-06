@@ -47,9 +47,10 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -3067788585494994577}
   - {fileID: 5082131139168008853}
+  - {fileID: 4138380507009166426}
   - {fileID: 7833122117494664109}
   - {fileID: 245853836569099634}
-  m_RendererFeatureMap: 6fa1920b89066dd5957a0f44585b8746ad6b866f10d7b46c723d5e03c3726903
+  m_RendererFeatureMap: 6fa1920b89066dd5957a0f44585b87465aacae21257b6e39ad6b866f10d7b46c723d5e03c3726903
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -115,6 +116,26 @@ MonoBehaviour:
   _pixelate: 1
   _scale: 0.735
   _frameRate: 0
+--- !u!114 &4138380507009166426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: FullScreenGlitchPass
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.FullScreenPassRendererFeature
+  m_Active: 0
+  injectionPoint: 450
+  fetchColorBuffer: 1
+  requirements: 1
+  passMaterial: {fileID: 2100000, guid: 6c26215baa6573043bbce7f6820babae, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &5082131139168008853
 MonoBehaviour:
   m_ObjectHideFlags: 0

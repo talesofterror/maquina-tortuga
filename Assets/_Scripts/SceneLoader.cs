@@ -1,5 +1,7 @@
+using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -41,8 +43,9 @@ public class SceneLoader : MonoBehaviour
   }
 
   void OnDrawGizmos () {
-    Gizmos.color = Color.cyan;
-    Gizmos.DrawWireSphere(GetComponentInChildren<SceneSpawnPoint>().transform.position, 1);
+    Gizmos.color = Color.orange;
+    Gizmos.DrawSphere(spawnPoint.transform.position, 0.5f);
+    Handles.Label(spawnPoint.transform.position, "Spawn Point");
   }
 
 }

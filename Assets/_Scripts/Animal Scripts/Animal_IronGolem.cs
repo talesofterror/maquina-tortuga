@@ -36,17 +36,19 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   WaypointSystem waypointSystem;
 
+  Coroutine movementMotorCoroutine;
+
   Animator animator;
   Rigidbody rB;
 
   void Awake()
   {
     waypointSystem = GetComponentInChildren<WaypointSystem>();
-    mode = new EnemyMode();
+    // mode = new EnemyMode();
     mode = EnemyMode.Patrol;
     rB = GetComponentInChildren<Rigidbody>();
     animator = GetComponent<Animator>();
-    Debug.Log(animator);
+    playerLayerMask = LayerMask.GetMask("Player");
   }
   
   public void Patrol()
@@ -56,16 +58,37 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     {
       inTransit = true;
       waypointSystem.speed = speed;
-      StartCoroutine(MovementMotor());
+      movementMotorCoroutine = StartCoroutine(MovementMotor());
     }
 
     if (direction.sqrMagnitude > 0)
     transform.rotation = Quaternion.LookRotation(-direction);
 
-    // if (inTransit) transform.rotation = Quaternion.LookRotation(transform.position - waypointSystem.activeWaypointTarget.location); // memory leak
-    // float yTarget = waypointSystem.activeWaypointTarget.neighborNext.location.y + transform.position.y;
-    // Vector3 lookAtTarget = new Vector3(waypointSystem.activeWaypointTarget.neighborNext.location.x, yTarget, waypointSystem.activeWaypointTarget.neighborNext.location.z);
-    // if (inTransit) transform.LookAt(lookAtTarget);
+    if (PlayerDetected()) {
+      Debug.Log(transform.name + " detected the player!");
+      StopCoroutine(movementMotorCoroutine);
+      StartCoroutine(InitPlayerDetected());
+    };
+
+  }
+
+  IEnumerator InitPlayerDetected () {
+    transform.LookAt(PLAYERSingleton.i.transform.position);
+    mode = EnemyMode.Alert;
+    yield return null;
+  }
+
+  public EnemyMode _prevMode;
+
+  public void Alert () {
+    if (_prevMode == EnemyMode.Alert) {
+
+    }
+    transform.LookAt(PLAYERSingleton.i.transform.position);
+
+    if (Vector3.Distance(transform.position, PLAYERSingleton.i.transform.position) > forgetDistance) {
+      mode = EnemyMode.Patrol;
+    }
   }
 
   public void Die()
@@ -78,9 +101,32 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   {
     hp = hp - amount;
   }
+
+  float sightHeight = 1f;
+  float sightDistance = 15f;
+  float forgetDistance = 20f;
+  LayerMask playerLayerMask;
+  RaycastHit playerRaycastHit;
+
+  bool PlayerDetected ()
+  {
+    bool playerSighted = Physics.Raycast(
+      transform.position + new Vector3(0, sightHeight, 0),
+      transform.TransformDirection(Vector3.forward),
+      out playerRaycastHit,
+      sightDistance,
+      playerLayerMask
+      );
+    return playerSighted;
+  }
   
   IEnumerator MovementMotor()
   {
+
+    // todo: 
+    // Add parameters for target waypoint system and starting waypoint
+    // Add Pause functionality that returns from a defined location and continues from the last active target waypoint
+
     for (int i = 0; i < waypointSystem.waypoints.Count; i++)
     {
       waypointSystem.activeWaypointTarget = waypointSystem.waypoints[i];
@@ -120,6 +166,16 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   void FixedUpdate()
   {
+  }
+
+  void Update()
+  {
+    UpdateMode();
+    UpdateAnimation();
+  }
+
+  private void UpdateMode()
+  {
     if (mode == EnemyMode.Idle)
     {
 
@@ -130,7 +186,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     }
     if (mode == EnemyMode.Alert)
     {
-
+      Debug.Log(playerRaycastHit.transform.name + " alerted " + transform.name);
     }
     if (mode == EnemyMode.Attack)
     {
@@ -140,11 +196,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     {
 
     }
-  }
-
-  void Update()
-  {
-    UpdateAnimation();
   }
 
   void UpdateAnimation()
