@@ -10,6 +10,7 @@ public class Waypoint : MonoBehaviour
   [HideInInspector] public Vector3 origin;
   [HideInInspector] public Waypoint neighborNext;
   [HideInInspector] public Waypoint neighborPrevious;
+  [HideInInspector] public int index;
 
   public void SetLocation(WaypointSystem hostSystem)
   {

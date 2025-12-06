@@ -53,9 +53,12 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     playerLayerMask = LayerMask.GetMask("Player");
   }
 
+  private bool returningFromAlert;
+
   public void Patrol()
   {
-    if (_prevMode != EnemyMode.Patrol) {
+    if (_prevMode != EnemyMode.Patrol)
+    {
       _prevMode = EnemyMode.Patrol;
     }
 
@@ -65,8 +68,13 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
       waypointSystem.speed = speed;
       if (movementMotorCoroutine == null)
       {
+        if (returningFromAlert)
+        {
+          movementMotorCoroutine = StartCoroutine(MovementMotor(transform.position));
+          returningFromAlert = false;
+        }
+        else movementMotorCoroutine = StartCoroutine(MovementMotor());
         initPlayerDetected = null;
-        movementMotorCoroutine = StartCoroutine(MovementMotor());
       }
     }
 
@@ -98,19 +106,26 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   public void Alert()
   {
-    Debug.Log("Alert Function called");
-
     if (_prevMode != EnemyMode.Alert)
     {
+      Debug.Log(transform.name + " was alerted by " + PLAYERSingleton.i.name);
       _prevMode = EnemyMode.Alert;
     }
 
     transform.LookAt(PLAYERSingleton.i.transform.position);
 
+    // * forgetting behavior
     if (Vector3.Distance(transform.position, PLAYERSingleton.i.transform.position) > forgetDistance)
     {
       mode = EnemyMode.Patrol;
+      returningFromAlert = true;
     }
+  }
+
+  IEnumerator initReturnToPatrol()
+  {
+
+    yield return null;
   }
 
   public void Die()
@@ -142,19 +157,37 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     return playerSighted;
   }
 
-  IEnumerator MovementMotor()
+  IEnumerator MovementMotor(Vector3? interruptVector = null) // nullable value type
   {
 
     // todo: 
     // Add parameters for target waypoint system and starting waypoint
     // Add Pause functionality that returns from a defined location and continues from the last active target waypoint
 
-    for (int i = 0; i < waypointSystem.waypoints.Count; i++)
+    int activeIndex;
+
+    if (waypointSystem.activeWaypointTarget == null)
     {
+      activeIndex = 0;
+    }
+    else
+    {
+      activeIndex = waypointSystem.activeWaypointTarget.index;
+    }
+
+    for (int i = activeIndex; i < waypointSystem.waypoints.Count; i++)
+    {
+      Vector3 originVector;
+      if (interruptVector.HasValue)
+      {
+        originVector = interruptVector.GetValueOrDefault(); // nullable value type
+        interruptVector = null;
+      } 
+      else originVector = waypointSystem.waypoints[i].location;
       waypointSystem.activeWaypointTarget = waypointSystem.waypoints[i];
       running = true;
-      direction = (waypointSystem.waypoints[i].location - waypointSystem.waypoints[i].neighborNext.location).normalized;
-      float distance = Vector3.Distance(waypointSystem.waypoints[i].location, waypointSystem.waypoints[i].neighborNext.location);
+      direction = (originVector - waypointSystem.waypoints[i].neighborNext.location).normalized;
+      float distance = Vector3.Distance(originVector, waypointSystem.waypoints[i].neighborNext.location);
       float calculatedSpeed = distance / speed;
 
       // Debug.Log("Next Waypoint: " + waypointSystem.waypoints[i].neighborNext.name);
@@ -162,7 +195,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
       for (float j = 0; j < 1; j += Time.deltaTime / calculatedSpeed)
       {
-        rB.MovePosition(Vector3.Lerp(waypointSystem.waypoints[i].location, waypointSystem.waypoints[i].neighborNext.location, j));
+        rB.MovePosition(Vector3.Lerp(originVector, waypointSystem.waypoints[i].neighborNext.location, j));
         yield return null;
       }
       running = false;
@@ -170,6 +203,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     }
     inTransit = false;
     movementMotorCoroutine = null;
+    waypointSystem.activeWaypointTarget = null;
   }
 
   void OnTriggerEnter(Collider other)

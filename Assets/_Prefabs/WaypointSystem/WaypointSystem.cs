@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 
 public class WaypointSystem : MonoBehaviour
@@ -29,8 +28,6 @@ public class WaypointSystem : MonoBehaviour
 
   void Start()
   {
-    // hostRB = GetComponentInParent<Rigidbody>();
-    // hostTransform = GetComponentInParent<Transform>();
     mode = new WaypointSystemMode();
     mode = WaypointSystemMode.Loop;
     initWaypoints();
@@ -49,6 +46,7 @@ public class WaypointSystem : MonoBehaviour
     {
       waypoints[i].SetLocation(this);
       waypoints[i].name = "Wayoint " + i;
+      waypoints[i].index = i;
     }
 
     for (int i = 0; i < waypoints.Count; i++)
