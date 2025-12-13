@@ -33,6 +33,7 @@ public enum EnemyMode
   Idle,
   Patrol,
   Alert,
+  Pursue,
   Attack,
   Retreat
 }
