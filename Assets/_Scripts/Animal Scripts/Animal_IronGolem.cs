@@ -34,6 +34,13 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     public float speed = 1f;
     public float alertDuration = 5f;
 
+    [Header("Attack Settings")]
+    public float attackCooldown = 2f;
+    public float smashDamageDelay = 1.4f;
+    public float smashDamageDuration = 0.5f;
+    public IronGolem_SmashDetector smashDetector;
+    public float smashNudgeForce = 100f;
+
     [Header("Detection Settings")]
     [SerializeField]
     float sightHeight = 1f;
@@ -50,7 +57,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     public EnemyMode mode;
 
     [HideInInspector]
-    public EnemyMode _prevMode;
+    public EnemyMode _currentMode;
 
     [HideInInspector]
     public bool inTransit;
@@ -59,45 +66,49 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     public bool running;
 
     [HideInInspector]
+    public bool attacking;
+
+    [HideInInspector]
     public Vector3 direction;
 
-    [HideInInspector]
     private bool returningFromInterrupt;
 
-    [HideInInspector]
     private bool alertBehaviorActive;
 
     [HideInInspector]
-    private float pursuableDistance;
+    public Rigidbody rB;
 
     [Header("References")]
     private WaypointSystem waypointSystem;
     private Animator animator;
-    private Rigidbody rB;
+    public AnimatorStateInfo stateInfo;
     private NavMeshAgent navMeshAgent;
-    private string activeAnimationString;
-
     private Coroutine movementMotorCoroutine;
     private Coroutine initPlayerDetected;
     private Coroutine alertStartBehavior;
+    private Coroutine attackBehavior;
 
     void Awake()
     {
         waypointSystem = GetComponentInChildren<WaypointSystem>();
         mode = EnemyMode.Patrol;
-        rB = GetComponentInChildren<Rigidbody>();
+        rB = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         playerLayerMask = LayerMask.GetMask("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
+        smashDetector = GetComponentInChildren<IronGolem_SmashDetector>(true);
+        smashDetector.golem = this;
     }
 
     public void Patrol()
     {
-        if (_prevMode != EnemyMode.Patrol)
+        if (_currentMode != EnemyMode.Patrol)
         {
             Debug.Log(transform.name + " is patrolling.");
-            _prevMode = EnemyMode.Patrol;
-            navMeshAgent.updateRotation = true;
+            _currentMode = EnemyMode.Patrol;
+            navMeshAgent.isStopped = true;
+            navMeshAgent.updateRotation = false;
         }
 
         if (!inTransit)
@@ -109,11 +120,13 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
             {
                 if (returningFromInterrupt)
                 {
-                    movementMotorCoroutine = StartCoroutine(MovementMotor(transform.position));
+                    movementMotorCoroutine = StartCoroutine(
+                        PatrolWaypointMotor(transform.position)
+                    );
                     returningFromInterrupt = false;
                 }
                 else
-                    movementMotorCoroutine = StartCoroutine(MovementMotor());
+                    movementMotorCoroutine = StartCoroutine(PatrolWaypointMotor());
                 initPlayerDetected = null;
             }
         }
@@ -139,6 +152,18 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         }
     }
 
+    bool PlayerDetected()
+    {
+        bool playerSighted = Physics.Raycast(
+            transform.position + new Vector3(0, sightHeight, 0),
+            transform.TransformDirection(Vector3.forward),
+            out playerRaycastHit,
+            sightDistance,
+            playerLayerMask
+        );
+        return playerSighted;
+    }
+
     IEnumerator InitPlayerDetected()
     {
         yield return null;
@@ -147,11 +172,10 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     public void Alert()
     {
-        if (_prevMode != EnemyMode.Alert)
+        if (_currentMode != EnemyMode.Alert)
         {
-            bool alertTimeout = false;
             Debug.Log(transform.name + " was alerted by " + PLAYERSingleton.i.name);
-            _prevMode = EnemyMode.Alert;
+            _currentMode = EnemyMode.Alert;
             if (alertStartBehavior == null)
             {
                 alertStartBehavior = StartCoroutine(AlertCoroutine());
@@ -164,33 +188,18 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         targetPos.y = transform.position.y;
         transform.LookAt(targetPos);
 
-        pursuingRangeBehavior(EnemyMode.Patrol, PLAYERSingleton.i.transform.position);
+        if (Vector3.Distance(transform.position, targetPos) > forgetDistance)
+        {
+            mode = EnemyMode.Patrol;
+            navMeshAgent.ResetPath();
+            return;
+        }
 
         if (alertBehaviorActive == false)
         {
             alertStartBehavior = null;
             mode = EnemyMode.Pursue;
         }
-    }
-
-    bool pursuingRangeTester(Vector3 target)
-    {
-        return Vector3.Distance(transform.position, target) > forgetDistance;
-    }
-
-    void pursuingRangeBehavior(EnemyMode m, Vector3 target)
-    {
-        if (pursuingRangeTester(target))
-        {
-            mode = m;
-            returningFromInterrupt = true;
-            navMeshAgent.ResetPath();
-        }
-    }
-
-    IEnumerator initReturnToPatrol()
-    {
-        yield return null;
     }
 
     IEnumerator AlertCoroutine()
@@ -201,21 +210,106 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         Debug.Log("Alert Coroutine ending");
     }
 
+    void TargetRangeBehavior(Vector3 target)
+    {
+        bool targetTooFar = Vector3.Distance(transform.position, target) > forgetDistance;
+        bool targetInAttackRange =
+            Vector3.Distance(transform.position, target) <= navMeshAgent.stoppingDistance
+            && !attacking;
+
+        if (attacking)
+            return;
+
+        if (targetTooFar)
+        {
+            mode = EnemyMode.Patrol;
+            returningFromInterrupt = true;
+            navMeshAgent.ResetPath();
+        }
+        else if (targetInAttackRange)
+        {
+            if (mode != EnemyMode.Attack)
+                mode = EnemyMode.Attack;
+        }
+        else if (mode != EnemyMode.Pursue)
+            mode = EnemyMode.Pursue;
+    }
+
+    IEnumerator InitReturnToPatrol()
+    {
+        yield return null;
+    }
+
     void Pursue()
     {
-        if (_prevMode != EnemyMode.Pursue)
+        if (_currentMode != EnemyMode.Pursue)
         {
             Debug.Log(transform.name + " has started pursuing " + PLAYERSingleton.i.name + "!!");
-            _prevMode = EnemyMode.Pursue;
+            _currentMode = EnemyMode.Pursue;
             navMeshAgent.isStopped = false;
+            navMeshAgent.updateRotation = false;
+            attacking = false;
+        }
+
+        Vector3 targetPos = PLAYERSingleton.i.transform.position;
+        targetPos.y = transform.position.y;
+        direction = targetPos - transform.position;
+
+        transform.LookAt(targetPos);
+        navMeshAgent.SetDestination(PLAYERSingleton.i.rB.position);
+
+        TargetRangeBehavior(PLAYERSingleton.i.rB.position);
+    }
+
+    void Attack()
+    {
+        if (_currentMode != EnemyMode.Attack)
+        {
+            _currentMode = EnemyMode.Attack;
+            running = false;
+            navMeshAgent.isStopped = true;
             navMeshAgent.updateRotation = false;
         }
 
-        transform.LookAt(PLAYERSingleton.i.transform.position);
-        // navMeshAgent.speed = speed * 1.5f;
-        navMeshAgent.destination = PLAYERSingleton.i.rB.position;
+        if (attackBehavior == null && !attacking)
+        {
+            attackBehavior = StartCoroutine(AttackCoroutine());
+        }
 
-        pursuingRangeBehavior(EnemyMode.Patrol, PLAYERSingleton.i.transform.position);
+        TargetRangeBehavior(PLAYERSingleton.i.rB.position);
+    }
+
+    IEnumerator AttackCoroutine()
+    {
+        attacking = true;
+
+        yield return null;
+
+        float currentAnimLength = animator.GetCurrentAnimatorStateInfo(0).length;
+
+        yield return new WaitForSeconds(smashDamageDelay);
+
+        if (smashDetector != null)
+            smashDetector.gameObject.SetActive(true);
+
+        rB.isKinematic = false;
+        rB.AddForce(direction * smashNudgeForce, ForceMode.Impulse);
+
+        yield return new WaitForSeconds(smashDamageDuration);
+        rB.isKinematic = true;
+
+        if (smashDetector != null)
+            smashDetector.gameObject.SetActive(false);
+
+        float remainingTime = currentAnimLength - (smashDamageDelay + smashDamageDuration);
+        if (remainingTime > 0)
+            yield return new WaitForSeconds(remainingTime);
+
+        attacking = false;
+
+        yield return new WaitForSeconds(attackCooldown);
+
+        attackBehavior = null;
     }
 
     public void Die()
@@ -229,19 +323,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         hp = hp - amount;
     }
 
-    bool PlayerDetected()
-    {
-        bool playerSighted = Physics.Raycast(
-            transform.position + new Vector3(0, sightHeight, 0),
-            transform.TransformDirection(Vector3.forward),
-            out playerRaycastHit,
-            sightDistance,
-            playerLayerMask
-        );
-        return playerSighted;
-    }
-
-    IEnumerator MovementMotor(Vector3? interruptVector = null) // nullable value type
+    IEnumerator PatrolWaypointMotor(Vector3? interruptVector = null) // nullable value type
     {
         int activeIndex;
 
@@ -314,6 +396,11 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         UpdateAnimation();
     }
 
+    void FixedUpdate()
+    {
+        UpdateMode();
+    }
+
     private void UpdateMode()
     {
         if (mode == EnemyMode.Idle) { }
@@ -329,22 +416,32 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         {
             Pursue();
         }
-        if (mode == EnemyMode.Attack) { }
+        if (mode == EnemyMode.Attack)
+        {
+            Attack();
+        }
         if (mode == EnemyMode.Retreat) { }
     }
 
     void UpdateAnimation()
     {
-        if (running)
+        if (
+            (running || (mode == EnemyMode.Pursue && navMeshAgent.velocity.magnitude > 0))
+            && !attacking
+        )
             animator.SetBool("isRunning", true);
-        else if (mode == EnemyMode.Pursue && navMeshAgent.velocity.magnitude > 0)
-            animator.SetBool("isRunning", true);
-        else
+        else if (!running)
+        {
             animator.SetBool("isRunning", false);
-    }
+        }
 
-    // void setAnimationBool(string prev, string next) {
-    //   animator.SetBool(prev, false);
-    //   animator.SetBool(next, true);
-    // }
+        if (attacking)
+        {
+            animator.SetBool("isAttacking", true);
+        }
+        else if (!attacking)
+        {
+            animator.SetBool("isAttacking", false);
+        }
+    }
 }

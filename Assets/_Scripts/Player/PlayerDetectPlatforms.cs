@@ -1,100 +1,82 @@
-using Invector.vCharacterController;
-using UnityEngine;
 using System;
 using System.Collections;
+using Invector.vCharacterController;
+using UnityEngine;
 
 public class PlayerDetectPlatforms : MonoBehaviour
 {
+    vThirdPersonController cc;
+    Rigidbody rB;
+    GameObject PlayerGameObject;
+    Platform platform;
+    Vector3 platformContactPoint;
 
-  vThirdPersonController cc;
-  Rigidbody rB;
-  GameObject PlayerGameObject;
-  MovingPlatform oldMovingPlatformsClass;
-  Platform platform;
-  Vector3 platformContactPoint;
-  [HideInInspector] public bool active;
-  public float yModifier;
+    [HideInInspector]
+    public bool active;
+    public float yModifier;
 
-
-  void Start()
-  {
-    cc = GetComponent<vThirdPersonController>();
-    rB = GetComponent<Rigidbody>();
-    PlayerGameObject = this.gameObject;
-  }
-
-  public bool oldMovingPlatform = false;
-
-  void OnCollisionEnter(Collision collision)
-  {
-    if (oldMovingPlatform && collision.gameObject.CompareTag("Platform") && cc.isGrounded)
+    void Start()
     {
-      oldMovingPlatformsClass = collision.gameObject.GetComponent<MovingPlatform>();
-      platformContactPoint = collision.contacts[0].point;
-      active = true;
-      UISingleton.i.debug.pushMessage("grounded = " + cc.isGrounded);
-      UISingleton.i.debug.pushMessage(collision.transform.name + "active?: " + active);
+        cc = GetComponent<vThirdPersonController>();
+        rB = GetComponent<Rigidbody>();
+        PlayerGameObject = this.gameObject;
     }
-    if (!oldMovingPlatform && collision.gameObject.CompareTag("Platform") && cc.isGrounded)
-    {
-      platform = collision.gameObject.GetComponent<Platform>();
-      platformContactPoint = collision.contacts[0].point;
-      active = true;
-      UISingleton.i.debug.pushMessage("grounded = " + cc.isGrounded);
-      UISingleton.i.debug.pushMessage(collision.transform.name + "active?: " + active);
-    }
-  }
 
-  void OnCollisionExit(Collision collision)
-  {
-    if (collision.gameObject.CompareTag("Platform"))
+    void OnCollisionEnter(Collision collision)
     {
-      platform = null;
-      oldMovingPlatformsClass = null;
-      active = false;
-      UISingleton.i.debug.pushMessage(collision.transform.name + "active?: " + active);
-    }
-  }
-
-  void FixedUpdate()
-  {
-    Vector3 calculatedVelocity = Vector3.zero;
-    if (active)
-    {
-      if (oldMovingPlatform)
-      {
-        calculatedVelocity = new Vector3(
-          oldMovingPlatformsClass.CalculateVelocity().x,
-          0,
-          oldMovingPlatformsClass.CalculateVelocity().z);
-      }
-      if (!oldMovingPlatform)
-      {
-        calculatedVelocity = new Vector3(
-          platform.CalculateVelocity().x,
-          platform.CalculateVelocity().y >= 0 ? 0 : platform.CalculateVelocity().y,
-          platform.CalculateVelocity().z);
-      }
-
-      if (!cc.isJumping)
-      {
-        if (platform != null && platform.yFloor != null)
+        if (collision.gameObject.CompareTag("Platform") && cc.isGrounded)
         {
-             rB.MovePosition(new Vector3(rB.position.x, platform.yFloor.position.y, rB.position.z));
+            platform = collision.gameObject.GetComponent<Platform>();
+            platformContactPoint = collision.contacts[0].point;
+            active = true;
+            UISingleton.i.debug.pushMessage("grounded = " + cc.isGrounded);
+            UISingleton.i.debug.pushMessage(collision.transform.name + "active?: " + active);
         }
-        else if (!oldMovingPlatform)
-        {
-             active = false;
-        }
-      }
-
-      cc.platformVelocity = calculatedVelocity;
-
     }
-    else if (!active && cc.isGrounded)
+
+    void OnCollisionExit(Collision collision)
     {
-      cc.platformVelocity = Vector3.zero;
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            platform = null;
+            active = false;
+            UISingleton.i.debug.pushMessage(collision.transform.name + "active?: " + active);
+        }
     }
-  }
 
+    void FixedUpdate()
+    {
+        Vector3 calculatedVelocity = Vector3.zero;
+        if (active)
+        {
+            if (platform != null)
+            {
+                calculatedVelocity = new Vector3(
+                    platform.CalculateVelocity().x,
+                    platform.CalculateVelocity().y >= 0 ? 0 : platform.CalculateVelocity().y,
+                    platform.CalculateVelocity().z
+                );
+            }
+
+            if (!cc.isJumping)
+            {
+                if (platform != null && platform.yFloor != null)
+                {
+                    rB.MovePosition(
+                        new Vector3(rB.position.x, platform.yFloor.position.y, rB.position.z)
+                    );
+                }
+                else
+                {
+                    active = false;
+                }
+            }
+
+            cc.platformVelocity = calculatedVelocity;
+        }
+        else if (!active && cc.isGrounded)
+        {
+            cc.platformVelocity = Vector3.zero;
+        }
+    }
 }

@@ -11,6 +11,7 @@ public class Waypoint : MonoBehaviour
   [HideInInspector] public Waypoint neighborNext;
   [HideInInspector] public Waypoint neighborPrevious;
   [HideInInspector] public int index;
+  [HideInInspector] public Color gizmoColor;
 
   public void SetLocation(WaypointSystem hostSystem)
   {
@@ -19,7 +20,7 @@ public class Waypoint : MonoBehaviour
 
   void OnDrawGizmos()
   {
-    Gizmos.color = Color.blue;
+    Gizmos.color = gizmoColor;
     Handles.Label(transform.position, "Waypoint");
     Gizmos.DrawSphere(transform.position, gizmoSize);
   }

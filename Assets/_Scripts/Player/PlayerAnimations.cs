@@ -4,32 +4,31 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
+    [HideInInspector]
+    public Animator animator;
+    public AnimatorStateInfo stateInfo;
+    public int FightStance;
+    public int FightSlash1;
 
-  [HideInInspector] public Animator animator;
-  public AnimatorStateInfo stateInfo;
-  public int FightStance;
-  public int FightSlash1;
+    void Awake()
+    {
+        animator = GetComponentInParent<Animator>();
+        stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        FightStance = Animator.StringToHash("FightStance");
+        FightSlash1 = Animator.StringToHash("slash1");
+    }
 
-  void Awake()
-  {
-    animator = GetComponentInParent<Animator>();
-    stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-    FightStance = Animator.StringToHash("FightStance");
-    FightSlash1 = Animator.StringToHash("slash1");
-  }
+    public float CurrentAnimationLength()
+    {
+        return stateInfo.length;
+    }
 
-  public float CurrentAnimationLength()
-  {
-    return stateInfo.length;
-  }
+    public IEnumerator WaitAndFreeze(float time, string animation)
+    {
+        PLAYERSingleton.i.animations.animator.SetTrigger(animation);
+        PLAYERSingleton.i.freezeMovement = true;
+        yield return new WaitForSeconds(time);
 
-  public IEnumerator WaitAndFreeze(float time, string animation)
-  {
-    PLAYERSingleton.i.animations.animator.SetTrigger(animation);
-    PLAYERSingleton.i.freezeMovement = true;
-    yield return new WaitForSeconds(time);
-
-    PLAYERSingleton.i.freezeMovement = false;
-  }
-
+        PLAYERSingleton.i.freezeMovement = false;
+    }
 }
