@@ -7,13 +7,13 @@ public class IronGolem_SmashDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !PLAYERSingleton.i.isTakingDamage)
         {
             Debug.Log("Player hit by golem smash");
             PLAYERSingleton.i.playerHealth.TakeDamage(10);
             PLAYERSingleton.i.playerHealth.DamageKnockback(
                 golem.rB.position,
-                golem.smashNudgeForce * 2
+                golem.smashKnockbackForce
             );
         }
     }

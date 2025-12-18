@@ -19,11 +19,25 @@ public class PlayerHealth : MonoBehaviour
     private float _invulnerabilityDuration = 1f;
     private bool _isInvulnerable = false;
 
+    [SerializeField]
+    private float _knockbackDuration = 1f;
+
+    [Tooltip("0 = Start at 0 velocity. 1 = Start at Max velocity.")]
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float _startKnockbackPercentage = 0f;
+
     public bool IsDead => currentHealth <= 0;
+
+    private WaitForSeconds _invulnerabilityWait;
+    private WaitForFixedUpdate _waitForFixedUpdate;
+    private Coroutine _knockbackCoroutine;
 
     private void Awake()
     {
         currentHealth = _maxHealth;
+        _waitForFixedUpdate = new WaitForFixedUpdate();
+        _invulnerabilityWait = new WaitForSeconds(_invulnerabilityDuration);
     }
 
     public void TakeDamage(int amount)
@@ -53,19 +67,51 @@ public class PlayerHealth : MonoBehaviour
 
     public void DamageKnockback(Vector3 source, float force)
     {
+        PLAYERSingleton.i.isTakingDamage = true;
         Debug.Log("Player was knocked back!");
-        StartCoroutine(KnockbackCoroutine(source, force));
+        if (_knockbackCoroutine == null)
+            _knockbackCoroutine = StartCoroutine(KnockbackCoroutine(source, force * 12));
     }
 
-    IEnumerator KnockbackCoroutine(Vector3 source, float force)
+    IEnumerator KnockbackCoroutine(Vector3 source, float peakForce)
     {
-        PLAYERSingleton.i.freezeMovement = true;
-        Vector3 direction = (source - PLAYERSingleton.i.rB.position);
+        Vector3 direction = (PLAYERSingleton.i.rB.position - source);
         direction.y = 0;
         direction.Normalize();
-        PLAYERSingleton.i.rB.AddForce(direction * -force, ForceMode.Impulse);
-        yield return new WaitForSeconds(1f);
-        PLAYERSingleton.i.freezeMovement = false;
+
+        peakForce = peakForce / 20;
+        Vector3 peakVelocity = direction * peakForce;
+
+        // Calculate starting angle based on desired initial percentage
+        // Asin(0) = 0, Asin(1) = PI/2
+        float startAngle = Mathf.Asin(Mathf.Clamp01(_startKnockbackPercentage));
+        float endAngle = Mathf.PI;
+
+        float timer = 0f;
+        while (timer < _knockbackDuration)
+        {
+            timer += Time.deltaTime;
+            float progress = Mathf.Clamp01(timer / _knockbackDuration);
+
+            // Interpolate angle from Start to PI
+            float currentAngle = Mathf.Lerp(startAngle, endAngle, progress);
+
+            // Calculate curve using Sin of the interpolated angle
+            float curve = Mathf.Sin(currentAngle);
+
+            if (PLAYERSingleton.i.vController != null)
+            {
+                PLAYERSingleton.i.vController.knockbackVelocity = peakVelocity * curve;
+            }
+
+            yield return null;
+        }
+
+        if (PLAYERSingleton.i.vController != null)
+            PLAYERSingleton.i.vController.knockbackVelocity = Vector3.zero;
+
+        PLAYERSingleton.i.isTakingDamage = false;
+        _knockbackCoroutine = null;
     }
 
     public void Heal(int amount)
@@ -84,13 +130,6 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player Died!");
-        // TODO: Add Death Logic (UI, Scene Reload, Animation, etc.)
-        // For now, we can maybe disable movement or trigger an animation if one exists
-        // if (PLAYERSingleton.i != null)
-        // {
-        //     // Example: Disable movement
-        //     PLAYERSingleton.i.movementEnabled = false;
-        // }
 
         UISingleton.i.debug.pushMessage("Player Died!", "#cc1122");
         ResetHealth();
@@ -99,14 +138,12 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator InvulnerabilityCoroutine()
     {
         _isInvulnerable = true;
-        // Optional: Visual feedback for invulnerability (blinking, etc.)
 
-        yield return new WaitForSeconds(_invulnerabilityDuration);
+        yield return _invulnerabilityWait;
 
         _isInvulnerable = false;
     }
 
-    // Helper to fully restore health
     public void ResetHealth()
     {
         currentHealth = _maxHealth;

@@ -26,9 +26,9 @@ public class PlayerAnimations : MonoBehaviour
     public IEnumerator WaitAndFreeze(float time, string animation)
     {
         PLAYERSingleton.i.animations.animator.SetTrigger(animation);
-        PLAYERSingleton.i.freezeMovement = true;
+        PLAYERSingleton.i.movementDisabled = true;
         yield return new WaitForSeconds(time);
 
-        PLAYERSingleton.i.freezeMovement = false;
+        PLAYERSingleton.i.movementDisabled = false;
     }
 }

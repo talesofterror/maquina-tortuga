@@ -11,6 +11,7 @@ public class PLAYERSingleton : MonoBehaviour
     }
 
     public PlayerHealth playerHealth;
+    public bool isTakingDamage;
 
     public PlayerInteract playerInteract;
     public PlayerFightMode playerFightMode;
@@ -30,6 +31,8 @@ public class PLAYERSingleton : MonoBehaviour
 
     [HideInInspector]
     public bool playerIsAttacking;
+
+    public bool movementDisabled;
 
     public bool endlessJumping;
 
@@ -58,8 +61,6 @@ public class PLAYERSingleton : MonoBehaviour
 
     void Start() { }
 
-    public bool freezeMovement;
-
     void Update()
     {
         ListenForModeChange();
@@ -69,7 +70,7 @@ public class PLAYERSingleton : MonoBehaviour
             ListenForFightInput();
         }
 
-        if (freezeMovement)
+        if (movementDisabled)
         {
             vInput.inputAction_Move.Disable();
         }

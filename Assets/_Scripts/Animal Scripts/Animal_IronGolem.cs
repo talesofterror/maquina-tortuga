@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -35,11 +36,14 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     public float alertDuration = 5f;
 
     [Header("Attack Settings")]
+    [HideInInspector]
+    public bool attacking;
     public float attackCooldown = 2f;
     public float smashDamageDelay = 1.4f;
     public float smashDamageDuration = 0.5f;
     public IronGolem_SmashDetector smashDetector;
-    public float smashNudgeForce = 100f;
+    public float smashThrustForce = 100f;
+    public float smashKnockbackForce = 300f;
 
     [Header("Detection Settings")]
     [SerializeField]
@@ -64,9 +68,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     [HideInInspector]
     public bool running;
-
-    [HideInInspector]
-    public bool attacking;
 
     [HideInInspector]
     public Vector3 direction;
@@ -107,6 +108,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         {
             Debug.Log(transform.name + " is patrolling.");
             _currentMode = EnemyMode.Patrol;
+            navMeshAgent.ResetPath();
             navMeshAgent.isStopped = true;
             navMeshAgent.updateRotation = false;
         }
@@ -210,31 +212,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         Debug.Log("Alert Coroutine ending");
     }
 
-    void TargetRangeBehavior(Vector3 target)
-    {
-        bool targetTooFar = Vector3.Distance(transform.position, target) > forgetDistance;
-        bool targetInAttackRange =
-            Vector3.Distance(transform.position, target) <= navMeshAgent.stoppingDistance
-            && !attacking;
-
-        if (attacking)
-            return;
-
-        if (targetTooFar)
-        {
-            mode = EnemyMode.Patrol;
-            returningFromInterrupt = true;
-            navMeshAgent.ResetPath();
-        }
-        else if (targetInAttackRange)
-        {
-            if (mode != EnemyMode.Attack)
-                mode = EnemyMode.Attack;
-        }
-        else if (mode != EnemyMode.Pursue)
-            mode = EnemyMode.Pursue;
-    }
-
     IEnumerator InitReturnToPatrol()
     {
         yield return null;
@@ -261,18 +238,18 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         TargetRangeBehavior(PLAYERSingleton.i.rB.position);
     }
 
-    void Attack()
+    void Attack(bool retrigger = false)
     {
-        if (_currentMode != EnemyMode.Attack)
+        if ((_currentMode != EnemyMode.Attack) && !attacking)
         {
             _currentMode = EnemyMode.Attack;
-            running = false;
-            navMeshAgent.isStopped = true;
-            navMeshAgent.updateRotation = false;
         }
 
         if (attackBehavior == null && !attacking)
         {
+            running = false;
+            navMeshAgent.isStopped = true;
+            navMeshAgent.updateRotation = false;
             attackBehavior = StartCoroutine(AttackCoroutine());
         }
 
@@ -292,11 +269,14 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         if (smashDetector != null)
             smashDetector.gameObject.SetActive(true);
 
-        rB.isKinematic = false;
-        rB.AddForce(direction * smashNudgeForce, ForceMode.Impulse);
+        // rB.isKinematic = false;
+        direction.y = 0;
+        rB.AddForce(direction * smashThrustForce, ForceMode.VelocityChange);
 
         yield return new WaitForSeconds(smashDamageDuration);
-        rB.isKinematic = true;
+
+        // yield return new WaitForSeconds(0.5f);
+        rB.linearVelocity = Vector3.zero;
 
         if (smashDetector != null)
             smashDetector.gameObject.SetActive(false);
@@ -321,6 +301,33 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     public void TakeDamage(int amount)
     {
         hp = hp - amount;
+    }
+
+    void TargetRangeBehavior(Vector3 target)
+    {
+        bool targetTooFar = Vector3.Distance(transform.position, target) > forgetDistance;
+        bool targetInAttackRange =
+            Vector3.Distance(transform.position, target) <= navMeshAgent.stoppingDistance;
+
+        if (attacking)
+            return;
+
+        if (targetTooFar)
+        {
+            mode = EnemyMode.Patrol;
+            returningFromInterrupt = true;
+            StopAllCoroutines();
+            navMeshAgent.ResetPath();
+        }
+        else if (targetInAttackRange)
+        {
+            if (mode != EnemyMode.Attack)
+            {
+                mode = EnemyMode.Attack;
+            }
+        }
+        else if (mode != EnemyMode.Pursue)
+            mode = EnemyMode.Pursue;
     }
 
     IEnumerator PatrolWaypointMotor(Vector3? interruptVector = null) // nullable value type
@@ -392,7 +399,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     void Update()
     {
-        UpdateMode();
         UpdateAnimation();
     }
 

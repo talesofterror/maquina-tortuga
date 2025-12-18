@@ -29,22 +29,22 @@ MonoBehaviour:
   active: 1
   m_Impact:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.3
   m_Power:
     m_OverrideState: 1
-    m_Value: 0.182
+    m_Value: 0.2
   m_Scale:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.92
   m_Pixelate:
     m_OverrideState: 1
     m_Value: 1
   m_Fps:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 6
   m_Palette:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 13c3fdc29151c214f9d4712476fe19f1, type: 3}
   m_Pattern:
     m_OverrideState: 1
     m_Value: {fileID: 2800000, guid: f24f8b78d73a187439dd105ffd6b3b91, type: 3}

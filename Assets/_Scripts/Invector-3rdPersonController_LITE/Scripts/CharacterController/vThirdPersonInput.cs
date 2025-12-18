@@ -3,204 +3,207 @@ using UnityEngine.InputSystem;
 
 namespace Invector.vCharacterController
 {
-
-  public class vThirdPersonInput : MonoBehaviour
-  {
-    #region Variables       
-
-    [Header("Controller Input")]
-    public string horizontalInput = "Horizontal";
-    public string verticallInput = "Vertical";
-
-    public InputSystem_Actions Actions;
-    public InputAction inputAction_Move;
-    public InputAction inputAction_Jump;
-    public InputAction inputAction_Sprint;
-
-    public KeyCode jumpInput = KeyCode.Space;
-    public KeyCode strafeInput = KeyCode.Tab;
-    public KeyCode sprintInput = KeyCode.LeftShift;
-
-    [Header("Camera Input")]
-    public string rotateCameraXInput = "Mouse X";
-    public string rotateCameraYInput = "Mouse Y";
-    public float _defaultRotationSpeed;
-
-    [HideInInspector] public vThirdPersonController cc;
-    [HideInInspector] public vThirdPersonCamera tpCamera;
-    [HideInInspector] public Camera cameraMain;
-
-    #endregion
-
-    protected virtual void OnEnable()
+    public class vThirdPersonInput : MonoBehaviour
     {
-    }
-    protected virtual void OnDisable()
-    {
-      Actions.Disable();
-    }
+        #region Variables
 
-    protected virtual void Start()
-    {
-      Actions = new InputSystem_Actions();
-      Actions.Enable();
-      cameraMain = Camera.main;
+        [Header("Controller Input")]
+        public string horizontalInput = "Horizontal";
+        public string verticallInput = "Vertical";
 
-      inputAction_Move = Actions.Player.Move;
-      inputAction_Jump = Actions.Player.Jump;
-      inputAction_Sprint = Actions.Player.Sprint;
+        public InputSystem_Actions Actions;
+        public InputAction inputAction_Move;
+        public InputAction inputAction_Jump;
+        public InputAction inputAction_Sprint;
 
-      InitilizeController();
-      // InitializeTpCamera();
+        public KeyCode jumpInput = KeyCode.Space;
+        public KeyCode strafeInput = KeyCode.Tab;
+        public KeyCode sprintInput = KeyCode.LeftShift;
 
-      _defaultRotationSpeed = cc.freeSpeed.rotationSpeed;
-    }
+        [Header("Camera Input")]
+        public string rotateCameraXInput = "Mouse X";
+        public string rotateCameraYInput = "Mouse Y";
+        public float _defaultRotationSpeed;
 
-    protected virtual void FixedUpdate()
-    {
-      cc.UpdateMotor();               // updates the ThirdPersonMotor methods
-      cc.ControlLocomotionType();     // handle the controller locomotion type and movespeed
-      cc.ControlRotationType();       // handle the controller rotation type
+        [HideInInspector]
+        public vThirdPersonController cc;
 
-      // if (Actions.Player.Zoom.IsPressed())
-      // {
-      //   print("Zoom Condition Activated");
-      //   CAMERASingleton.i.primaryFreelook.enabled = false;
-      // }
-      // else
-      // {
-      //   CAMERASingleton.i.primaryFreelook.enabled = true;
-      // }
-    }
+        [HideInInspector]
+        public vThirdPersonCamera tpCamera;
 
-    protected virtual void Update()
-    {
-      InputHandle();                  // update the input methods
-      cc.UpdateAnimator();            // updates the Animator Parameters
-    }
+        [HideInInspector]
+        public Camera cameraMain;
 
-    public virtual void OnAnimatorMove()
-    {
-      cc.ControlAnimatorRootMotion(); // handle root motion animations 
-    }
+        #endregion
 
-    #region Basic Locomotion Inputs
+        protected virtual void OnEnable() { }
 
-    protected virtual void InitilizeController()
-    {
-      cc = GetComponent<vThirdPersonController>();
-
-      if (cc != null)
-        cc.Init();
-    }
-
-    protected virtual void InitializeTpCamera()
-    {
-      if (tpCamera == null)
-      {
-        tpCamera = FindObjectOfType<vThirdPersonCamera>();
-        if (tpCamera == null)
-          return;
-        if (tpCamera)
+        protected virtual void OnDisable()
         {
-          tpCamera.SetMainTarget(this.transform);
-          tpCamera.Init();
+            Actions.Disable();
         }
-      }
-    }
 
-    protected virtual void InputHandle()
-    {
-      MoveInput();
-      CameraInput();
-      SprintInput();
-      StrafeInput();
-      JumpInput();
-    }
-
-    public virtual void MoveInput()
-    {
-      if (PLAYERSingleton.i.movementEnabled)
-      {
-        cc.input.x = inputAction_Move.ReadValue<Vector2>().x;
-        cc.input.z = inputAction_Move.ReadValue<Vector2>().y;
-      }
-
-      // cc.input.x = Input.GetAxis(horizontalInput);
-      // cc.input.z = Input.GetAxis(verticallInput);
-    }
-
-    protected virtual void CameraInput()
-    {
-      if (!cameraMain)
-      {
-        if (!Camera.main) Debug.Log("Missing a Camera with the tag MainCamera, please add one.");
-        else
+        protected virtual void Start()
         {
-          cameraMain = Camera.main;
-          cc.rotateTarget = cameraMain.transform;
+            Actions = new InputSystem_Actions();
+            Actions.Enable();
+            cameraMain = Camera.main;
+
+            inputAction_Move = Actions.Player.Move;
+            inputAction_Jump = Actions.Player.Jump;
+            inputAction_Sprint = Actions.Player.Sprint;
+
+            InitilizeController();
+            // InitializeTpCamera();
+
+            _defaultRotationSpeed = cc.freeSpeed.rotationSpeed;
         }
-      }
 
-      if (cameraMain)
-      {
-        cc.UpdateMoveDirection(cameraMain.transform);
-      }
+        protected virtual void FixedUpdate()
+        {
+            cc.UpdateMotor(); // updates the ThirdPersonMotor methods
+            cc.ControlLocomotionType(); // handle the controller locomotion type and movespeed
+            cc.ControlRotationType(); // handle the controller rotation type
 
-      if (tpCamera == null)
-        return;
+            // if (Actions.Player.Zoom.IsPressed())
+            // {
+            //   print("Zoom Condition Activated");
+            //   CAMERASingleton.i.primaryFreelook.enabled = false;
+            // }
+            // else
+            // {
+            //   CAMERASingleton.i.primaryFreelook.enabled = true;
+            // }
+        }
 
-      var Y = Input.GetAxis(rotateCameraYInput);
-      var X = Input.GetAxis(rotateCameraXInput);
+        protected virtual void Update()
+        {
+            InputHandle(); // update the input methods
+            cc.UpdateAnimator(); // updates the Animator Parameters
+        }
 
-      tpCamera.RotateCamera(X, Y);
+        public virtual void OnAnimatorMove()
+        {
+            cc.ControlAnimatorRootMotion(); // handle root motion animations
+        }
 
+        #region Basic Locomotion Inputs
+
+        protected virtual void InitilizeController()
+        {
+            cc = GetComponent<vThirdPersonController>();
+
+            if (cc != null)
+                cc.Init();
+        }
+
+        protected virtual void InitializeTpCamera()
+        {
+            if (tpCamera == null)
+            {
+                tpCamera = FindObjectOfType<vThirdPersonCamera>();
+                if (tpCamera == null)
+                    return;
+                if (tpCamera)
+                {
+                    tpCamera.SetMainTarget(this.transform);
+                    tpCamera.Init();
+                }
+            }
+        }
+
+        protected virtual void InputHandle()
+        {
+            MoveInput();
+            CameraInput();
+            SprintInput();
+            StrafeInput();
+            JumpInput();
+        }
+
+        public virtual void MoveInput()
+        {
+            cc.input.x = inputAction_Move.ReadValue<Vector2>().x;
+            cc.input.z = inputAction_Move.ReadValue<Vector2>().y;
+
+            // cc.input.x = Input.GetAxis(horizontalInput);
+            // cc.input.z = Input.GetAxis(verticallInput);
+        }
+
+        protected virtual void CameraInput()
+        {
+            if (!cameraMain)
+            {
+                if (!Camera.main)
+                    Debug.Log("Missing a Camera with the tag MainCamera, please add one.");
+                else
+                {
+                    cameraMain = Camera.main;
+                    cc.rotateTarget = cameraMain.transform;
+                }
+            }
+
+            if (cameraMain)
+            {
+                cc.UpdateMoveDirection(cameraMain.transform);
+            }
+
+            if (tpCamera == null)
+                return;
+
+            var Y = Input.GetAxis(rotateCameraYInput);
+            var X = Input.GetAxis(rotateCameraXInput);
+
+            tpCamera.RotateCamera(X, Y);
+        }
+
+        protected virtual void StrafeInput()
+        {
+            if (Actions.Player.Strafe.IsPressed())
+                cc.Strafe();
+            // if (Input.GetKeyDown(strafeInput))
+            //   cc.Strafe();
+        }
+
+        protected virtual void SprintInput()
+        {
+            // if (Input.GetKeyDown(sprintInput))
+            //   cc.Sprint(true);
+            // else if (Input.GetKeyUp(sprintInput))
+            //   cc.Sprint(false);
+            cc.Sprint(inputAction_Sprint.IsPressed());
+        }
+
+        /// <summary>
+        /// Conditions to trigger the Jump animation & behavior
+        /// </summary>
+        /// <returns></returns>
+        protected virtual bool JumpConditions()
+        {
+            return cc.isGrounded
+                && cc.GroundAngle() < cc.slopeLimit
+                && !cc.isJumping
+                && !cc.stopMove;
+        }
+
+        /// <summary>
+        /// Input to trigger the Jump
+        /// </summary>
+        protected virtual void JumpInput()
+        {
+            if (inputAction_Jump.WasPerformedThisFrame() && JumpConditions())
+            {
+                cc.Jump();
+                cc.freeSpeed.rotationSpeed = cc.freeSpeed.airborneRotationSpeed;
+            }
+            else
+            {
+                cc.freeSpeed.rotationSpeed = _defaultRotationSpeed;
+            }
+            // if (Input.GetKeyDown(jumpInput) && JumpConditions())
+            //   cc.Jump();
+        }
+
+        #endregion
     }
-
-    protected virtual void StrafeInput()
-    {
-      if (Actions.Player.Strafe.IsPressed())
-        cc.Strafe();
-      // if (Input.GetKeyDown(strafeInput))
-      //   cc.Strafe();
-    }
-
-    protected virtual void SprintInput()
-    {
-      // if (Input.GetKeyDown(sprintInput))
-      //   cc.Sprint(true);
-      // else if (Input.GetKeyUp(sprintInput))
-      //   cc.Sprint(false);
-      cc.Sprint(inputAction_Sprint.IsPressed());
-    }
-
-    /// <summary>
-    /// Conditions to trigger the Jump animation & behavior
-    /// </summary>
-    /// <returns></returns>
-    protected virtual bool JumpConditions()
-    {
-      return cc.isGrounded && cc.GroundAngle() < cc.slopeLimit && !cc.isJumping && !cc.stopMove;
-    }
-
-    /// <summary>
-    /// Input to trigger the Jump 
-    /// </summary>
-    protected virtual void JumpInput()
-    {
-      if (inputAction_Jump.WasPerformedThisFrame() && JumpConditions())
-      {
-        cc.Jump();
-        cc.freeSpeed.rotationSpeed = cc.freeSpeed.airborneRotationSpeed;
-      }
-      else
-      {
-        cc.freeSpeed.rotationSpeed = _defaultRotationSpeed;
-      }
-      // if (Input.GetKeyDown(jumpInput) && JumpConditions())
-      //   cc.Jump();
-    }
-
-    #endregion
-  }
 }

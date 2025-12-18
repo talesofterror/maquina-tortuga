@@ -52,7 +52,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.72, z: 7.31}
+  m_Size: {x: 4.97, y: 3.72, z: 7.31}
   m_Center: {x: 0, y: 0, z: -2.88}
 --- !u!114 &3560046729962279246
 MonoBehaviour:
@@ -1038,7 +1038,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2405049013960905928}
   serializedVersion: 5
-  m_Mass: 50
+  m_Mass: 10
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1119,11 +1119,13 @@ MonoBehaviour:
   _mp: 0
   speed: 3
   alertDuration: 1
-  attackCooldown: 2
-  smashDamageDelay: 1.33
-  smashDamageDuration: 0.1
+  attacking: 0
+  attackCooldown: 1
+  smashDamageDelay: 1.4
+  smashDamageDuration: 0.6
   smashDetector: {fileID: 3560046729962279246}
-  smashNudgeForce: 300
+  smashThrustForce: 5
+  smashKnockbackForce: 5
   sightHeight: 1
   sightDistance: 10
   forgetDistance: 12
@@ -1131,7 +1133,6 @@ MonoBehaviour:
   _currentMode: 0
   inTransit: 0
   running: 0
-  attacking: 0
   direction: {x: 0, y: 0, z: 0}
   rB: {fileID: 0}
 --- !u!4 &3038702665215987314 stripped
