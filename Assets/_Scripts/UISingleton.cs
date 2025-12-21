@@ -27,6 +27,14 @@ public class UISingleton : MonoBehaviour
         RefreshUI();
     }
 
+    void OnDestroy()
+    {
+        if (_uiSingleton == this)
+        {
+            _uiSingleton = null;
+        }
+    }
+
     public void RefreshUI()
     {
         hpText.text = PLAYERSingleton.i.playerHealth.hp.ToString();

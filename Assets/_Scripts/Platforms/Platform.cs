@@ -83,5 +83,19 @@ public class Platform : MonoBehaviour, I_Platform
         Movement();
     }
 
+    [Header("Gizmo Settings")]
+    public Color gizmoLineColor = Color.white;
+    public Color gizmoMarkerColor = Color.blue;
+
+    void OnValidate()
+    {
+        waypointSystem = GetComponentInChildren<WaypointSystem>();
+        if (waypointSystem != null)
+        {
+            waypointSystem.gizmoLineColor = gizmoLineColor;
+            waypointSystem.gizmoMarkerColor = gizmoMarkerColor;
+        }
+    }
+
     void Update() { }
 }

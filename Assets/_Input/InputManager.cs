@@ -75,8 +75,12 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
-        inputSystem.Disable();
+        if (inputSystem != null)
+        {
+            inputSystem.Dispose();
+            inputSystem = null;
+        }
     }
 }

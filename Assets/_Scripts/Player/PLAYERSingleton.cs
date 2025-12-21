@@ -59,6 +59,14 @@ public class PLAYERSingleton : MonoBehaviour
         playerMode = PlayerMode.Normal;
     }
 
+    void OnDestroy()
+    {
+        if (_playerSingleton == this)
+        {
+            _playerSingleton = null;
+        }
+    }
+
     void Start() { }
 
     void Update()

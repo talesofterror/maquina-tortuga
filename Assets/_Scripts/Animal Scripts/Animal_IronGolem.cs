@@ -81,6 +81,10 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     [Header("References")]
     private WaypointSystem waypointSystem;
+
+    [Header("Gizmo Settings")]
+    public Color gizmoLineColor = Color.red;
+    public Color gizmoMarkerColor = Color.magenta;
     private Animator animator;
     public AnimatorStateInfo stateInfo;
     private NavMeshAgent navMeshAgent;
@@ -92,6 +96,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     void Awake()
     {
         waypointSystem = GetComponentInChildren<WaypointSystem>();
+
         mode = EnemyMode.Patrol;
         rB = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -100,6 +105,16 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         navMeshAgent = GetComponent<NavMeshAgent>();
         smashDetector = GetComponentInChildren<IronGolem_SmashDetector>(true);
         smashDetector.golem = this;
+    }
+
+    void OnValidate()
+    {
+        waypointSystem = GetComponentInChildren<WaypointSystem>();
+        if (waypointSystem != null)
+        {
+            waypointSystem.gizmoLineColor = gizmoLineColor;
+            waypointSystem.gizmoMarkerColor = gizmoMarkerColor;
+        }
     }
 
     public void Patrol()

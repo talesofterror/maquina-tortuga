@@ -1124,8 +1124,8 @@ MonoBehaviour:
   smashDamageDelay: 1.4
   smashDamageDuration: 0.6
   smashDetector: {fileID: 3560046729962279246}
-  smashThrustForce: 5
-  smashKnockbackForce: 5
+  smashThrustForce: 8
+  smashKnockbackForce: 15
   sightHeight: 1
   sightDistance: 10
   forgetDistance: 12
