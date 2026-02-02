@@ -30,10 +30,14 @@ public class Waypoint : MonoBehaviour
         location = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
+    void OnDrawGizmosSelected()
+    {
+        Handles.Label(transform.position, "Waypoint");
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = gizmoMarkerColor;
-        Handles.Label(transform.position, "Waypoint");
         Gizmos.DrawSphere(transform.position, gizmoSize);
     }
 }

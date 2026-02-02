@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1345104505352489744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4551324681392965926}
+  m_Layer: 0
+  m_Name: DeathWatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4551324681392965926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345104505352489744}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1051272039731173006}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1792104833523281450
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,8 +130,17 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  attack:
+    m_Name: Attack
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c9204af8-41b1-4189-a90e-d943813c04d5
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   zoom:
-    m_Name: 
+    m_Name: Zoom
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 033c7b49-6b8f-4207-990c-2727f97c857c
@@ -108,6 +148,43 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  modeChange:
+    m_Name: Mode Change
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: bb05f153-7112-460d-85d8-8fa5e7328f54
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  disableMouseInput:
+    m_Name: Disable Mouse Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 27348f33-5db7-4943-aa60-581f3f9003cc
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  nextCamera:
+    m_Name: Next Camera
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 49b30279-b644-47ea-9e0b-1c6ef6a71041
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  prevCamera:
+    m_Name: Prev Camera
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 598da66a-7069-4be5-8475-c022df2fa7e0
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  vInput: {fileID: 0}
 --- !u!1 &4281162520579249965
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,6 +217,7 @@ Transform:
   m_Children:
   - {fileID: 4605411279685955536}
   - {fileID: 4225256353392092577}
+  - {fileID: 4551324681392965926}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6633848252909400966
@@ -161,7 +239,7 @@ MonoBehaviour:
   cameraSingleton: {fileID: 0}
   sceneManagement: {fileID: 7231746757694483139}
   inputManager: {fileID: 6741134690651558308}
-  defaultInteractionDistance: 1
+  defaultInteractionDistance: 1.5
   spawnPoint: {fileID: 0}
   activeScene:
     m_Handle: 0

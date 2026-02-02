@@ -76,7 +76,7 @@ public class Platform : MonoBehaviour, I_Platform
         if (platformEnabled && activated)
         {
             Vector3 displacement = rB.position - _previousPosition;
-            _velocity = displacement / Time.deltaTime;
+            _velocity = displacement / Time.fixedDeltaTime;
             _previousPosition = rB.position;
         }
 

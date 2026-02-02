@@ -15,6 +15,8 @@ public class PLAYERSingleton : MonoBehaviour
 
     public PlayerInteract playerInteract;
     public PlayerFightMode playerFightMode;
+
+    public PlayerWeapons playerWeapons;
     public PlayerAnimations animations;
 
     [HideInInspector]
@@ -71,7 +73,7 @@ public class PLAYERSingleton : MonoBehaviour
 
     void Update()
     {
-        ListenForModeChange();
+        ListenForModeChangeInput();
 
         if (playerMode == PlayerMode.Fight)
         {
@@ -106,7 +108,7 @@ public class PLAYERSingleton : MonoBehaviour
         playerIsAttacking = false;
     }
 
-    void ListenForModeChange()
+    void ListenForModeChangeInput()
     {
         if (
             (
@@ -126,12 +128,6 @@ public class PLAYERSingleton : MonoBehaviour
         {
             playerFightMode.Deactivate(PlayerMode.Normal);
         }
-        // else if (GMSingleton.i.inputManager.interaction.WasReleasedThisFrame()
-        //   // && !playerInteract.isTargettingInteractable
-        //   && playerMode == PlayerMode.Fight)
-        // {
-        //   playerFightMode.Deactivate(PlayerMode.Normal);
-        // }
     }
 
     public void SetControlsActiveState(bool state)

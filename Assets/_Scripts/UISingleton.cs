@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UISingleton : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UISingleton : MonoBehaviour
         get { return _uiSingleton; }
     }
 
+    public EventSystem eventSystem;
     public uiDebugPanel debug;
     public TextMeshProUGUI hpText;
 
@@ -25,6 +27,7 @@ public class UISingleton : MonoBehaviour
         }
 
         RefreshUI();
+        eventSystem.SetSelectedGameObject(debug.scrollbar.gameObject);
     }
 
     void OnDestroy()

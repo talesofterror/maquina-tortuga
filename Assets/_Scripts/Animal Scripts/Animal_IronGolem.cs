@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -54,6 +51,17 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     [SerializeField]
     float forgetDistance = 20f;
+
+    [SerializeField]
+    float scanSpeed = 2f;
+
+    [SerializeField]
+    float scanAngle = 45f;
+
+    [Header("Refinement Settings")]
+    [SerializeField]
+    float pathUpdateFrequency = 0.2f;
+    float pathUpdateTimer;
     LayerMask playerLayerMask;
     RaycastHit playerRaycastHit;
 
@@ -79,12 +87,11 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     [HideInInspector]
     public Rigidbody rB;
 
-    [Header("References")]
-    private WaypointSystem waypointSystem;
-
     [Header("Gizmo Settings")]
-    public Color gizmoLineColor = Color.red;
-    public Color gizmoMarkerColor = Color.magenta;
+    public Color _waypointSystemLineColor = Color.red;
+    public Color _waypointMarkerColor = Color.magenta;
+
+    private WaypointSystem waypointSystem;
     private Animator animator;
     public AnimatorStateInfo stateInfo;
     private NavMeshAgent navMeshAgent;
@@ -110,11 +117,8 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     void OnValidate()
     {
         waypointSystem = GetComponentInChildren<WaypointSystem>();
-        if (waypointSystem != null)
-        {
-            waypointSystem.gizmoLineColor = gizmoLineColor;
-            waypointSystem.gizmoMarkerColor = gizmoMarkerColor;
-        }
+        waypointSystem.gizmoLineColor = _waypointSystemLineColor;
+        waypointSystem.gizmoMarkerColor = _waypointMarkerColor;
     }
 
     public void Patrol()
@@ -148,8 +152,8 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
             }
         }
 
-        if (direction.sqrMagnitude > 0)
-            transform.rotation = Quaternion.LookRotation(-direction);
+        // if (direction.sqrMagnitude > 0)
+        //     transform.rotation = Quaternion.LookRotation(-direction);
 
         if (PlayerDetected())
         {
@@ -171,9 +175,12 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     bool PlayerDetected()
     {
+        float angle = Mathf.Sin(Time.time * scanSpeed) * scanAngle;
+        Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
+
         bool playerSighted = Physics.Raycast(
             transform.position + new Vector3(0, sightHeight, 0),
-            transform.TransformDirection(Vector3.forward),
+            direction,
             out playerRaycastHit,
             sightDistance,
             playerLayerMask
@@ -203,7 +210,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
         Vector3 targetPos = PLAYERSingleton.i.transform.position;
         targetPos.y = transform.position.y;
-        transform.LookAt(targetPos);
+        direction = (transform.position - targetPos).normalized;
 
         if (Vector3.Distance(transform.position, targetPos) > forgetDistance)
         {
@@ -240,15 +247,32 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
             _currentMode = EnemyMode.Pursue;
             navMeshAgent.isStopped = false;
             navMeshAgent.updateRotation = false;
+            rB.isKinematic = true;
             attacking = false;
         }
 
         Vector3 targetPos = PLAYERSingleton.i.transform.position;
         targetPos.y = transform.position.y;
-        direction = targetPos - transform.position;
+        direction = transform.position - targetPos;
 
-        transform.LookAt(targetPos);
-        navMeshAgent.SetDestination(PLAYERSingleton.i.rB.position);
+        // Throttle NavMesh destination updates
+        pathUpdateTimer -= Time.fixedDeltaTime;
+        if (pathUpdateTimer <= 0)
+        {
+            NavMeshPath path = new NavMeshPath();
+            bool canSetPath = navMeshAgent.CalculatePath(
+                // transform.position,
+                PLAYERSingleton.i.transform.position,
+                // NavMesh.AllAreas,
+                path
+            );
+            if (canSetPath)
+            {
+                navMeshAgent.SetPath(path);
+            }
+            // navMeshAgent.SetDestination(PLAYERSingleton.i.transform.position);
+            pathUpdateTimer = pathUpdateFrequency;
+        }
 
         TargetRangeBehavior(PLAYERSingleton.i.rB.position);
     }
@@ -284,9 +308,9 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         if (smashDetector != null)
             smashDetector.gameObject.SetActive(true);
 
-        // rB.isKinematic = false;
+        rB.isKinematic = false;
         direction.y = 0;
-        rB.AddForce(direction * smashThrustForce, ForceMode.VelocityChange);
+        rB.AddForce(-direction * smashThrustForce, ForceMode.VelocityChange);
 
         yield return new WaitForSeconds(smashDamageDuration);
 
@@ -300,6 +324,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
         if (remainingTime > 0)
             yield return new WaitForSeconds(remainingTime);
 
+        rB.isKinematic = true;
         attacking = false;
 
         yield return new WaitForSeconds(attackCooldown);
@@ -415,12 +440,21 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     void Update()
     {
         UpdateAnimation();
-    }
-
-    void FixedUpdate()
-    {
+        UpdateRotation();
         UpdateMode();
     }
+
+    private bool rotationPaused = false;
+
+    void UpdateRotation()
+    {
+        if (rotationPaused)
+            return;
+        if (direction.sqrMagnitude > 0)
+            transform.rotation = Quaternion.LookRotation(-direction);
+    }
+
+    void FixedUpdate() { }
 
     private void UpdateMode()
     {
@@ -447,7 +481,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     void UpdateAnimation()
     {
         if (
-            (running || (mode == EnemyMode.Pursue && navMeshAgent.velocity.magnitude > 0))
+            (running || (mode == EnemyMode.Pursue && navMeshAgent.velocity.magnitude > 0.02))
             && !attacking
         )
             animator.SetBool("isRunning", true);
