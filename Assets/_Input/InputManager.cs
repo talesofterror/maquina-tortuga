@@ -113,7 +113,9 @@ public class InputManager : MonoBehaviour
         {
             UISingleton.i.debug.gameObject.SetActive(true);
             UISingleton.i.debug.isActive = true;
-            EventSystem.current.SetSelectedGameObject(UISingleton.i.eventSystem.gameObject);
+            UISingleton.i.eventSystem.SetSelectedGameObject(
+                UISingleton.i.debug.scrollbar.gameObject
+            );
         }
     }
 

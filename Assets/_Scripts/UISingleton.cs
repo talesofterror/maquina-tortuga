@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UISingleton : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class UISingleton : MonoBehaviour
     public EventSystem eventSystem;
     public uiDebugPanel debug;
     public TextMeshProUGUI hpText;
+    public Selectable DialoguePrev;
+    public Selectable DialogueNext;
 
     void Awake()
     {

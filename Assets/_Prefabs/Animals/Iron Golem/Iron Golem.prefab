@@ -1194,6 +1194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2258f13353c087f469866fe1bdc7517e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animal_IronGolem
+  stats: {fileID: 11400000, guid: dd845bd8c42af5f4bab4b7ef57a98e9b, type: 2}
   _hp: 100
   _ap: 0
   _mp: 0

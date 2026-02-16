@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 413742335282433282}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1518076, y: 0.0636531, z: -0.00979715, w: 0.9863097}
-  m_LocalPosition: {x: -74.71031, y: 0.81601906, z: -80.27927}
+  m_LocalPosition: {x: -7, y: 4.566009, z: -5.4704094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -341,8 +341,8 @@ MonoBehaviour:
   primaryZoomFreelook: {fileID: 638315979388123588}
   uiCamera: {fileID: 6334131777751717784}
   cameraArray:
-  - {fileID: 7204455624856340370}
   - {fileID: 2077815514931391341}
+  - {fileID: 7204455624856340370}
   initialCameraIndex: 1
   currentCameraIndex: 0
   previousCameraIndex: 0
@@ -505,8 +505,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3550703945514342652}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12656574, y: 0.54356474, z: -0.0833318, w: 0.82557523}
-  m_LocalPosition: {x: -83.93394, y: 0.9964423, z: -74.78117}
+  m_LocalRotation: {x: 0.1265621, y: 0.54340535, z: -0.08329394, w: 0.8256845}
+  m_LocalPosition: {x: -16.223625, y: 4.7464323, z: 0.027678728}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -822,8 +822,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6781567404081154791}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12616332, y: 0.54359555, z: -0.083064705, w: 0.82564336}
-  m_LocalPosition: {x: -82.418564, y: 0.47622156, z: -74.128555}
+  m_LocalRotation: {x: 0.12615974, y: 0.5434459, z: -0.08302916, w: 0.825746}
+  m_LocalPosition: {x: -14.708254, y: 4.2262115, z: 0.6803012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1136,8 +1136,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8482716018136215160}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12656572, y: 0.54356474, z: -0.08333179, w: 0.8255752}
-  m_LocalPosition: {x: -76.8688, y: -1.4289901, z: -71.73744}
+  m_LocalRotation: {x: 0.12615976, y: 0.5434459, z: -0.08302916, w: 0.825746}
+  m_LocalPosition: {x: -14.708254, y: 4.2262115, z: 0.6803012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1152,7 +1152,7 @@ Camera:
   m_GameObject: {fileID: 8482716018136215160}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1176,7 +1176,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 35.8
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

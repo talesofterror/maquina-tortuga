@@ -184,6 +184,15 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  toggleDebugPanel:
+    m_Name: Toggle Debug Panel
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8c9a8635-cac5-4197-bb9a-13ae0b60facb
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   vInput: {fileID: 0}
 --- !u!1 &4281162520579249965
 GameObject:
