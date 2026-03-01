@@ -12,3 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5232d4d9e2f7bdc46b1e25fc54d624a8, type: 3}
   m_Name: SO_IronGolem
   m_EditorClassIdentifier: Assembly-CSharp::SO_IronGolem
+  maxHP: 100
+  maxAP: 100
+  speed: 5
+  scanSpeed: 3
+  scanAngle: 66
+  sightDistance: 10
+  forgetDistance: 20
+  attackCooldown: 2
+  smashRadius: 0.3
+  smashDamageDelay: 1.5
+  smashDamageDuration: 0.5
+  smashThrustForce: 10
+  alertDuration: 2
+  pathUpdateFrequency: 1
+  sightHeight: 1

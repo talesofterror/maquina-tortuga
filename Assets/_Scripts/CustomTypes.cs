@@ -35,5 +35,6 @@ public enum EnemyMode
   Alert,
   Pursue,
   Attack,
-  Retreat
+  Retreat,
+  Die
 }

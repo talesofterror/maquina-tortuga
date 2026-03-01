@@ -40,6 +40,8 @@ public class PLAYERSingleton : MonoBehaviour
 
     public bool movementEnabled = true;
 
+    public LayerMask layerMask;
+
     void Awake()
     {
         if (PLAYERSingleton.i != null && PLAYERSingleton.i != this)
@@ -59,6 +61,7 @@ public class PLAYERSingleton : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
 
         playerMode = PlayerMode.Normal;
+        layerMask = LayerMask.GetMask("Player");
     }
 
     void OnDestroy()

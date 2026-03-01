@@ -17,6 +17,7 @@ public class SO_IronGolem : ScriptableObject
 
     [Header("Attack Settings")]
     public float attackCooldown = 2f;
+    public float smashRadius = 1f;
     public float smashDamageDelay = 1f;
     public float smashDamageDuration = 1f;
     public float smashThrustForce = 10f;
