@@ -329,20 +329,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     yield return new WaitForSeconds(smashDamageDelay);
 
-    // if (smashDetector != null)
-    //   smashDetector.gameObject.SetActive(true);
-
-    // rB.isKinematic = false;
-    // direction.y = 0;
-    // rB.AddForce(-direction * smashThrustForce, ForceMode.Impulse);
-
-    // yield return new WaitForSeconds(smashDamageDuration);
-
-    // rB.linearVelocity = Vector3.zero;
-
-    // if (smashDetector != null)
-    //   smashDetector.gameObject.SetActive(false);
-
     for (float t = 0; t < smashDamageDuration; t += Time.deltaTime)
     {
       print("running smash code");

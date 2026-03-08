@@ -22,6 +22,7 @@ public class GMSingleton : MonoBehaviour
     public CAMERASingleton cameraSingleton;
     public SCENEManagement sceneManagement;
     public InputManager inputManager;
+    public PrefabManager prefabManager;
 
     [Header("Interaction")]
     public Interaction currentInteraction;
