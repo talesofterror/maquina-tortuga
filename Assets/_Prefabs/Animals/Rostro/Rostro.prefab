@@ -248,6 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animal_Rostro
   stats: {fileID: 11400000, guid: f9b7c902a6291d446868c3b67912ba79, type: 2}
   currentHP: 0
+  currentAP: 0
 --- !u!114 &1110905524640165690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FSM_RostroController
   animalRostro: {fileID: 1961822282660109735}
-  laserGenerator: {fileID: 0}
+  laserGenerator: {fileID: 896627490696525544}
   anim: {fileID: 0}
 --- !u!135 &48837838574179796
 SphereCollider:
@@ -300,6 +301,7 @@ MonoBehaviour:
   retractSpeed: 1
   isExtended: 0
   laserScale: 0.3
+  laserLength: 10
   laserTransforms:
   - {fileID: 8526634721652980893}
   - {fileID: 3063479735569435264}

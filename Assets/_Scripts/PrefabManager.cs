@@ -6,7 +6,7 @@ public class PrefabManager : MonoBehaviour
     public List<GameObject> prefabsList;
     private Dictionary<string, GameObject> prefabDictionary = new Dictionary<string, GameObject>();
 
-    void Start()
+    void Awake()
     {
         foreach (GameObject prefab in prefabsList)
         {
@@ -15,6 +15,9 @@ public class PrefabManager : MonoBehaviour
                 prefabDictionary.Add(prefab.name, prefab);
             }
         }
+
+        Debug.Log("PrefabManager initialized with " + prefabDictionary.Count + " prefabs.");
+
     }
 
     public GameObject InstantiatePrefab(string name, Vector3 position, Quaternion rotation)
