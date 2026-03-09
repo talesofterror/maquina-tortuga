@@ -5,6 +5,8 @@ public class SO_Rostro : ScriptableObject
 {
     [Header("Health Settings")]
     public int maxHP = 100;
+
+    public float rotationSpeed = 0.4f;
     private bool invulnerable = false;
 
     [Header("Attack Settings")]

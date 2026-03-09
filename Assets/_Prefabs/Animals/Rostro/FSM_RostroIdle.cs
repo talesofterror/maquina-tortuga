@@ -13,12 +13,6 @@ public class FSM_RostroIdle : FSM_Base
 
     Debug.Log("Entering Idle State");
 
-    foreach (AnimationState state in controller.anim)
-    {
-      // state.speed = 1; // Resume all animations
-      Debug.Log("Animation: " + state.name + " Length: " + state.length);
-    }
-
   }
 
   public override void Update()

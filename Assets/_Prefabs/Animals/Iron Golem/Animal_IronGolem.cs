@@ -149,7 +149,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   {
     if (_currentMode != EnemyMode.Patrol)
     {
-      Debug.Log(transform.name + " is patrolling.");
       _currentMode = EnemyMode.Patrol;
       navMeshAgent.ResetPath();
       navMeshAgent.isStopped = true;
@@ -252,10 +251,8 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   IEnumerator AlertCoroutine()
   {
-    Debug.Log("Alert Coroutine started");
     yield return new WaitForSeconds(alertDuration);
     alertBehaviorActive = false;
-    Debug.Log("Alert Coroutine ending");
   }
 
   IEnumerator InitReturnToPatrol()
@@ -331,7 +328,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     for (float t = 0; t < smashDamageDuration; t += Time.deltaTime)
     {
-      print("running smash code");
       DoPlayerDamage(castSmashSphere(smashRadius));
       yield return null;
     }
@@ -350,7 +346,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   bool castSmashSphere(float radius)
   {
-    print("spherecasting smash");
     return Physics.CheckSphere(
       smashDetector.gameObject.transform.position,
       radius,
@@ -378,10 +373,8 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   public void DoPlayerDamage(bool contactMade)
   {
-    print("running DoPlayerDamage");
     if (contactMade)
     {
-      Debug.Log(transform.name + " smashed you");
       PLAYERSingleton.i.playerHealth.TakeDamage(10);
       PLAYERSingleton.i.playerHealth.DamageKnockback(
          rB.position,
@@ -403,7 +396,9 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     {
       mode = EnemyMode.Patrol;
       returningFromInterrupt = true;
+      inTransit = false;
       StopAllCoroutines();
+      movementMotorCoroutine = null;
       navMeshAgent.ResetPath();
     }
     else if (targetInAttackRange)
@@ -477,7 +472,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
       UISingleton.i.debug.pushMessage(transform.name + " took", "#ff3355", false);
       UISingleton.i.debug.pushMessage(" " + 10, "#ff3355", false);
       UISingleton.i.debug.pushMessage(" damage!", "#ff3355");
-      Debug.Log(other.name + " hit " + transform.name);
       PLAYERSingleton.i.playerIsAttacking = false;
 
       TakeDamage(10);
