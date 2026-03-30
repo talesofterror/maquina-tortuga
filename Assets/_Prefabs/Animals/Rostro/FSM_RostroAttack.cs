@@ -14,7 +14,7 @@ public class FSM_RostroAttack : FSM_Base
 
     Debug.Log("Entering Attack State");
     
-    controller.laserGenerator.StartCoroutine(controller.laserGenerator.ExtendLaser());
+    ((FSM_RostroController)controller).laserGenerator.StartCoroutine(((FSM_RostroController)controller).laserGenerator.ExtendLaser());
 
   }
 
@@ -23,13 +23,13 @@ public class FSM_RostroAttack : FSM_Base
     // Pressing P will switch to Attack state
     if (Input.GetKeyDown(KeyCode.P))
     {
-      controller.SwitchState(controller.Idle);
+      controller.SwitchState(((FSM_RostroController)controller).Idle);
     }
   }
 
   public override void Exit()
   {
     Debug.Log("Exiting Attack State");
-    controller.laserGenerator.StartCoroutine(controller.laserGenerator.RetractLaser());
+    ((FSM_RostroController)controller).laserGenerator.StartCoroutine(((FSM_RostroController)controller).laserGenerator.RetractLaser());
   }
 }

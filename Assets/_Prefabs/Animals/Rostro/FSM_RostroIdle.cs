@@ -20,7 +20,8 @@ public class FSM_RostroIdle : FSM_Base
     // Pressing P will switch to Idle state
     if (Input.GetKeyDown(KeyCode.P))
     {
-      controller.SwitchState(controller.Attack);
+      // controller.SwitchState(controller.Attack);
+      controller.SwitchState(((FSM_RostroController)controller).Attack);
     }
   }
 

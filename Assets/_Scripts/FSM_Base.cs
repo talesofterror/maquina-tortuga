@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class FSM_Base 
 {
-    protected FSM_RostroController controller;
+    protected FSM_BaseController controller;
 
-    public FSM_Base (FSM_RostroController controller, Coroutine laserCoroutine = null)
+    public FSM_Base (FSM_BaseController controller, Coroutine laserCoroutine = null)
     {
         this.controller = controller;
     }

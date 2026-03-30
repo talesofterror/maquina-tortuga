@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class FSM_RostroController : MonoBehaviour
+public class FSM_RostroController : FSM_BaseController
 {
-  private FSM_Base _currentState;
+  // private FSM_Base _currentState;
 
   // References to concrete states
   public FSM_RostroIdle Idle;
@@ -35,7 +35,7 @@ public class FSM_RostroController : MonoBehaviour
     _currentState?.Update();
   }
 
-  public void SwitchState(FSM_Base newState)
+  public override void SwitchState(FSM_Base newState)
   {
     _currentState?.Exit();  // Clean up old state
     _currentState = newState;
