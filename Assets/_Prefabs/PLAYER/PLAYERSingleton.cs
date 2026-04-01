@@ -1,4 +1,5 @@
 using Invector.vCharacterController;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -9,6 +10,8 @@ public class PLAYERSingleton : MonoBehaviour
     {
         get { return _playerSingleton; }
     }
+
+    public FSM_PlayerStateController stateController;
 
     public PlayerHealth playerHealth;
     public bool isTakingDamage;
@@ -54,6 +57,8 @@ public class PLAYERSingleton : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         }
 
+        stateController = GetComponent<FSM_PlayerStateController>();
+
         // Debug.Log("PLAYERSingleton called Awake");
         rB = GetComponent<Rigidbody>();
         vController = GetComponent<vThirdPersonController>();
@@ -78,10 +83,10 @@ public class PLAYERSingleton : MonoBehaviour
     {
         ListenForModeChangeInput();
 
-        if (playerMode == PlayerMode.Fight)
-        {
-            ListenForFightInput();
-        }
+        // if (playerMode == PlayerMode.Fight)
+        // {
+        //     ListenForFightInput();
+        // }
 
         if (movementDisabled)
         {
@@ -95,15 +100,15 @@ public class PLAYERSingleton : MonoBehaviour
 
     void ListenForFightInput()
     {
-        if (GMSingleton.i.inputManager.attack.WasReleasedThisFrame())
-        {
-            playerIsAttacking = true;
-            string id = "SlashTrigger";
-            StartCoroutine(
-                animations.WaitAndFreeze(PLAYERSingleton.i.animations.stateInfo.length, id)
-            );
-            Invoke("SetPlayerIsAttackingFalse", PLAYERSingleton.i.animations.stateInfo.length);
-        }
+        // if (GMSingleton.i.inputManager.attack.WasReleasedThisFrame())
+        // {
+        //     playerIsAttacking = true;
+        //     string id = "SlashTrigger";
+        //     StartCoroutine(
+        //         animations.WaitAndFreeze(PLAYERSingleton.i.animations.stateInfo.length, id)
+        //     );
+        //     Invoke("SetPlayerIsAttackingFalse", PLAYERSingleton.i.animations.stateInfo.length);
+        // }
     }
 
     void SetPlayerIsAttackingFalse()
@@ -121,6 +126,7 @@ public class PLAYERSingleton : MonoBehaviour
         )
         {
             playerFightMode.Activate();
+            stateController.SwitchState(stateController.state_Fight);
         }
         else if (
             (
@@ -130,6 +136,7 @@ public class PLAYERSingleton : MonoBehaviour
         )
         {
             playerFightMode.Deactivate(PlayerMode.Normal);
+            stateController.SwitchState(stateController.state_Normal);
         }
     }
 
