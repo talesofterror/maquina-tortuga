@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class PlayerWeapons : MonoBehaviour
 {
-    public GameObject weapon;
+  public GameObject weapon;
 
-    void Start()
-    {
-        weapon.SetActive(false);
-    }
+  public PlayerWeapon_BASE currentWeapon;
 
-    void Update() { }
+  public PlayerWeapon_Sword sword;
+
+  void Start()
+  {
+    currentWeapon = sword;
+    currentWeapon.gameObject.SetActive(false);
+  }
+
+  void Update() { }
 }

@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
-public class Interactable : MonoBehaviour, I_Interactable
+public class Interactable : MonoBehaviour
 {
   public string _name;
   public InteractionType type;

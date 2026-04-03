@@ -23,7 +23,7 @@ public class PlayerAnimations : MonoBehaviour
         return stateInfo.length;
     }
 
-    public IEnumerator WaitAndFreeze(float time, string animation)
+    public IEnumerator PlayAndFreeze(float time, string animation)
     {
         PLAYERSingleton.i.animations.animator.SetTrigger(animation);
         PLAYERSingleton.i.movementDisabled = true;

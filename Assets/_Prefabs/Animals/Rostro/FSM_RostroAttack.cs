@@ -12,7 +12,7 @@ public class FSM_RostroAttack : FSM_Base
   public override void Enter()
   {
 
-    Debug.Log("Entering Attack State");
+    // Debug.Log("Entering Attack State");
     
     ((FSM_RostroController)controller).laserGenerator.StartCoroutine(((FSM_RostroController)controller).laserGenerator.ExtendLaser());
 
@@ -29,7 +29,7 @@ public class FSM_RostroAttack : FSM_Base
 
   public override void Exit()
   {
-    Debug.Log("Exiting Attack State");
+    // Debug.Log("Exiting Attack State");
     ((FSM_RostroController)controller).laserGenerator.StartCoroutine(((FSM_RostroController)controller).laserGenerator.RetractLaser());
   }
 }

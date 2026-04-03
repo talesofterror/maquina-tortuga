@@ -44,6 +44,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4ba7de34e514e4091248d32d71884c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFightMode
+--- !u!1 &3384261773124686735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3765547853029540454}
+  m_Layer: 3
+  m_Name: RayStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3765547853029540454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3384261773124686735}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.249, z: 0.002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8110144563367429073}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4671019394008972362
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +122,37 @@ MonoBehaviour:
   animator: {fileID: 0}
   FightStance: 1865419016
   FightSlash1: 0
+--- !u!1 &5699455249643334034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 671159391866530282}
+  m_Layer: 3
+  m_Name: RayEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &671159391866530282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5699455249643334034}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.001, y: 1.365, z: 0.013}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8110144563367429073}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7489473189067560254
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,8 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b0d98aaa0236542a2cb7beb14a0469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
-  raycastDistance: 2
-  isTargettingInteractable: 0
 --- !u!1001 &1103075643692210481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -227,8 +287,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3765547853029540454}
+    - targetCorrespondingSourceObject: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 671159391866530282}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8397027863895490650, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5138841399258045682}
   m_SourcePrefab: {fileID: 100100000, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
 --- !u!4 &8110144563367429073 stripped
 Transform:
@@ -240,6 +309,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8397027863895490650, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
   m_PrefabInstance: {fileID: 1103075643692210481}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5138841399258045682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8919050506842970475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654c57c07f793804ab7f9afa23d9f7cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapon_Sword
+  _data: {fileID: 11400000, guid: 2d4c68de4d8aa4c45b22de756f7f6f9e, type: 2}
 --- !u!1001 &4457411930630746411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1116,6 +1198,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4425428723088313499, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2530257093723870595}
+    - targetCorrespondingSourceObject: {fileID: 4425428723088313499, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7475451994975052279}
   m_SourcePrefab: {fileID: 100100000, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
 --- !u!1 &50013978740932016 stripped
 GameObject:
@@ -1129,21 +1214,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50013978740932016}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e377582d8a1bd9c489a1aac62f3cd3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PLAYERSingleton
+  stateController: {fileID: 0}
   playerHealth: {fileID: 7501054586340291668}
   isTakingDamage: 0
-  playerInteract: {fileID: 1790100922303328397}
-  playerFightMode: {fileID: 2447085257046777701}
   playerWeapons: {fileID: 2530257093723870595}
   animations: {fileID: 8197704855131972922}
   vController: {fileID: 0}
   vInput: {fileID: 0}
   rB: {fileID: 50013978740932018}
-  playerMode: 0
   playerIsAttacking: 0
   movementDisabled: 0
   endlessJumping: 0
@@ -1194,6 +1277,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapons
   weapon: {fileID: 8919050506842970475}
+  currentWeapon: {fileID: 0}
+  sword: {fileID: 5138841399258045682}
+--- !u!114 &7475451994975052279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50013978740932016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc71cf542b974888d54c2e0f0e802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FSM_PlayerStateController
 --- !u!54 &50013978740932018 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4425428723088313497, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}

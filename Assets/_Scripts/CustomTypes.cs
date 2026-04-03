@@ -9,13 +9,6 @@ public enum InteractionType
   Landmark
 }
 
-public enum PlayerMode
-{
-  Normal,
-  Fight,
-  Pause
-}
-
 public enum WaypointSystemMode
 {
   Loop,

@@ -463,19 +463,19 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   void OnTriggerEnter(Collider other)
   {
-    if (other.CompareTag("PlayerDamage") && PLAYERSingleton.i.playerIsAttacking)
-    {
-      UISingleton.i.debug.pushMessage(
-          other.transform.root + " hit " + transform.name,
-          "#ff3355"
-      );
-      UISingleton.i.debug.pushMessage(transform.name + " took", "#ff3355", false);
-      UISingleton.i.debug.pushMessage(" " + 10, "#ff3355", false);
-      UISingleton.i.debug.pushMessage(" damage!", "#ff3355");
-      PLAYERSingleton.i.playerIsAttacking = false;
+    // if (other.CompareTag("PlayerDamage") && PLAYERSingleton.i.playerIsAttacking)
+    // {
+    //   UISingleton.i.debug.pushMessage(
+    //       other.transform.root + " hit " + transform.name,
+    //       "#ff3355"
+    //   );
+    //   UISingleton.i.debug.pushMessage(transform.name + " took", "#ff3355", false);
+    //   UISingleton.i.debug.pushMessage(" " + 10, "#ff3355", false);
+    //   UISingleton.i.debug.pushMessage(" damage!", "#ff3355");
+    //   PLAYERSingleton.i.playerIsAttacking = false;
 
-      TakeDamage(10);
-    }
+    //   TakeDamage(10);
+    // }
   }
 
   void Update()

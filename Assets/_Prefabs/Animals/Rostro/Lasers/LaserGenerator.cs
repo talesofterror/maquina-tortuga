@@ -24,12 +24,12 @@ public class LaserGenerator : MonoBehaviour
 
     for (int i = 0; i < laserTransforms.Length; i++)
     {
-      Debug.Log("Laser Transform: " + laserTransforms[i].name + " Position: " + laserTransforms[i].position);
+      // Debug.Log("Laser Transform: " + laserTransforms[i].name + " Position: " + laserTransforms[i].position);
       laserObjects[i] = GMSingleton.i.prefabManager.InstantiatePrefab("Laser Mesh", laserTransforms[i].position, laserTransforms[i].rotation);
       laserObjects[i].transform.parent = laserTransforms[i];
       laserObjects[i].SetActive(false);
       laserObjects[i].transform.localScale = new Vector3(0, 0, 0); // Start with scale 0 in Y
-      Debug.Log("Laser Object: " + laserObjects[i].name + " Position: " + laserObjects[i].transform.position + " Scale: " + laserObjects[i].transform.localScale);
+      // Debug.Log("Laser Object: " + laserObjects[i].name + " Position: " + laserObjects[i].transform.position + " Scale: " + laserObjects[i].transform.localScale);
     }
   }
 
