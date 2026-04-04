@@ -32,6 +32,7 @@ public class CAMERASingleton : MonoBehaviour
     if (_cameraSingleton != null && _cameraSingleton != this)
     {
       Destroy(this.gameObject);
+      return;
     }
     else
     {

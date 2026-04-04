@@ -16,12 +16,11 @@ public class Interactable : MonoBehaviour
     // trigger = transform.Find("InteractableTrigger").gameObject;
   }
 
-  public Interaction Focused()
+  public void Focused()
   {
-    instance = new Interaction(this);
-    UISingleton.i.debug.pushMessage("Interactable in range: " + instance.name);
-    UISingleton.i.debug.pushMessage(instance.description);
-    GMSingleton.i.currentInteraction = new Interaction(this);
-    return instance;
+    UISingleton.i.debug.pushMessage("Interactable in sight: " + _name);
+    
+    GMSingleton.i.currentInteraction = new Interaction(this) ;
   }
+
 }

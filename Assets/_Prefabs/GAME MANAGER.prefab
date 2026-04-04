@@ -249,7 +249,7 @@ MonoBehaviour:
   cameraSingleton: {fileID: 0}
   sceneManagement: {fileID: 7231746757694483139}
   inputManager: {fileID: 6741134690651558308}
-  prefabManager: {fileID: 0}
+  prefabManager: {fileID: 8360570931184236660}
   defaultInteractionDistance: 1.5
   spawnPoint: {fileID: 0}
   activeScene: {}
@@ -300,3 +300,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrefabManager
   prefabsList:
   - {fileID: 8309449533668060967, guid: 2140bf1c7ef9b2e448cd6da9231a8ca0, type: 3}
+  - {fileID: 8397027863895490650, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}

@@ -8,6 +8,9 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
   public ScriptableObject _data;
   public override ScriptableObject data => _data;
 
+  public Transform rayStart;
+  public Transform rayEnd;
+
   public override void Draw()
   {
     Debug.Log("Sword has been drawn!");
@@ -24,8 +27,16 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
     Debug.Log("Sword is attacking!!");
   }
 
-  public override void Animate()
+  public override void StartAnimation()
   {
-
+    PLAYERSingleton.i.animations.animator.SetBool(
+    PLAYERSingleton.i.animations.FightStance,
+    true);
+  }
+  public override void StopAnimation()
+  {
+    PLAYERSingleton.i.animations.animator.SetBool(
+        PLAYERSingleton.i.animations.FightStance,
+        false);
   }
 }

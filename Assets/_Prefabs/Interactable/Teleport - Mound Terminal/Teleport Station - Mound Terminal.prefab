@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3935454865182184114
 Transform:
   m_ObjectHideFlags: 0
@@ -79,7 +79,7 @@ Transform:
   m_GameObject: {fileID: 1986728641465620265}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.6031876, y: 0, z: 4.319559}
+  m_LocalPosition: {x: 0.67, y: 0, z: 3.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -114,9 +114,10 @@ GameObject:
   - component: {fileID: 7796501704467376525}
   - component: {fileID: 6589418750310216323}
   - component: {fileID: 3532496967954288147}
+  - component: {fileID: 1353093040735588326}
   m_Layer: 6
   m_Name: Teleport Station - Mound Terminal
-  m_TagString: Warp
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
-  sceneToLoad: TestGrounds01
+  sceneToLoad: TestGrounds00
   isInitialSpawnPoint: 1
   spawnPoint: {fileID: 4128156815180109269}
 --- !u!114 &3532496967954288147
@@ -187,6 +188,27 @@ MonoBehaviour:
   DrawZ: 1
   Length: 1.9
   HeadSize: 0.09
+--- !u!65 &1353093040735588326
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5229372149025386433}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.87, z: 1}
+  m_Center: {x: 0, y: 0.97, z: 0}
 --- !u!1001 &9014064735402856945
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public abstract class PlayerWeapon_BASE : MonoBehaviour
     public abstract void Draw();
     public abstract void Withdraw();
     public abstract void Attack();
-    public abstract void Animate();
+    public abstract void StartAnimation();
+    public abstract void StopAnimation();
 
 }

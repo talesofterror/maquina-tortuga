@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
+
+  // ! delete?
+  
   // public float raycastDistance = 10f;
   // RaycastHit rayHitInteractable;
 

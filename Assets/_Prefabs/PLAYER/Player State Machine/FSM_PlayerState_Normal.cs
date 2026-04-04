@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FSM_PlayerState_Normal : FSM_PlayerStateBase
@@ -16,27 +17,79 @@ public class FSM_PlayerState_Normal : FSM_PlayerStateBase
   public override void Update()
   {
     // _currentSubState?.Update();
-    listenForInteractionInput();
+    lookForInteractions();
+    if (isTargettingInteractable) listenForInteractionInput();
   }
 
 
   RaycastHit rayHitInteractable;
-  Interactable currentInteractable;
+  // Interactable currentInteractable;
   public float raycastDistance = 10f;
-  // [HideInInspector]
+  
+  [HideInInspector]
   public bool isTargettingInteractable;
+
+  void lookForInteractions()
+  {
+    // Null Check
+    if (isTargettingInteractable && (GMSingleton.i.currentInteraction == null || GMSingleton.i.currentInteraction.i == null))
+    {
+      isTargettingInteractable = false;
+      GMSingleton.i.currentInteraction = null;
+    }
+
+    if (
+    Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+                      PLAYERSingleton.i.transform.forward,
+                      out rayHitInteractable,
+                      PLAYERSingleton.i.interactionSightDistance))
+    {
+      if (rayHitInteractable.transform.CompareTag("Interactable"))
+      {
+        if (!isTargettingInteractable)
+        {
+          Interactable interaction = rayHitInteractable.transform.GetComponent<Interactable>();
+          if (interaction != null)
+          {
+            interaction.Focused();
+            Debug.Log("Currently looking at " + interaction._name);
+            isTargettingInteractable = true;
+          }
+        }
+      }
+      else
+      {
+        isTargettingInteractable = false;
+        GMSingleton.i.currentInteraction = null;
+      }
+    }
+    else
+    {
+      isTargettingInteractable = false;
+      GMSingleton.i.currentInteraction = null;
+    }
+  }
 
   void listenForInteractionInput()
   {
-    castRay();
-    
     if (GMSingleton.i.inputManager.interaction.WasPressedThisFrame())
     {
       if (isTargettingInteractable)
       {
-        if (canInteract(GMSingleton.i.currentInteraction.transform.position))
+        // Null Check
+        if (GMSingleton.i.currentInteraction == null || GMSingleton.i.currentInteraction.i == null)
         {
-          GMSingleton.Interact(GMSingleton.i.currentInteraction.type);
+          isTargettingInteractable = false;
+          return;
+        }
+
+        Debug.Log("interaction button pressed");
+        Debug.Log(GMSingleton.i.currentInteraction);
+        Debug.Log(GMSingleton.i);
+        if (canInteract(GMSingleton.i.currentInteraction.i.transform.position))
+        {
+          Debug.Log("Can interacting with " + GMSingleton.i.currentInteraction.name);
+          PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
         }
       }
     }
@@ -53,32 +106,6 @@ public class FSM_PlayerState_Normal : FSM_PlayerStateBase
       return false;
   }
 
-  void castRay()
-  {
-    if (
-    Physics.Raycast(
-        PLAYERSingleton.i.transform.position,
-        PLAYERSingleton.i.transform.forward,
-        out rayHitInteractable,
-        raycastDistance)
-)
-    {
-      if (rayHitInteractable.transform.CompareTag("Interactable")
-          && !isTargettingInteractable)
-      {
-        currentInteractable = rayHitInteractable.transform.GetComponentInParent<Interactable>();
-        if (currentInteractable != null)
-        {
-          isTargettingInteractable = true;
-          currentInteractable.Focused();
-        }
-      }
-    }
-    else
-    {
-      isTargettingInteractable = false;
-      currentInteractable = null;
-    }
-  }
+
 
 }

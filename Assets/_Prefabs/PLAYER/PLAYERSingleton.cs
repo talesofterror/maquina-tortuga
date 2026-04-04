@@ -16,6 +16,9 @@ public class PLAYERSingleton : MonoBehaviour
   public PlayerHealth playerHealth;
   public bool isTakingDamage;
 
+  public float interactionSightDistance = 10;
+  public float interactionActivateDistance = 2; 
+
   public PlayerWeapons playerWeapons;
   public PlayerAnimations animations;
 
@@ -44,6 +47,7 @@ public class PLAYERSingleton : MonoBehaviour
     if (PLAYERSingleton.i != null && PLAYERSingleton.i != this)
     {
       Destroy(this.gameObject);
+      return;
     }
     else
     {

@@ -43,7 +43,7 @@ namespace Invector.vCharacterController
             Actions.Disable();
         }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             Actions = new InputSystem_Actions();
             Actions.Enable();

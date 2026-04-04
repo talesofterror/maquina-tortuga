@@ -22,6 +22,7 @@ public class UISingleton : MonoBehaviour
         if (_uiSingleton != null && _uiSingleton != this)
         {
             Destroy(this.gameObject);
+            return;
         }
         else
         {
