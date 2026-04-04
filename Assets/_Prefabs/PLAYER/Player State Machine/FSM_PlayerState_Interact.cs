@@ -7,7 +7,9 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
   public override void Enter()
   {
     Debug.Log("Entering Interact Mode");
-    Interact(GMSingleton.i.currentInteraction.type);
+    if (GMSingleton.i.currentInteraction is null) 
+      Debug.Log("Player could not interact -> GM.currentInteraction is null!");
+    else Interact(GMSingleton.i.currentInteraction.type);
     controller.SwitchState(controller.state_Normal);
   }
   public override void Exit()

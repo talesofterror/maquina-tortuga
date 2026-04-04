@@ -1,5 +1,7 @@
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class FSM_PlayerState_Normal : FSM_PlayerStateBase
 {
@@ -11,62 +13,94 @@ public class FSM_PlayerState_Normal : FSM_PlayerStateBase
   }
   public override void Exit()
   {
-
+    currentInteractable = null;
   }
 
   public override void Update()
   {
     // _currentSubState?.Update();
     lookForInteractions();
-    if (isTargettingInteractable) listenForInteractionInput();
+    // if (hasSightedInteractable) listenForInteractionInput();
   }
 
 
-  RaycastHit rayHitInteractable;
-  // Interactable currentInteractable;
+  Interactable currentInteractable;
   public float raycastDistance = 10f;
-  
+  RaycastHit rayHitInteractable;
+
   [HideInInspector]
-  public bool isTargettingInteractable;
+  public bool hasSightedInteractable;
 
   void lookForInteractions()
   {
     // Null Check
-    if (isTargettingInteractable && (GMSingleton.i.currentInteraction == null || GMSingleton.i.currentInteraction.i == null))
+    if (hasSightedInteractable && (GMSingleton.i.currentInteraction == null || GMSingleton.i.currentInteraction.i == null))
     {
-      isTargettingInteractable = false;
+      hasSightedInteractable = false;
       GMSingleton.i.currentInteraction = null;
     }
 
-    if (
-    Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+    bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
                       PLAYERSingleton.i.transform.forward,
                       out rayHitInteractable,
-                      PLAYERSingleton.i.interactionSightDistance))
+                      PLAYERSingleton.i.interactionSightDistance);
+
+    if (rayHit)
     {
       if (rayHitInteractable.transform.CompareTag("Interactable"))
       {
-        if (!isTargettingInteractable)
-        {
-          Interactable interaction = rayHitInteractable.transform.GetComponent<Interactable>();
-          if (interaction != null)
-          {
-            interaction.Focused();
-            Debug.Log("Currently looking at " + interaction._name);
-            isTargettingInteractable = true;
-          }
-        }
-      }
-      else
-      {
-        isTargettingInteractable = false;
-        GMSingleton.i.currentInteraction = null;
+        InteractableDetected();
       }
     }
     else
     {
-      isTargettingInteractable = false;
-      GMSingleton.i.currentInteraction = null;
+      if (currentInteractable != null)
+      {
+        currentInteractable.SetSightState(Interactable.SightState.Unsighted);
+        currentInteractable = null;
+        if (GMSingleton.i.currentInteraction != null) GMSingleton.i.currentInteraction = null;
+      }
+    }
+  }
+
+  private void InteractableDetected()
+  {
+    if (currentInteractable is null)
+    {
+      currentInteractable = rayHitInteractable.transform.gameObject.GetComponent<Interactable>();
+
+      if (currentInteractable.sightState == Interactable.SightState.Unsighted)
+      {
+        currentInteractable.SetSightState(Interactable.SightState.Sighted);
+      }
+    }
+    if (currentInteractable.sightState == Interactable.SightState.Sighted)
+    {
+      listenForReachability();
+    }
+  }
+
+  private void listenForReachability()
+  {
+    if (currentInteractable is null) { return; }
+    if (currentInteractable.CanReach())
+    {
+
+      if (currentInteractable.reachState != Interactable.ReachState.Reachable)
+      {
+        currentInteractable.SetReachState(Interactable.ReachState.Reachable);
+        currentInteractable.SetAsCurrentReachableInteraction();
+        Debug.Log("Listening for intraction input on" + currentInteractable.name);
+      }
+      else
+      {
+        listenForInteractionInput();
+      }
+    }
+    else
+    {
+      currentInteractable.reachState = Interactable.ReachState.Unreachable;
+      // Debug.Log("Player is listening for reachability of " + currentInteractable.name);
     }
   }
 
@@ -74,38 +108,7 @@ public class FSM_PlayerState_Normal : FSM_PlayerStateBase
   {
     if (GMSingleton.i.inputManager.interaction.WasPressedThisFrame())
     {
-      if (isTargettingInteractable)
-      {
-        // Null Check
-        if (GMSingleton.i.currentInteraction == null || GMSingleton.i.currentInteraction.i == null)
-        {
-          isTargettingInteractable = false;
-          return;
-        }
-
-        Debug.Log("interaction button pressed");
-        Debug.Log(GMSingleton.i.currentInteraction);
-        Debug.Log(GMSingleton.i);
-        if (canInteract(GMSingleton.i.currentInteraction.i.transform.position))
-        {
-          Debug.Log("Can interacting with " + GMSingleton.i.currentInteraction.name);
-          PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
-        }
-      }
+      PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
     }
   }
-
-  public bool canInteract(Vector3 targetPosition)
-  {
-    if (Vector3.Distance(PLAYERSingleton.i.transform.position, targetPosition) < raycastDistance
-        && PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
-    {
-      return true;
-    }
-    else
-      return false;
-  }
-
-
-
 }
