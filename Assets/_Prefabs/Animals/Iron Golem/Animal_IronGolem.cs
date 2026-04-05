@@ -369,6 +369,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   public void TakeDamage(int amount)
   {
     hp = hp - amount;
+    Debug.Log("Iron Golem took " + amount + "damage!");
   }
 
   public void DoPlayerDamage(bool contactMade)

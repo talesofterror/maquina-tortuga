@@ -3,7 +3,6 @@ using UnityEngine.Rendering;
 
 public class FSM_PlayerState_Fight : FSM_PlayerStateBase
 {
-
   public FSM_PlayerState_Fight(FSM_PlayerStateController c) : base(c) { }
 
   public PlayerWeapon_BASE currentWeapon;
@@ -12,35 +11,37 @@ public class FSM_PlayerState_Fight : FSM_PlayerStateBase
   {
     currentWeapon = PLAYERSingleton.i.playerWeapons.currentWeapon;
     currentWeapon.Draw();
-    currentWeapon.StartAnimation();
+    PLAYERSingleton.i.animations.animator.SetBool(
+      PLAYERSingleton.i.animations.FightStance,
+      true);
   }
   public override void Exit()
   {
+    PLAYERSingleton.i.animations.animator.SetBool(
+      PLAYERSingleton.i.animations.FightStance,
+      false);
     currentWeapon.Withdraw();
-    currentWeapon.StopAnimation();
     currentWeapon = null;
   }
 
   public override void Update()
   {
     listenForAttackInput();
-    
   }
 
-  private static void listenForAttackInput()
+  private void listenForAttackInput()
   {
     if (GMSingleton.i.inputManager.attack.WasReleasedThisFrame())
     {
-      PLAYERSingleton.i.playerIsAttacking = true;
-      string id = "SlashTrigger";
-      PLAYERSingleton.i.StartCoroutine(
-          PLAYERSingleton.i.animations.PlayAndFreeze(PLAYERSingleton.i.animations.stateInfo.length, id)
-      );
-      // PLAYERSingleton.i.Invoke("SetPlayerIsAttackingFalse", PLAYERSingleton.i.animations.stateInfo.length);
+      if (PLAYERSingleton.i.playerIsAttacking == false)
+      {
+        PLAYERSingleton.i.playerIsAttacking = true;
+        currentWeapon.Attack();
+      }
     }
   }
 
-  private void DealDamage ()
+  private void DealDamage()
   {
     
   }

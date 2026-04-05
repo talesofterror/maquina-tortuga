@@ -745,6 +745,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
     - target: {fileID: 1410196183796077265, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 73.68525
@@ -1082,6 +1086,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2912553840089807711}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7369813321150215424}
   m_SourcePrefab: {fileID: 100100000, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
 --- !u!1 &2405049013960905928 stripped
 GameObject:
@@ -1202,6 +1209,7 @@ MonoBehaviour:
   alertDuration: 1
   attacking: 0
   attackCooldown: 1
+  smashRadius: 0
   smashDamageDelay: 1.4
   smashDamageDuration: 0.6
   smashDetector: {fileID: 3560046729962279246}
@@ -1221,6 +1229,23 @@ MonoBehaviour:
   rB: {fileID: 0}
   _waypointSystemLineColor: {r: 1, g: 0, b: 0, a: 1}
   _waypointMarkerColor: {r: 1, g: 0.20594245, b: 0.1566037, a: 1}
+--- !u!114 &7369813321150215424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405049013960905928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c420fb0db93cb72449886f844f9e4df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  _name: Iron Golem
+  type: 1
+  description: 
+  sightState: 0
+  reachState: 1
 --- !u!4 &3038702665215987314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}

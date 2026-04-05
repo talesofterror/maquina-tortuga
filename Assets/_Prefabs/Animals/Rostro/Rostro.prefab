@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 136698013111827180}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye Back Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8526634721652980893}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye Front Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3063479735569435264}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye Front Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3594404910237897051}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye Back Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,6 +180,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rostro
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -211,6 +219,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 896627490696525544}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7349036700145114490}
   m_SourcePrefab: {fileID: 100100000, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
 --- !u!1 &4769842455280156269 stripped
 GameObject:
@@ -247,8 +258,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animal_Rostro
   stats: {fileID: 11400000, guid: f9b7c902a6291d446868c3b67912ba79, type: 2}
+  anim: {fileID: 0}
   currentHP: 0
   currentAP: 0
+  currentRotationSpeed: 0
 --- !u!114 &1110905524640165690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +320,23 @@ MonoBehaviour:
   - {fileID: 3063479735569435264}
   - {fileID: 3594404910237897051}
   - {fileID: 136698013111827180}
+--- !u!114 &7349036700145114490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769842455280156269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c420fb0db93cb72449886f844f9e4df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  _name: Rostro
+  type: 1
+  description: 
+  sightState: 0
+  reachState: 1
 --- !u!4 &5294600234133660887 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9da56b31480feb141ad7118645c027f6, type: 3}

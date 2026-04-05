@@ -78,7 +78,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5885232573112716229
 Transform:
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.1, y: 1.06, z: 0.1}
   m_Center: {x: 0.000000012467335, y: 0.83, z: -0.00000017070188}
@@ -226,8 +226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapon_Sword
   _data: {fileID: 11400000, guid: 2d4c68de4d8aa4c45b22de756f7f6f9e, type: 2}
-  rayStart: {fileID: 757047913003683416}
-  rayEnd: {fileID: 1187757226351457662}
+  rayStart: {fileID: 1123885418327741794}
+  rayEnd: {fileID: 1542003910882150952}
 --- !u!4 &9206462608041581280 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6eeb67a8abfe6a944bc42e73d2388530, type: 3}

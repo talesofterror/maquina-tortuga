@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,8 +9,18 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
   public ScriptableObject _data;
   public override ScriptableObject data => _data;
 
-  public Transform rayStart;
-  public Transform rayEnd;
+  private bool _attacking;
+  public override bool attacking
+  {
+    get => _attacking;
+    set => _attacking = value;
+  }
+
+  bool listeningForDamage = false;
+  float lastHitTime = 0f;
+
+  public GameObject rayStart;
+  public GameObject rayEnd;
 
   public override void Draw()
   {
@@ -18,25 +29,75 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
   }
   public override void Withdraw()
   {
-    Debug.Log("Sword has been drawn!");
+    Debug.Log("Sword has been withdrawn.");
     this.gameObject.SetActive(false);
   }
 
   public override void Attack()
   {
-    Debug.Log("Sword is attacking!!");
+    Debug.Log("Player is attacking with the sword!!");
+    attacking = true;
+    StartAnimation();
+    listeningForDamage = true;
+    Invoke("StopAttacking", PLAYERSingleton.i.animations.stateInfo.length);
+  }
+
+  void listenForDamage()
+  {
+    // Debug.Log("The sword is listening for damage");
+    RaycastHit hit;
+    float raycastDistance = Vector3.Distance(rayStart.transform.position, rayEnd.transform.position);
+    bool rayHit = Physics.Raycast(rayStart.transform.position,
+                  rayStart.transform.up,
+                  out hit,
+                  raycastDistance);
+
+    if (rayHit)
+    {
+      if (hit.transform.CompareTag("Interactable"))
+      {
+        Interactable interactable = hit.transform.GetComponent<Interactable>();
+        
+        float animLength = PLAYERSingleton.i.animations.stateInfo.length;
+        if (Time.time >= lastHitTime + animLength)
+        {
+          Debug.Log("The sword struck " + interactable._name);
+          lastHitTime = Time.time;
+
+          if (interactable._name == "Iron Golem")
+          { 
+            interactable.gameObject.GetComponent<Animal_IronGolem>().TakeDamage(10); 
+          }
+        }
+      }
+    }
+  }
+
+  void StopAttacking()
+  {
+      Debug.Log("The sword attack has ended.");
+      attacking = false;
+      listeningForDamage = false;
+      PLAYERSingleton.i.playerIsAttacking = false;
+  }
+
+  void Update()
+  {
+    if (listeningForDamage)
+    {
+      listenForDamage();
+    }
   }
 
   public override void StartAnimation()
   {
-    PLAYERSingleton.i.animations.animator.SetBool(
-    PLAYERSingleton.i.animations.FightStance,
-    true);
+    string id = "SlashTrigger";
+    PLAYERSingleton.i.StartCoroutine(
+        PLAYERSingleton.i.animations.PlayAndFreeze(PLAYERSingleton.i.animations.stateInfo.length, id)
+    );
   }
   public override void StopAnimation()
   {
-    PLAYERSingleton.i.animations.animator.SetBool(
-        PLAYERSingleton.i.animations.FightStance,
-        false);
+
   }
 }

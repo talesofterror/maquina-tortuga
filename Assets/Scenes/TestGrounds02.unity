@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 2016836744}
+    - target: {fileID: 1776063999894126606, guid: ba3decb8faddfcb479293c341a0d7e07, type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 2074129636021596070, guid: ba3decb8faddfcb479293c341a0d7e07, type: 3}
       propertyPath: m_Name
       value: CAMERAS

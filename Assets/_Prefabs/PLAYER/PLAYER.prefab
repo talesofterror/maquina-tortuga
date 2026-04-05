@@ -1062,7 +1062,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4425428723804510552, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
+    - {fileID: 4425428722940979723, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4425428723088313501, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
       insertIndex: -1
@@ -1113,6 +1115,8 @@ MonoBehaviour:
   stateController: {fileID: 0}
   playerHealth: {fileID: 7501054586340291668}
   isTakingDamage: 0
+  interactionSightDistance: 10
+  interactionReachDistance: 2
   playerWeapons: {fileID: 2530257093723870595}
   animations: {fileID: 8197704855131972922}
   vController: {fileID: 0}

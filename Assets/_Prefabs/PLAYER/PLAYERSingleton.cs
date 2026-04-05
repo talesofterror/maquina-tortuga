@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class PLAYERSingleton : MonoBehaviour
+public class PLAYERSingleton : MonoBehaviour 
 {
   private static PLAYERSingleton _playerSingleton;
   public static PLAYERSingleton i
