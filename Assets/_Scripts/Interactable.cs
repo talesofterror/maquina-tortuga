@@ -21,7 +21,7 @@ public class Interactable : MonoBehaviour
   {
 
   }
-  
+
   public void SetSightState(SightState newState)
   {
     if (sightState == newState) return;
@@ -48,20 +48,26 @@ public class Interactable : MonoBehaviour
       // SetAsCurrentReachableInteraction();
       Debug.Log(this.name + " is now reachable");
     }
-    if (reachState == ReachState.Unreachable) {
-      GMSingleton.i.currentInteraction = null;
+    if (reachState == ReachState.Unreachable)
+    {
+      // GMSingleton.i.currentInteraction = null;
     }
   }
 
   public bool CanReach()
   {
-    if (Vector3.Distance(PLAYERSingleton.i.transform.position, transform.position) < PLAYERSingleton.i.interactionReachDistance
-        && PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
-    {
-      return true;
-    }
-    else
-      return false;
+    // if (GMSingleton.i.currentInteraction != null || GMSingleton.i.currentInteraction.i != null)
+    // {
+      if (Vector3.Distance(
+          PLAYERSingleton.i.transform.position, transform.position) < PLAYERSingleton.i.interactionReachDistance
+          && PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
+      {
+        return true;
+      }
+      else return false;
+    // }
+    // else
+    //   return false;
   }
 
   public void SetAsCurrentReachableInteraction()

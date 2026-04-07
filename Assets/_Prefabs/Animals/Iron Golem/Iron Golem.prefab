@@ -1089,6 +1089,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7369813321150215424}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3575665557860549920}
   m_SourcePrefab: {fileID: 100100000, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
 --- !u!1 &2405049013960905928 stripped
 GameObject:
@@ -1246,6 +1249,31 @@ MonoBehaviour:
   description: 
   sightState: 0
   reachState: 1
+--- !u!114 &3575665557860549920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405049013960905928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274b80ab5b659c646ba9338870d14625, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PixelCrushers.DialogueSystem.Wrappers.Usable
+  m_overrideName: Iron Golem
+  m_overrideUseMessage: 
+  maxUseDistance: 5
+  events:
+    onSelect:
+      m_PersistentCalls:
+        m_Calls: []
+    onDeselect:
+      m_PersistentCalls:
+        m_Calls: []
+    onUse:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!4 &3038702665215987314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}

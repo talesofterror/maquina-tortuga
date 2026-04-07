@@ -16,15 +16,21 @@ public abstract class FSM_PlayerStateBase
   // * as above so below?
   public FSM_PlayerStateBase(FSM_PlayerStateController c) => controller = c;
 
-  public abstract void Enter();
-  public abstract void Exit();
+  public virtual void Enter() {}
+  public virtual void Exit() {}
 
-  public virtual void Update()
+  public void Update()
   {
     _currentSubState?.Update();
+    Update_Additive();
   }
 
-  protected void SetSubState(FSM_PlayerStateBase subState)
+  public virtual void Update_Additive()
+  {
+
+  }
+
+  public void SetSubState(FSM_PlayerStateBase subState)
   {
     _currentSubState = subState;
     subState.SetSuperState(this);

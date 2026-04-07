@@ -14,6 +14,8 @@ public class InputManager : MonoBehaviour
     public InputAction nextCamera;
     public InputAction prevCamera;
     public InputAction toggleDebugPanel;
+    public InputAction ui_Submit;
+    public InputAction ui_Cancel;
     public vThirdPersonInput vInput;
 
     void OnEnable() { }
@@ -33,6 +35,8 @@ public class InputManager : MonoBehaviour
         nextCamera = inputSystem.Player.NextCamera;
         prevCamera = inputSystem.Player.PrevCamera;
         toggleDebugPanel = inputSystem.UI.ToggleDebugPanel;
+        ui_Submit = inputSystem.UI.Submit;
+        ui_Cancel = inputSystem.UI.Cancel;
 
         UISingleton.i.debug.pushMessage(
             "Move: "

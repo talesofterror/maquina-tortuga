@@ -27,6 +27,8 @@ public class CAMERASingleton : MonoBehaviour
   [HideInInspector]
   public int previousCameraIndex = 0;
 
+  public bool cameraSwitchDisabled = false;
+
   void Awake()
   {
     if (_cameraSingleton != null && _cameraSingleton != this)
@@ -87,37 +89,41 @@ public class CAMERASingleton : MonoBehaviour
       setCurrentCamera(currentCameraIndex);
     }
 
-    if (GMSingleton.i.inputManager.nextCamera.WasReleasedThisFrame())
+    if (!cameraSwitchDisabled)
     {
-      previousCameraIndex = currentCameraIndex;
-      currentCameraIndex = (currentCameraIndex + 1) % cameraArray.Length;
-      setCurrentCamera(currentCameraIndex);
-      cameraArray[currentCameraIndex]
-          .GetComponent<CinemachineOrbitalFollow>()
-          .HorizontalAxis = cameraArray[previousCameraIndex]
-          .GetComponent<CinemachineOrbitalFollow>()
-          .HorizontalAxis;
-      UISingleton.i.debug.pushMessage(
-          "Active Camera set to: " + cameraArray[currentCameraIndex].name,
-          "#c9d039ff"
-      );
+      if (GMSingleton.i.inputManager.nextCamera.WasReleasedThisFrame())
+      {
+        previousCameraIndex = currentCameraIndex;
+        currentCameraIndex = (currentCameraIndex + 1) % cameraArray.Length;
+        setCurrentCamera(currentCameraIndex);
+        cameraArray[currentCameraIndex]
+            .GetComponent<CinemachineOrbitalFollow>()
+            .HorizontalAxis = cameraArray[previousCameraIndex]
+            .GetComponent<CinemachineOrbitalFollow>()
+            .HorizontalAxis;
+        UISingleton.i.debug.pushMessage(
+            "Active Camera set to: " + cameraArray[currentCameraIndex].name,
+            "#c9d039ff"
+        );
+      }
+
+      if (GMSingleton.i.inputManager.prevCamera.WasReleasedThisFrame())
+      {
+        previousCameraIndex = currentCameraIndex;
+        currentCameraIndex = (currentCameraIndex - 1 + cameraArray.Length) % cameraArray.Length;
+        setCurrentCamera(currentCameraIndex);
+        cameraArray[currentCameraIndex]
+            .GetComponent<CinemachineOrbitalFollow>()
+            .HorizontalAxis = cameraArray[previousCameraIndex]
+            .GetComponent<CinemachineOrbitalFollow>()
+            .HorizontalAxis;
+        UISingleton.i.debug.pushMessage(
+            "Active Camera set to: " + cameraArray[currentCameraIndex].name,
+            "#c9d039ff"
+        );
+      }
     }
 
-    if (GMSingleton.i.inputManager.prevCamera.WasReleasedThisFrame())
-    {
-      previousCameraIndex = currentCameraIndex;
-      currentCameraIndex = (currentCameraIndex - 1 + cameraArray.Length) % cameraArray.Length;
-      setCurrentCamera(currentCameraIndex);
-      cameraArray[currentCameraIndex]
-          .GetComponent<CinemachineOrbitalFollow>()
-          .HorizontalAxis = cameraArray[previousCameraIndex]
-          .GetComponent<CinemachineOrbitalFollow>()
-          .HorizontalAxis;
-      UISingleton.i.debug.pushMessage(
-          "Active Camera set to: " + cameraArray[currentCameraIndex].name,
-          "#c9d039ff"
-      );
-    }
   }
 
   void FixedUpdate() { }

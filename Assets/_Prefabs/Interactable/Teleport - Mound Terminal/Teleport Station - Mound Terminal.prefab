@@ -112,6 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2951572923822760996}
   - component: {fileID: 7796501704467376525}
+  - component: {fileID: 6148002568235136757}
   - component: {fileID: 6589418750310216323}
   - component: {fileID: 3532496967954288147}
   - component: {fileID: 1353093040735588326}
@@ -157,6 +158,43 @@ MonoBehaviour:
   description: 
   sightState: 0
   reachState: 1
+--- !u!114 &6148002568235136757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5229372149025386433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274b80ab5b659c646ba9338870d14625, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PixelCrushers.DialogueSystem.Wrappers.Usable
+  m_overrideName: Terminal
+  m_overrideUseMessage: 
+  maxUseDistance: 5
+  events:
+    onSelect:
+      m_PersistentCalls:
+        m_Calls: []
+    onDeselect:
+      m_PersistentCalls:
+        m_Calls: []
+    onUse:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: 
+          m_MethodName: 
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &6589418750310216323
 MonoBehaviour:
   m_ObjectHideFlags: 0

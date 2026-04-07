@@ -29,6 +29,7 @@ public class SceneLoader : MonoBehaviour
   {
     UISingleton.i.debug.pushMessage("SceneLoader called <b>OnSceneUnloaded(" + scene.name + ")</b>","#44cc99");
     PLAYERSingleton.i.rB.isKinematic = true;
+    // GMSingleton.i.currentInteraction = null;
   }
 
   void OnDestroy()

@@ -1,7 +1,6 @@
 using Invector.vCharacterController;
-using Unity.VisualScripting;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class PLAYERSingleton : MonoBehaviour 
 {
@@ -38,9 +37,11 @@ public class PLAYERSingleton : MonoBehaviour
 
   public bool endlessJumping;
 
-  public bool movementEnabled = true;
-
   public LayerMask layerMask;
+
+  [Header("Diaglogue Settings")]
+  public Selector_CustomRaycast dialogueSelector;
+  public SelectorUseStandardUIElements useStandardUIElementsComponent;
 
   void Awake()
   {
@@ -55,6 +56,9 @@ public class PLAYERSingleton : MonoBehaviour
       DontDestroyOnLoad(this.gameObject);
     }
 
+    dialogueSelector = GetComponent<Selector_CustomRaycast>();
+    useStandardUIElementsComponent = GetComponent<SelectorUseStandardUIElements>();
+    
     stateController = GetComponent<FSM_PlayerStateController>();
 
     // Debug.Log("PLAYERSingleton called Awake");
@@ -62,8 +66,9 @@ public class PLAYERSingleton : MonoBehaviour
     vController = GetComponent<vThirdPersonController>();
     vInput = GetComponent<vThirdPersonInput>();
     playerHealth = GetComponent<PlayerHealth>();
-
+    
     layerMask = LayerMask.GetMask("Player");
+
   }
 
   void OnDestroy()
@@ -80,13 +85,21 @@ public class PLAYERSingleton : MonoBehaviour
   {
     ListenForModeChangeInput();
 
-    if (movementDisabled)
+    if (movementDisabled || DialogueManager.IsConversationActive)
     {
+      
       vInput.inputAction_Move.Disable();
+      vInput.inputAction_Jump.Disable();
+      // vInput.enabled = false;
+      // GMSingleton.i.inputManager.inputSystem.Player.Disable();
     }
     else
     {
       vInput.inputAction_Move.Enable();
+      vInput.inputAction_Jump.Enable();
+      // vInput.enabled = true;
+      // GMSingleton.i.inputManager.inputSystem.Player.Enable();
+      // vInput.inputAction_Move.Enable();
     }
   }
 
@@ -105,8 +118,4 @@ public class PLAYERSingleton : MonoBehaviour
     }
   }
 
-  public void SetControlsActiveState(bool state)
-  {
-    movementEnabled = state;
-  }
 }
