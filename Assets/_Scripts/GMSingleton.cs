@@ -50,7 +50,9 @@ public class GMSingleton : MonoBehaviour
     gameStarted = true;
 
     Cursor.lockState = CursorLockMode.Confined;
-    Cursor.visible = false;
+    // Cursor.visible = false;
+    PixelCrushers.CursorControl.ShowCursor(false);
+    PixelCrushers.CursorControl.cursorLockMode = CursorLockMode.Confined;
   }
 
   void OnDestroy()

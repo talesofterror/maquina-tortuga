@@ -659,7 +659,7 @@ namespace PixelCrushers.DialogueSystem
                     return CustomPosition;
                 default:
                 case SelectAt.CenterOfScreen:
-                    return new Vector3(Screen.width / 2, Screen.height / 2 + UISingleton.i.interactableSelectionHeight);
+                    return new Vector3(Screen.width / 2, Screen.height / 2);
             }
         }
 

@@ -17,9 +17,18 @@ public class Interactable : MonoBehaviour
   public SightState sightState = SightState.Unsighted;
   public ReachState reachState = ReachState.Unreachable;
 
+  protected int defaultLayer;
+  protected int outlineLayer;
+
   void Update()
   {
 
+  }
+
+  void Start()
+  {
+    defaultLayer = gameObject.layer;
+    outlineLayer = LayerMask.NameToLayer("Outlined");
   }
 
   public void SetSightState(SightState newState)
@@ -58,13 +67,13 @@ public class Interactable : MonoBehaviour
   {
     // if (GMSingleton.i.currentInteraction != null || GMSingleton.i.currentInteraction.i != null)
     // {
-      if (Vector3.Distance(
-          PLAYERSingleton.i.transform.position, transform.position) < PLAYERSingleton.i.interactionReachDistance
-          && PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
-      {
-        return true;
-      }
-      else return false;
+    if (Vector3.Distance(
+        PLAYERSingleton.i.transform.position, transform.position) < PLAYERSingleton.i.interactionReachDistance
+        && PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
+    {
+      return true;
+    }
+    else return false;
     // }
     // else
     //   return false;
@@ -75,6 +84,11 @@ public class Interactable : MonoBehaviour
     UISingleton.i.debug.pushMessage("Setting GM.currentInteraction to: " + _name);
 
     GMSingleton.i.currentInteraction = new Interaction(this);
+  }
+
+  public void SetOutline(bool show)
+  {
+    gameObject.layer = show ? outlineLayer : defaultLayer;
   }
 
 }

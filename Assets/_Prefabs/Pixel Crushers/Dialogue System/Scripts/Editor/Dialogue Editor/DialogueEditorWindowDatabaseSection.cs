@@ -257,6 +257,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
             EditorGUILayout.EndHorizontal();
             garbageCollectFrequency = EditorGUILayout.FloatField(new GUIContent("GC.Collect Frequency", "Frequency in seconds to run garbage collection. Set to zero to run every frame. (Addresses UIElements bug introduced in Unity 6.3.)"), garbageCollectFrequency);
             showDatabaseName = EditorGUILayout.ToggleLeft(new GUIContent("Show Database Name", "Show the database name in the lower left of the editor window."), showDatabaseName);
+            hideMenuText = EditorGUILayout.ToggleLeft(new GUIContent("Hide Menu Text", "Hide the Menu Text field when inspecting dialogue entries."), hideMenuText);
             syncOnOpen = EditorGUILayout.ToggleLeft(new GUIContent("Sync On Open", "If any database sections are configured to sync content from another database, automatically sync when opening database."), syncOnOpen);
             registerCompleteObjectUndo = EditorGUILayout.ToggleLeft(new GUIContent("Fast Undo for Large Databases", "Use Undo.RegisterCompleteObjectUndo instead of Undo.RegisterUndo. Tick if operations such as deleting a conversation become slow in very large databases."), registerCompleteObjectUndo);
             debug = EditorGUILayout.ToggleLeft(new GUIContent("Debug", "For internal debugging of the dialogue editor."), debug);

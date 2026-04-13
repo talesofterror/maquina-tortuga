@@ -4,9 +4,6 @@ using PixelCrushers;
 
 public class Selector_CustomRaycast_Camera : Selector
 {
-  [Tooltip("Radius of the sphere used for selection casting.")]
-  public float sphereCastRadius = 2f;
-
   protected override Vector3 GetSelectionPoint()
   {
     switch (selectAt)
@@ -17,7 +14,7 @@ public class Selector_CustomRaycast_Camera : Selector
         return CustomPosition;
       default:
       case SelectAt.CenterOfScreen:
-        return new Vector3(Screen.width / 2, Screen.height / 2 + 10);
+        return new Vector3(Screen.width / 2, (Screen.height / 2) + 50);
     }
   }
 
@@ -26,13 +23,16 @@ public class Selector_CustomRaycast_Camera : Selector
     Ray ray = UnityEngine.Camera.main.ScreenPointToRay(GetSelectionPoint());
     lastRay = ray;
 
+    // New Variable rayCastDistance is used below for the raycasts instead of maxSelectionDistance to be able to set it to infinity (if using DistanceFrom.GameObject) instead of maxSelectionDistance:
+    // Credit: Daniel D. (Thank you!)
     float raycastDistance = (distanceFrom == DistanceFrom.GameObject) ? Mathf.Infinity : maxSelectionDistance;
 
     if (raycastAll)
     {
-      // Run SphereCastAll (using SphereCastNonAlloc for performance):
+
+      // Run RaycastAll:
       if (lastHits == null) lastHits = new RaycastHit[MaxHits];
-      numLastHits = Physics.SphereCastNonAlloc(ray, sphereCastRadius, lastHits, raycastDistance, layerMask);
+      numLastHits = Physics.RaycastNonAlloc(ray, lastHits, raycastDistance, layerMask);
       bool foundUsable = false;
       for (int i = 0; i < numLastHits; i++)
       {
@@ -63,12 +63,15 @@ public class Selector_CustomRaycast_Camera : Selector
       {
         DeselectTarget();
       }
+
     }
     else
     {
-      // Cast a sphere and see what we hit:
+
+      // Cast a ray and see what we hit:
       RaycastHit hit;
-      if (Physics.SphereCast(ray, sphereCastRadius, out hit, maxSelectionDistance, layerMask))
+      // if (Physics.Raycast(ray, out hit, maxSelectionDistance, layerMask))
+      if (Physics.SphereCast(ray, 5f, out hit, maxSelectionDistance, layerMask))
       {
         distance = (distanceFrom == DistanceFrom.Camera) ? hit.distance
             : (distanceFrom == DistanceFrom.GameObject || actorTransform == null)
@@ -92,6 +95,26 @@ public class Selector_CustomRaycast_Camera : Selector
         DeselectTarget();
       }
       lastHit = hit;
+    }
+  }
+
+  public override void SetCurrentUsable(Usable usable)
+  {
+    if (usable == this.usable) return;
+    if (usable == null)
+    {
+      DeselectTarget();
+    }
+    else
+    {
+      if (this.usable != null && this.usable != usable) DeselectTarget();
+      this.usable = usable;
+      usable.disabled -= OnUsableDisabled;
+      usable.disabled += OnUsableDisabled;
+      selection = usable.gameObject;
+      heading = string.Empty;
+      useMessage = string.Empty;
+      OnSelectedUsableObject(usable);
     }
   }
 }

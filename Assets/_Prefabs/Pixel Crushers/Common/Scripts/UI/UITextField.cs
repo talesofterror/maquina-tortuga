@@ -7,7 +7,7 @@ namespace PixelCrushers
 {
 
     /// <summary>
-    /// A UITextField can refer to a UI.Text, TMPro.TextMeshProUGUI, or SuperTextMesh.
+    /// A UITextField can refer to a UI.Text, TextMeshProUGUI, SuperTextMesh, or UniText component.
     /// </summary>
     [Serializable]
     public class UITextField
@@ -16,9 +16,6 @@ namespace PixelCrushers
         [SerializeField]
         private UnityEngine.UI.Text m_uiText;
 
-        /// <summary>
-        /// The UI.Text assigned to this UI text field.
-        /// </summary>
         public UnityEngine.UI.Text uiText
         {
             get { return m_uiText; }
@@ -29,15 +26,13 @@ namespace PixelCrushers
         [SerializeField]
         private TMPro.TextMeshProUGUI m_textMeshProUGUI;
 
-        /// <summary>
-        /// The TextMeshProUGUI assigned to this UI text field.
-        /// </summary>
         public TMPro.TextMeshProUGUI textMeshProUGUI
         {
             get { return m_textMeshProUGUI; }
             set { m_textMeshProUGUI = value; }
         }
 #endif
+
 #if USE_STM
         [SerializeField]
         private SuperTextMesh m_superTextMesh;
@@ -61,7 +56,7 @@ namespace PixelCrushers
 #endif
 
         /// <summary>
-        /// The text content of the UI.Text or TextMeshProUGUI.
+        /// The text content of the underlying text component.
         /// </summary>
         public string text
         {

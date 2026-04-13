@@ -100,14 +100,14 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BumpScale: 1
+    - _BumpScale: 1.39
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _Distortion: 1
+    - _Distortion: 0.859
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
@@ -117,10 +117,10 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Power: 2.5
+    - _Power: 10
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Scale: 2.57
+    - _Scale: 10
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -135,7 +135,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _myColor: {r: 0, g: 0.31866822, b: 0.3660378, a: 1}
+    - _myColor: {r: 0.2679245, g: 0.01796725, b: 0, a: 1}
     - _myEmission: {r: 0.7490196, g: 0.4509804, b: 0.3764706, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

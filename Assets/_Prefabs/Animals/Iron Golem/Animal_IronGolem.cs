@@ -98,12 +98,13 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   private WaypointSystem waypointSystem;
   private Animator animator;
-  public AnimatorStateInfo stateInfo;
+  public AnimatorStateInfo animatorStateInfo;
   private NavMeshAgent navMeshAgent;
   private Coroutine movementMotorCoroutine;
   private Coroutine initPlayerDetected;
   private Coroutine alertStartBehavior;
   private Coroutine attackBehavior;
+  private Coroutine takingDamageBehavior;
 
   void Awake()
   {
@@ -131,7 +132,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     mode = EnemyMode.Patrol;
     rB = GetComponent<Rigidbody>();
     animator = GetComponent<Animator>();
-    stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+    animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
     playerLayerMask = LayerMask.GetMask("Player");
     navMeshAgent = GetComponent<NavMeshAgent>();
     smashDetector = GetComponentInChildren<IronGolem_SmashDetector>(true);
@@ -277,21 +278,13 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     direction = transform.position - targetPos;
 
     // Throttle NavMesh destination updates
-    pathUpdateTimer -= Time.fixedDeltaTime;
+    pathUpdateTimer -= Time.deltaTime;
     if (pathUpdateTimer <= 0)
     {
-      NavMeshPath path = new NavMeshPath();
-      bool canSetPath = navMeshAgent.CalculatePath(
-          // transform.position,
-          PLAYERSingleton.i.transform.position,
-          // NavMesh.AllAreas,
-          path
-      );
-      if (canSetPath)
+      if (navMeshAgent.isActiveAndEnabled)
       {
-        navMeshAgent.SetPath(path);
+        navMeshAgent.SetDestination(PLAYERSingleton.i.transform.position);
       }
-      // navMeshAgent.SetDestination(PLAYERSingleton.i.transform.position);
       pathUpdateTimer = pathUpdateFrequency;
     }
 
@@ -357,19 +350,97 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     if (_currentMode != EnemyMode.Die)
     {
       Debug.Log(transform.name + " has died.");
+      mode = EnemyMode.Die;
       _currentMode = EnemyMode.Die;
-      navMeshAgent.isStopped = true;
+      if (navMeshAgent.isActiveAndEnabled)
+      {
+        navMeshAgent.isStopped = true;
+        navMeshAgent.ResetPath();
+      }
       navMeshAgent.updateRotation = false;
       rB.isKinematic = true;
       attacking = false;
+      StopAllCoroutines();
     }
     animator.SetTrigger("Die");
   }
 
+  public bool takingDamage = false;
+
   public void TakeDamage(int amount)
   {
     hp = hp - amount;
-    Debug.Log("Iron Golem took " + amount + "damage!");
+    Debug.Log("Iron Golem took " + amount + " damage!");
+
+    if (hp <= 0)
+    {
+      Die();
+      return;
+    }
+
+    if (mode != EnemyMode.Damage && mode != EnemyMode.Die)
+    {
+      Debug.Log(transform.name + " switched to Damage mode.");
+      running = false;
+      attacking = false;
+      takingDamage = true;
+      EnemyMode prevMode = mode;
+
+      mode = EnemyMode.Damage;
+      _currentMode = EnemyMode.Damage;
+
+      if (movementMotorCoroutine != null)
+      {
+        StopCoroutine(movementMotorCoroutine);
+        movementMotorCoroutine = null;
+        inTransit = false;
+        returningFromInterrupt = true;
+      }
+
+      if (attackBehavior != null)
+      {
+        StopCoroutine(attackBehavior);
+        attackBehavior = null;
+      }
+
+      if (navMeshAgent.isActiveAndEnabled)
+      {
+        navMeshAgent.isStopped = true;
+        navMeshAgent.ResetPath();
+        if (takingDamageBehavior == null)
+        {
+          takingDamageBehavior = StartCoroutine(TakingDamageCoroutine(prevMode));
+        }
+      }
+    }
+
+    IEnumerator TakingDamageCoroutine(EnemyMode previousMode)
+    {
+      Debug.Log(transform.name + " damage coroutine started");
+      animator.SetTrigger("Knockback");
+      yield return new WaitForSeconds(3);
+      animator.ResetTrigger("Knockback");
+
+      if (mode != EnemyMode.Die)
+      {
+        if (previousMode == EnemyMode.Pursue || previousMode == EnemyMode.Attack)
+        {
+          mode = EnemyMode.Pursue;
+        }
+        else if (previousMode == EnemyMode.Patrol)
+        {
+          mode = EnemyMode.Alert;
+        }
+        else
+        {
+          mode = previousMode;
+        }
+      }
+
+      takingDamageBehavior = null;
+      takingDamage = false;
+      Debug.Log(transform.name + " damage coroutine ended");
+    }
   }
 
   public void DoPlayerDamage(bool contactMade)
@@ -490,7 +561,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
   void UpdateRotation()
   {
-    if (rotationPaused)
+    if (rotationPaused || mode == EnemyMode.Die)
       return;
     if (direction.sqrMagnitude > 0)
       transform.rotation = Quaternion.LookRotation(-direction);
@@ -518,6 +589,14 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
       Attack();
     }
     if (mode == EnemyMode.Retreat) { }
+    if (mode == EnemyMode.Damage)
+    {
+
+    }
+    if (mode == EnemyMode.Die)
+    {
+
+    }
   }
 
   void UpdateAnimation()
@@ -539,6 +618,10 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     else if (!attacking)
     {
       animator.SetBool("isAttacking", false);
+    }
+    if (mode == EnemyMode.Die)
+    {
+
     }
   }
 

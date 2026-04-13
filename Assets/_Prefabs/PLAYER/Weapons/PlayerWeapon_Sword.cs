@@ -24,18 +24,18 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
 
   public override void Draw()
   {
-    Debug.Log("Sword has been drawn!");
+    Debug.Log("You drew your sword.");
     this.gameObject.SetActive(true);
   }
   public override void Withdraw()
   {
-    Debug.Log("Sword has been withdrawn.");
+    Debug.Log("You withdrew your sword.");
     this.gameObject.SetActive(false);
   }
 
   public override void Attack()
   {
-    Debug.Log("Player is attacking with the sword!!");
+    // Debug.Log("Player is attacking with the sword!!");
     attacking = true;
     StartAnimation();
     listeningForDamage = true;
@@ -75,7 +75,7 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
 
   void StopAttacking()
   {
-      Debug.Log("The sword attack has ended.");
+      // Debug.Log("The sword attack has ended.");
       attacking = false;
       listeningForDamage = false;
       PLAYERSingleton.i.playerIsAttacking = false;

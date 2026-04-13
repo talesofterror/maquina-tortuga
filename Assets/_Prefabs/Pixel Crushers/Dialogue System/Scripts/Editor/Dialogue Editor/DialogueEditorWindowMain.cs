@@ -71,6 +71,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
         private const string AutoBackupKey = "PixelCrushers.DialogueSystem.DialogueEditor.AutoBackupFrequency";
         private const string AutoBackupFolderKey = "PixelCrushers.DialogueSystem.DialogueEditor.AutoBackupFolder";
         private const string TrimWhitespaceAroundPipesKey = "PixelCrushers.DialogueSystem.DialogueEditor.TrimWhitespaceAroundPipes";
+        private const string HideMenuTextKey = "PixelCrushers.DialogueSystem.DialogueEditor.HideMenuText";
         private const string LocalizationLanguagesKey = "PixelCrushers.DialogueSystem.DialogueEditor.LocalizationLanguages";
         private const string SequencerDragDropCommandsKey = "PixelCrushers.DialogueSystem.DialogueEditor.SequencerDragDropCommands";
         private const string DialogueEditorPrefsKey = "PixelCrushers.DialogueSystem.DialogueEditor.Prefs";
@@ -203,6 +204,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
             autoBackupFolder = EditorPrefs.GetString(AutoBackupFolderKey, string.Empty);
             timeForNextAutoBackup = Time.realtimeSinceStartup + autoBackupFrequency;
             trimWhitespaceAroundPipes = EditorPrefs.GetBool(TrimWhitespaceAroundPipesKey, true);
+            hideMenuText = EditorPrefs.GetBool(HideMenuTextKey, false);
             if (EditorPrefs.HasKey(LocalizationLanguagesKey)) localizationLanguages = JsonUtility.FromJson<LocalizationLanguages>(EditorPrefs.GetString(LocalizationLanguagesKey));
             if (EditorPrefs.HasKey(SequencerDragDropCommandsKey)) SequenceEditorTools.RestoreDragDropCommands(EditorPrefs.GetString(SequencerDragDropCommandsKey));
             if (EditorPrefs.HasKey(DialogueEditorPrefsKey)) prefs = JsonUtility.FromJson<DialogueEditorPrefs>(EditorPrefs.GetString(DialogueEditorPrefsKey));
@@ -217,6 +219,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
             EditorPrefs.SetFloat(AutoBackupKey, autoBackupFrequency);
             EditorPrefs.SetString(AutoBackupFolderKey, autoBackupFolder);
             EditorPrefs.SetBool(TrimWhitespaceAroundPipesKey, trimWhitespaceAroundPipes);
+            EditorPrefs.SetBool(HideMenuTextKey, hideMenuText);
             EditorPrefs.SetString(LocalizationLanguagesKey, JsonUtility.ToJson(localizationLanguages));
             EditorPrefs.SetString(SequencerDragDropCommandsKey, SequenceEditorTools.SaveDragDropCommands());
             EditorPrefs.SetString(DialogueEditorPrefsKey, JsonUtility.ToJson(prefs));
@@ -299,13 +302,12 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
 
         public void SelectObject(UnityEngine.Object obj)
         {
-            var newDatabase = obj as DialogueDatabase;
-            if (newDatabase != null)
+            if (obj is DialogueDatabase newDatabase)
             {
-                var databaseID = (database != null) ? database.GetInstanceID() : -1;
-                var newDatabaseID = newDatabase.GetInstanceID();
-                var needToReset = (database != null) && (databaseID != newDatabaseID);
-                if (debug) Debug.Log("<color=yellow>Dialogue Editor: SelectDatabase " + newDatabase + "(ID=" + newDatabaseID + "), old=" + database + "(ID=" + databaseID + "), reset=" + needToReset + "</color>", newDatabase);
+                //var databaseID =  (database != null) ? database.GetInstanceID() : -1;
+                //var newDatabaseID = newDatabase.GetInstanceID();
+                var needToReset = (database != null) && (newDatabase != database);
+                if (debug) Debug.Log("<color=yellow>Dialogue Editor: SelectDatabase " + newDatabase + "(ID=" + EntityUtility.GetEntityInt(newDatabase) + "), old=" + database + "(ID=" + EntityUtility.GetEntityInt(database) + "), reset=" + needToReset + "</color>", newDatabase);
                 database = newDatabase;
                 ClearDatabaseNameStyle();
                 LoadTemplateFromDatabase();

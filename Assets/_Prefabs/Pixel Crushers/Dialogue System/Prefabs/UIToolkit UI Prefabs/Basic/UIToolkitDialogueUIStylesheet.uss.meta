@@ -13,6 +13,7 @@ AssetOrigin:
   serializedVersion: 1
   productId: 11672
   packageName: Dialogue System for Unity
-  packageVersion: 2.2.68
-  assetPath: Assets/Plugins/Pixel Crushers/Dialogue System/Prefabs/UIToolkit UI Prefabs/Basic/UIToolkitDialogueUIStylesheet.uss
-  uploadId: 887952
+  packageVersion: 2.2.69
+  assetPath: Assets/_Prefabs/Pixel Crushers/Dialogue System/Prefabs/UIToolkit UI
+    Prefabs/Basic/UIToolkitDialogueUIStylesheet.uss
+  uploadId: 897442

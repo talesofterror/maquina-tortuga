@@ -48,7 +48,9 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       // GMSingleton.i.currentInteraction = null;
     }
 
-    bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+    // bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+    bool rayHit = Physics.SphereCast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+                      5f,
                       PLAYERSingleton.i.transform.forward,
                       out rayHitInteractable,
                       PLAYERSingleton.i.interactionSightDistance);
@@ -68,6 +70,7 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       if (sightedInteractable != null)
       {
         sightedInteractable.SetSightState(Interactable.SightState.Unsighted);
+        sightedInteractable.SetOutline(false);
         sightedInteractable = null;
         // sightedUsable = null;
         GMSingleton.i.currentInteraction = null;
@@ -94,6 +97,7 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       sightedUsable = sightedInteractable.gameObject.GetComponent<Usable>();
       // PLAYERSingleton.i.useStandardUIElementsComponent.usable = sightedUsable;
       listenForReachability();
+      sightedInteractable.SetOutline(true);
     }
   }
 

@@ -38,6 +38,7 @@ public class UISingleton : MonoBehaviour
     }
 
     RefreshUI();
+    
     // selectorElements = GetComponentInChildren<UIDialogueSelectorPanel>();
     // if (selectorElements.gameObject.activeSelf) selectorElements.gameObject.SetActive(true);
   }

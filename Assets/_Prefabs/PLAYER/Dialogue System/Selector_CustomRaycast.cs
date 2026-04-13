@@ -3,16 +3,23 @@ using UnityEngine;
 
 public class Selector_CustomRaycast : Selector
 {
+  public StandardUISelectorElements selectorElements;
 
   protected override void Run3DRaycast()
   {
 
     // Define custom ray here (e.g., a curved ray, or offset from eyes)
-    Ray ray = new Ray(transform.position, transform.forward);
+    // Ray ray = new Ray(transform.position, transform.forward);
+
+    Ray ray = Camera.main.ScreenPointToRay(GetSelectionPoint());
+    float raycastDistance = (distanceFrom == DistanceFrom.GameObject) ? Mathf.Infinity : maxSelectionDistance;
+    lastRay = ray;
+
     RaycastHit hit;
 
+    if (Physics.Raycast(ray, out hit, raycastDistance, layerMask))
     // if (Physics.Raycast(ray, out hit, PLAYERSingleton.i.interactionSightDistance, layerMask))
-    if (Physics.SphereCast(transform.position, 2, transform.forward, out hit, PLAYERSingleton.i.interactionSightDistance, layerMask))
+    // if (Physics.SphereCast(transform.position, 2, transform.forward, out hit, PLAYERSingleton.i.interactionSightDistance, layerMask))
     {
       if (!DialogueManager.isConversationActive)
       {
