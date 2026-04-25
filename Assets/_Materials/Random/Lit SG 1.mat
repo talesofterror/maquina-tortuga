@@ -129,7 +129,7 @@ Material:
     - _GlossyReflections: 0
     - _Intensity: -1.72
     - _Metallic: 0
-    - _NormalObjectSpace: 1
+    - _NormalObjectSpace: 0
     - _NormalUVFromView: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005

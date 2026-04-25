@@ -64,9 +64,9 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
           Debug.Log("The sword struck " + interactable._name);
           lastHitTime = Time.time;
 
-          if (interactable._name == "Iron Golem")
+          if (interactable.type == InteractionType.Enemy)
           { 
-            interactable.gameObject.GetComponent<Animal_IronGolem>().TakeDamage(10); 
+            interactable.gameObject.GetComponent<I_Animal>().TakeDamage(10); 
           }
         }
       }

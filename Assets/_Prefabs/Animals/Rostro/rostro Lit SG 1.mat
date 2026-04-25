@@ -127,10 +127,10 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Intensity: -1.6
+    - _Intensity: -0.41
     - _Metallic: 0
     - _NormalObjectSpace: 0
-    - _NormalUVFromView: 0
+    - _NormalUVFromView: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -142,8 +142,8 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _TransformMultiply: 3.11
-    - _Voronoi_Speed: 1.53
+    - _TransformMultiply: 0.71
+    - _Voronoi_Speed: 2.45
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1

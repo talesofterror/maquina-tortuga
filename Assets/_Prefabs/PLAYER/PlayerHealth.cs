@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PixelCrushers.DialogueSystem;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class PlayerHealth : MonoBehaviour
             $"Player took {amount} damage. Current Health: {currentHealth}",
             "#cc1122"
         );
+        DialogueManager.ShowAlert($"Player took {amount} damage. Current Health: {currentHealth}");
 
         UISingleton.i.RefreshUI();
 

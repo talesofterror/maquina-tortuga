@@ -2,7 +2,7 @@ using Invector.vCharacterController;
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
 
-public class PLAYERSingleton : MonoBehaviour 
+public class PLAYERSingleton : MonoBehaviour
 {
   private static PLAYERSingleton _playerSingleton;
   public static PLAYERSingleton i
@@ -16,7 +16,7 @@ public class PLAYERSingleton : MonoBehaviour
   public bool isTakingDamage;
 
   public float interactionSightDistance = 10;
-  public float interactionReachDistance = 2; 
+  public float interactionReachDistance = 2;
 
   public PlayerWeapons playerWeapons;
   public PlayerAnimations animations;
@@ -40,7 +40,7 @@ public class PLAYERSingleton : MonoBehaviour
   public LayerMask layerMask;
 
   [Header("Diaglogue Settings")]
-  public Selector_CustomRaycast dialogueSelector;
+  public Selector_CustomRaycast_Camera dialogueSelector;
   public SelectorUseStandardUIElements useStandardUIElementsComponent;
 
   void Awake()
@@ -56,9 +56,9 @@ public class PLAYERSingleton : MonoBehaviour
       DontDestroyOnLoad(this.gameObject);
     }
 
-    dialogueSelector = GetComponent<Selector_CustomRaycast>();
+    dialogueSelector = GetComponent<Selector_CustomRaycast_Camera>();
     useStandardUIElementsComponent = GetComponent<SelectorUseStandardUIElements>();
-    
+
     stateController = GetComponent<FSM_PlayerStateController>();
 
     // Debug.Log("PLAYERSingleton called Awake");
@@ -66,7 +66,7 @@ public class PLAYERSingleton : MonoBehaviour
     vController = GetComponent<vThirdPersonController>();
     vInput = GetComponent<vThirdPersonInput>();
     playerHealth = GetComponent<PlayerHealth>();
-    
+
     layerMask = LayerMask.GetMask("Player");
 
   }
@@ -87,7 +87,7 @@ public class PLAYERSingleton : MonoBehaviour
 
     if (movementDisabled || DialogueManager.IsConversationActive)
     {
-      
+
       vInput.inputAction_Move.Disable();
       vInput.inputAction_Jump.Disable();
       // vInput.enabled = false;

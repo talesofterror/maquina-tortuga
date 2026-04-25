@@ -1,4 +1,5 @@
 using System.Collections;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -371,6 +372,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   {
     hp = hp - amount;
     Debug.Log("Iron Golem took " + amount + " damage!");
+    DialogueManager.ShowAlert("Iron Golem took " + amount + " damage!");
 
     if (hp <= 0)
     {

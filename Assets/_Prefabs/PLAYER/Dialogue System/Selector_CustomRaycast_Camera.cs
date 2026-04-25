@@ -1,6 +1,7 @@
 using UnityEngine;
 using PixelCrushers.DialogueSystem;
 using PixelCrushers;
+using Unity.VisualScripting;
 
 public class Selector_CustomRaycast_Camera : Selector
 {
@@ -14,7 +15,7 @@ public class Selector_CustomRaycast_Camera : Selector
         return CustomPosition;
       default:
       case SelectAt.CenterOfScreen:
-        return new Vector3(Screen.width / 2, (Screen.height / 2) + 50);
+        return new Vector3(Screen.width / 2, (Screen.height / 2) + UISingleton.i.interactableSelectionHeight);
     }
   }
 
@@ -71,7 +72,7 @@ public class Selector_CustomRaycast_Camera : Selector
       // Cast a ray and see what we hit:
       RaycastHit hit;
       // if (Physics.Raycast(ray, out hit, maxSelectionDistance, layerMask))
-      if (Physics.SphereCast(ray, 5f, out hit, maxSelectionDistance, layerMask))
+      if (Physics.SphereCast(ray, 0.5f, out hit, maxSelectionDistance, layerMask))
       {
         distance = (distanceFrom == DistanceFrom.Camera) ? hit.distance
             : (distanceFrom == DistanceFrom.GameObject || actorTransform == null)
@@ -82,16 +83,21 @@ public class Selector_CustomRaycast_Camera : Selector
         {
           if (selection != hit.collider.gameObject)
           {
+            Debug.Log("Usable hit: " + hitUsable.GetName());
+
+
             SetCurrentUsable(hitUsable);
           }
         }
         else
         {
+          UISingleton.i.selectorElements.gameObject.SetActive(false);
           DeselectTarget();
         }
       }
       else
       {
+        UISingleton.i.selectorElements.gameObject.SetActive(false);
         DeselectTarget();
       }
       lastHit = hit;
@@ -114,7 +120,57 @@ public class Selector_CustomRaycast_Camera : Selector
       selection = usable.gameObject;
       heading = string.Empty;
       useMessage = string.Empty;
+
+      SetSelectorElementsActive(true);
       OnSelectedUsableObject(usable);
     }
   }
+
+  void SetSelectorElementsActive(bool state)
+  {
+    if (state == true)
+    {
+      UISingleton.i.selectorElements.gameObject.SetActive(true);
+      UISingleton.i.selectorName.text = usable.GetName();
+      UISingleton.i.selectorUseMessage.text = DialogueManager.GetLocalizedText(string.IsNullOrEmpty(usable.overrideUseMessage) ? defaultUseMessage : usable.overrideUseMessage);
+    }
+    else
+    {
+      UISingleton.i.selectorElements.gameObject.SetActive(false);
+      UISingleton.i.selectorName.text = "";
+      UISingleton.i.selectorUseMessage.text = defaultUseMessage;
+    }
+  }
+
+  public void DeselectTarget_External()
+  {
+    DeselectTarget();
+  }
+
+  public override void OnGUI()
+  {
+    if (!enabled) return;
+    if (!useDefaultGUI) return;
+    if (guiStyle == null && (Event.current.type == EventType.Repaint || usable != null))
+    {
+      SetGuiStyle();
+    }
+    if (usable != null)
+    {
+      bool inUseRange = (distance <= usable.maxUseDistance);
+      guiStyle.normal.textColor = inUseRange ? inRangeColor : outOfRangeColor;
+      if (string.IsNullOrEmpty(heading))
+      {
+        heading = usable.GetName();
+        useMessage = DialogueManager.GetLocalizedText(string.IsNullOrEmpty(usable.overrideUseMessage) ? defaultUseMessage : usable.overrideUseMessage);
+      }
+      // PixelCrushers.DialogueSystem.UnityGUI.UnityGUITools.DrawText(new Rect(0, 0, Screen.width, Screen.height), heading, guiStyle, textStyle, textStyleColor);
+      // PixelCrushers.DialogueSystem.UnityGUI.UnityGUITools.DrawText(new Rect(0, guiStyleLineHeight, Screen.width, Screen.height), useMessage, guiStyle, textStyle, textStyleColor);
+      Texture2D reticleTexture = inUseRange ? reticle.inRange : reticle.outOfRange;
+      if (reticleTexture != null) GUI.Label(new Rect(0.5f * (Screen.width - reticle.width), 0.5f * (Screen.height - reticle.height), reticle.width, reticle.height), reticleTexture);
+
+
+    }
+  }
+
 }

@@ -1232,6 +1232,7 @@ MonoBehaviour:
   rB: {fileID: 0}
   _waypointSystemLineColor: {r: 1, g: 0, b: 0, a: 1}
   _waypointMarkerColor: {r: 1, g: 0.20594245, b: 0.1566037, a: 1}
+  takingDamage: 0
 --- !u!114 &7369813321150215424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1267,13 +1268,49 @@ MonoBehaviour:
   events:
     onSelect:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 7369813321150215424}
+          m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
+          m_MethodName: SetOutline
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
     onDeselect:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 7369813321150215424}
+          m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
+          m_MethodName: SetOutline
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     onUse:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 7369813321150215424}
+          m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
+          m_MethodName: SetOutline
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
 --- !u!4 &3038702665215987314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}

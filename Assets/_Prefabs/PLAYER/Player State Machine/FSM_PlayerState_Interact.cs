@@ -1,3 +1,4 @@
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 
 public class FSM_PlayerState_Interact : FSM_PlayerStateBase
@@ -18,7 +19,7 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
   }
   public override void Exit()
   {
-    
+
     PLAYERSingleton.i.movementDisabled = false;
     CAMERASingleton.i.cameraSwitchDisabled = false;
     Debug.Log("Exiting Interact Mode");
@@ -45,6 +46,11 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
     if (type == InteractionType.Warp)
     {
       GMSingleton.i.currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
+    }
+    if (type == InteractionType.Friend)
+    {
+      PLAYERSingleton.i.dialogueSelector.UseCurrentSelection();
+      // DialogueManager.StartConversation("Introductory exchange");
     }
   }
 }

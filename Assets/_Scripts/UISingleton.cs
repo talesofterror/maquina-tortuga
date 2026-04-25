@@ -15,10 +15,12 @@ public class UISingleton : MonoBehaviour
   public EventSystem eventSystem;
   public uiDebugPanel debug;
   public TextMeshProUGUI hpText;
-  public Selectable DialoguePrev;
-  public Selectable DialogueNext;
 
   public float interactableSelectionHeight = 50;
+
+  public RectTransform selectorElements;
+  public TextMeshProUGUI selectorName;
+  public TextMeshProUGUI selectorUseMessage;
 
   // [HideInInspector]
   // public UIDialogueSelectorPanel selectorElements;

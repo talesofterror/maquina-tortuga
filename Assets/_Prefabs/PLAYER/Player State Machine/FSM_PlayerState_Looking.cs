@@ -41,6 +41,7 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
 
   void lookForInteractions()
   {
+    if (DialogueManager.isConversationActive) return;
     // Null Check
     if (hasSightedInteractable && (GMSingleton.i.currentInteraction == null || GMSingleton.i.currentInteraction.i == null))
     {
@@ -48,9 +49,8 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       // GMSingleton.i.currentInteraction = null;
     }
 
-    // bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
-    bool rayHit = Physics.SphereCast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
-                      5f,
+    bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+    // bool rayHit = Physics.SphereCast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0), 5f,
                       PLAYERSingleton.i.transform.forward,
                       out rayHitInteractable,
                       PLAYERSingleton.i.interactionSightDistance);
@@ -70,11 +70,11 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       if (sightedInteractable != null)
       {
         sightedInteractable.SetSightState(Interactable.SightState.Unsighted);
-        sightedInteractable.SetOutline(false);
+        // PLAYERSingleton.i.dialogueSelector.DeselectTarget_External();
         sightedInteractable = null;
-        // sightedUsable = null;
-        GMSingleton.i.currentInteraction = null;
-        // if (GMSingleton.i.currentInteraction != null) GMSingleton.i.currentInteraction = null;
+        sightedUsable = null;
+        // GMSingleton.i.currentInteraction = null;
+        if (GMSingleton.i.currentInteraction != null) GMSingleton.i.currentInteraction = null;
       }
     }
   }
@@ -97,7 +97,8 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       sightedUsable = sightedInteractable.gameObject.GetComponent<Usable>();
       // PLAYERSingleton.i.useStandardUIElementsComponent.usable = sightedUsable;
       listenForReachability();
-      sightedInteractable.SetOutline(true);
+      // sightedInteractable.SetOutline(true);
+      // PLAYERSingleton.i.dialogueSelector.SetCurrentUsable(sightedInteractable.GetComponent<Usable>());
     }
   }
 
