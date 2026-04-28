@@ -1,4 +1,6 @@
+using System;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,7 +10,6 @@ public class Interactable : MonoBehaviour
   public InteractionType type;
   public string description;
   Interaction instance;
-
 
   // * STATES
   public enum SightState { Unsighted, Sighted }
@@ -43,7 +44,7 @@ public class Interactable : MonoBehaviour
     }
     if (sightState == SightState.Sighted)
     {
-      Debug.Log(this.name + " has been spotted");
+      // Debug.Log(this.name + " has been spotted");
     }
   }
   public void SetReachState(ReachState newState)
@@ -86,9 +87,19 @@ public class Interactable : MonoBehaviour
     GMSingleton.i.currentInteraction = new Interaction(this);
   }
 
+#nullable enable
+
   public void SetOutline(bool show)
   {
-    gameObject.layer = show ? outlineLayer : defaultLayer;
+    Renderer[] renderers = GetComponentsInChildren<Renderer>();
+    for (int i = 0; i < renderers.Length; i++)
+    {
+      Debug.Log("Setting outline for " + renderers[i].name);
+      Type type = renderers[i].GetType();
+      Debug.Log($"{renderers[i]} is of type {type.Name}");
+
+      renderers[i].gameObject.layer = show ? outlineLayer : defaultLayer;
+    }
   }
 
 }

@@ -83,7 +83,7 @@ public class Selector_CustomRaycast_Camera : Selector
         {
           if (selection != hit.collider.gameObject)
           {
-            Debug.Log("Usable hit: " + hitUsable.GetName());
+            // Debug.Log("Usable hit: " + hitUsable.GetName());
 
 
             SetCurrentUsable(hitUsable);

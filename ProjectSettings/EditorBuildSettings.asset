@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/TestGrounds01.unity
     guid: ab55c3b056f58734ebf0d3a8097b558e
   - enabled: 1
-    path: Assets/Scenes/TestGrounds02.unity
+    path: Assets/Scenes/Bedroom.unity
     guid: 08407da1ec6c4304fb5443ab4a94f4fb
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5e90e37637f62924da1e9d8e7d5d1262, type: 2}
