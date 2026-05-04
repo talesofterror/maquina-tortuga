@@ -19,7 +19,7 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
     // Debug.Log("~~~~---~~~~~");
     // Debug.Log("~----------~");
   }
-
+  
   public override void Exit()
   {
     sightedInteractable = null;
@@ -46,11 +46,9 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
     if (hasSightedInteractable && (GMSingleton.i.currentInteraction == null || GMSingleton.i.currentInteraction.i == null))
     {
       hasSightedInteractable = false;
-      // GMSingleton.i.currentInteraction = null;
     }
 
     bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
-    // bool rayHit = Physics.SphereCast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0), 5f,
                       PLAYERSingleton.i.transform.forward,
                       out rayHitInteractable,
                       PLAYERSingleton.i.interactionSightDistance);
@@ -70,15 +68,9 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       if (sightedInteractable != null)
       {
         sightedInteractable.SetSightState(Interactable.SightState.Unsighted);
-        // PLAYERSingleton.i.dialogueSelector.DeselectTarget_External();
         sightedInteractable = null;
         sightedUsable = null;
-        // GMSingleton.i.currentInteraction = null;
         if (GMSingleton.i.currentInteraction != null) GMSingleton.i.currentInteraction = null;
-        if (PLAYERSingleton.i.dialogueSelector.CurrentUsable != null)
-        {
-          PLAYERSingleton.i.dialogueSelector.DeselectTarget_External();
-        }
       }
     }
   }
@@ -87,33 +79,23 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
   {
     if (sightedInteractable == null)
     {
-      // currentInteractable = rayHitInteractable.transform.gameObject.GetComponent<Interactable>();
       GMSingleton.i.currentInteraction = new Interaction(rayHitInteractable.transform.gameObject.GetComponent<Interactable>());
       sightedInteractable = GMSingleton.i.currentInteraction.i;
 
       if (sightedInteractable.sightState == Interactable.SightState.Unsighted)
       {
         sightedInteractable.SetSightState(Interactable.SightState.Sighted);
-        if (PLAYERSingleton.i.dialogueSelector.CurrentUsable == null)
-        {
-          PLAYERSingleton.i.dialogueSelector.SetCurrentUsable(sightedInteractable.GetComponent<Usable>());
-        }
       }
     }
     if (sightedInteractable.sightState == Interactable.SightState.Sighted)
     {
       sightedUsable = sightedInteractable.gameObject.GetComponent<Usable>();
-      // PLAYERSingleton.i.useStandardUIElementsComponent.usable = sightedUsable;
       listenForReachability();
-      // sightedInteractable.SetOutline(true);
     }
   }
 
   private void listenForReachability()
   {
-    //  if (sightedInteractable is null) { return; }
-    //    I don't thinkI'm supposed to be using "is null" on a 
-    //    singleton because of the way C# handles it
     if (sightedInteractable == null) { return; }
     if (sightedInteractable.CanReach())
     {
