@@ -140,6 +140,7 @@ public class Selector_CustomRaycast_Camera : Selector
       UISingleton.i.selectorName.text = "";
       UISingleton.i.selectorUseMessage.text = defaultUseMessage;
     }
+
   }
 
   public void DeselectTarget_External()
@@ -164,11 +165,22 @@ public class Selector_CustomRaycast_Camera : Selector
         heading = usable.GetName();
         useMessage = DialogueManager.GetLocalizedText(string.IsNullOrEmpty(usable.overrideUseMessage) ? defaultUseMessage : usable.overrideUseMessage);
       }
-      // PixelCrushers.DialogueSystem.UnityGUI.UnityGUITools.DrawText(new Rect(0, 0, Screen.width, Screen.height), heading, guiStyle, textStyle, textStyleColor);
-      // PixelCrushers.DialogueSystem.UnityGUI.UnityGUITools.DrawText(new Rect(0, guiStyleLineHeight, Screen.width, Screen.height), useMessage, guiStyle, textStyle, textStyleColor);
-      Texture2D reticleTexture = inUseRange ? reticle.inRange : reticle.outOfRange;
-      if (reticleTexture != null) GUI.Label(new Rect(0.5f * (Screen.width - reticle.width), 0.5f * (Screen.height - reticle.height), reticle.width, reticle.height), reticleTexture);
+      
+      // original reticule code for onGUI
+      // Texture2D reticleTexture = inUseRange ? reticle.inRange : reticle.outOfRange;
+      // if (reticleTexture != null) GUI.Label(new Rect(0.5f * (Screen.width - reticle.width), 0.5f * (Screen.height - reticle.height), reticle.width, reticle.height), reticleTexture);
 
+      // New reticule code -- reticule lands on the usable and adapts to camera position
+      // But maybe I just won't use the reticule
+      // Vector3 screenPos = Camera.main.WorldToScreenPoint(usable.transform.position);
+
+      // Ray rayToUsable = Camera.main.ScreenPointToRay(screenPos);
+      // Debug.DrawLine(rayToUsable.origin, rayToUsable.origin + rayToUsable.direction * 100f, Color.yellow);
+
+      // if (reticleTexture != null && screenPos.z > 0)  // z > 0 means it's in front of camera
+      // {
+      //   GUI.Label(new Rect(screenPos.x - reticle.width * 0.5f, screenPos.y - reticle.height * 0.5f, reticle.width, reticle.height), reticleTexture);
+      // }
 
     }
   }

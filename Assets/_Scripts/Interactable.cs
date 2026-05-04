@@ -18,13 +18,10 @@ public class Interactable : MonoBehaviour
   public SightState sightState = SightState.Unsighted;
   public ReachState reachState = ReachState.Unreachable;
 
+
+  // * Outline Layers
   protected int defaultLayer;
   protected int outlineLayer;
-
-  void Update()
-  {
-
-  }
 
   void Start()
   {
@@ -66,8 +63,6 @@ public class Interactable : MonoBehaviour
 
   public bool CanReach()
   {
-    // if (GMSingleton.i.currentInteraction != null || GMSingleton.i.currentInteraction.i != null)
-    // {
     if (Vector3.Distance(
         PLAYERSingleton.i.transform.position, transform.position) < PLAYERSingleton.i.interactionReachDistance
         && PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
@@ -75,9 +70,7 @@ public class Interactable : MonoBehaviour
       return true;
     }
     else return false;
-    // }
-    // else
-    //   return false;
+
   }
 
   public void SetAsCurrentReachableInteraction()
@@ -87,18 +80,23 @@ public class Interactable : MonoBehaviour
     GMSingleton.i.currentInteraction = new Interaction(this);
   }
 
-#nullable enable
 
+  // * Outline settings
+  public Color customOutlineColor = Color.blue;
+  public float customOutlineThickness = 2f;
+  private MaterialPropertyBlock _propBlock;
   public void SetOutline(bool show)
   {
     Renderer[] renderers = GetComponentsInChildren<Renderer>();
+    _propBlock = new MaterialPropertyBlock();
+
     for (int i = 0; i < renderers.Length; i++)
     {
-      Debug.Log("Setting outline for " + renderers[i].name);
-      Type type = renderers[i].GetType();
-      Debug.Log($"{renderers[i]} is of type {type.Name}");
-
       renderers[i].gameObject.layer = show ? outlineLayer : defaultLayer;
+      renderers[i].GetPropertyBlock(_propBlock);
+      _propBlock.SetColor("_OutlineColor", customOutlineColor);
+      _propBlock.SetFloat("_OutlineWidth", customOutlineThickness);
+      renderers[i].SetPropertyBlock(_propBlock);
     }
   }
 

@@ -19,7 +19,7 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
     // Debug.Log("~~~~---~~~~~");
     // Debug.Log("~----------~");
   }
-  
+
   public override void Exit()
   {
     sightedInteractable = null;
@@ -75,6 +75,10 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
         sightedUsable = null;
         // GMSingleton.i.currentInteraction = null;
         if (GMSingleton.i.currentInteraction != null) GMSingleton.i.currentInteraction = null;
+        if (PLAYERSingleton.i.dialogueSelector.CurrentUsable != null)
+        {
+          PLAYERSingleton.i.dialogueSelector.DeselectTarget_External();
+        }
       }
     }
   }
@@ -90,6 +94,10 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       if (sightedInteractable.sightState == Interactable.SightState.Unsighted)
       {
         sightedInteractable.SetSightState(Interactable.SightState.Sighted);
+        if (PLAYERSingleton.i.dialogueSelector.CurrentUsable == null)
+        {
+          PLAYERSingleton.i.dialogueSelector.SetCurrentUsable(sightedInteractable.GetComponent<Usable>());
+        }
       }
     }
     if (sightedInteractable.sightState == Interactable.SightState.Sighted)
@@ -98,7 +106,6 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       // PLAYERSingleton.i.useStandardUIElementsComponent.usable = sightedUsable;
       listenForReachability();
       // sightedInteractable.SetOutline(true);
-      // PLAYERSingleton.i.dialogueSelector.SetCurrentUsable(sightedInteractable.GetComponent<Usable>());
     }
   }
 

@@ -158,6 +158,8 @@ MonoBehaviour:
   description: 
   sightState: 0
   reachState: 1
+  customOutlineColor: {r: 0.3915094, g: 0.52023166, b: 1, a: 1}
+  customOutlineThickness: 3.5
 --- !u!114 &6148002568235136757
 MonoBehaviour:
   m_ObjectHideFlags: 0
