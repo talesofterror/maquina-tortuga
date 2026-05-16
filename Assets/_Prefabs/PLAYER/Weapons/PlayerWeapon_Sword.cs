@@ -33,11 +33,15 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
     this.gameObject.SetActive(false);
   }
 
+  private float attackTimeStart = 0;
+
   public override void Attack()
   {
     // Debug.Log("Player is attacking with the sword!!");
     attacking = true;
     StartAnimation();
+    float animLength = PLAYERSingleton.i.animations.stateInfo.length;
+    attackTimeStart = Time.time;
     listeningForDamage = true;
     Invoke("StopAttacking", PLAYERSingleton.i.animations.stateInfo.length);
   }
@@ -59,7 +63,7 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
         Interactable interactable = hit.transform.GetComponent<Interactable>();
         
         float animLength = PLAYERSingleton.i.animations.stateInfo.length;
-        if (Time.time >= lastHitTime + animLength)
+        if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength/2)
         {
           Debug.Log("The sword struck " + interactable._name);
           lastHitTime = Time.time;
@@ -78,14 +82,17 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
       // Debug.Log("The sword attack has ended.");
       attacking = false;
       listeningForDamage = false;
+      attackTimeStart = 0;
       PLAYERSingleton.i.playerIsAttacking = false;
   }
+
+  
 
   void Update()
   {
     if (listeningForDamage)
     {
-      listenForDamage();
+        listenForDamage();
     }
   }
 

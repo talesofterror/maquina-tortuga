@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
@@ -7,6 +8,7 @@ public class PlayerAnimations : MonoBehaviour
     [HideInInspector]
     public Animator animator;
     public AnimatorStateInfo stateInfo;
+    public AnimatorState state;
     public int FightStance;
     public int FightSlash1;
 

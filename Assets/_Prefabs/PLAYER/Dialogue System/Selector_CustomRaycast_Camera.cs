@@ -158,7 +158,8 @@ public class Selector_CustomRaycast_Camera : Selector
     }
     if (usable != null)
     {
-      bool inUseRange = (distance <= usable.maxUseDistance);
+      // bool inUseRange = (distance <= usable.maxUseDistance);
+      bool inUseRange = (distance <= PLAYERSingleton.i.interactionReachDistance); // makes usable.maxUseDistance useless?
       guiStyle.normal.textColor = inUseRange ? inRangeColor : outOfRangeColor;
       if (string.IsNullOrEmpty(heading))
       {

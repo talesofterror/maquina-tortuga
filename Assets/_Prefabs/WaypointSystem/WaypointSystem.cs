@@ -36,9 +36,10 @@ public class WaypointSystem : MonoBehaviour
         mode = new WaypointSystemMode();
         mode = WaypointSystemMode.Loop;
         initWaypoints();
+        transform.parent = null;
     }
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         foreach (var wp in waypointArray)
             wp.gizmoMarkerColor = gizmoMarkerColor;

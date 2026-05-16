@@ -52,7 +52,6 @@ public class Interactable : MonoBehaviour
 
     if (reachState == ReachState.Reachable)
     {
-      // SetAsCurrentReachableInteraction();
       Debug.Log(this.name + " is now reachable");
     }
     if (reachState == ReachState.Unreachable)
