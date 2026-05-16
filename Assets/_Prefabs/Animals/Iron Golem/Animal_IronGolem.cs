@@ -627,9 +627,4 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     }
   }
 
-  void OawGizmos()
-  {
-    // Gizmos.color = Color.red;
-    // Gizmos.DrawWireSphere(smashDetector.gameObject.transform.position, smashRadius);
-  }
 }

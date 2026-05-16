@@ -33,10 +33,6 @@ public class Waypoint : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Handles.Label(transform.position, "Waypoint");
-    }
-
-    void OnDrawGizmos()
-    {
         Gizmos.color = gizmoMarkerColor;
         Gizmos.DrawSphere(transform.position, gizmoSize);
     }

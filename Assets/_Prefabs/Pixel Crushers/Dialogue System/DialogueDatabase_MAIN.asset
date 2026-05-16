@@ -60,7 +60,7 @@ MonoBehaviour:
   - id: 2
     fields:
     - title: Name
-      value: Screen-space Autoscopy
+      value: Clone
       type: 0
       typeString: 
     - title: Pictures
@@ -102,11 +102,11 @@ MonoBehaviour:
     - title: Title
       value: Introductory exchange
       type: 0
-      typeString: 
+      typeString: CustomFieldType_Text
     - title: Description
       value: 
       type: 0
-      typeString: 
+      typeString: CustomFieldType_Text
     - title: Actor
       value: 1
       type: 5
