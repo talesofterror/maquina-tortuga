@@ -15,13 +15,13 @@ public class FSM_RostroIdle : FSM_Base
 
   }
 
-  public override void Update()
+  public override void Loop()
   {
     // Pressing P will switch to Idle state
     if (Input.GetKeyDown(KeyCode.P))
     {
       // controller.SwitchState(controller.Attack);
-      controller.SwitchState(((FSM_RostroController)controller).Attack);
+      c.SwitchState(((FSM_RostroController)c).Attack);
     }
   }
 

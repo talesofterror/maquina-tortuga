@@ -7,22 +7,22 @@ public class FSM_RostroDeactivated : FSM_Base
   public override void Enter()
   {
     Debug.Log("Entering Deactivated State");
-    foreach (AnimationState state in ((FSM_RostroController)controller).anim)
+    foreach (AnimationState state in ((FSM_RostroController)c).anim)
     {
       state.speed = 0; // Pause all animations
     }
     
-    ((FSM_RostroController)controller).laserGenerator.StopAllCoroutines(); // Stop any ongoing laser actions
+    ((FSM_RostroController)c).laserGenerator.StopAllCoroutines(); // Stop any ongoing laser actions
   }
 
-  public override void Update()
+  public override void Loop()
   {
 
   }
 
   public override void Exit()
   {
-    foreach (AnimationState state in ((FSM_RostroController)controller).anim)
+    foreach (AnimationState state in ((FSM_RostroController)c).anim)
     {
       state.speed = 1; // Resume all animations
     }
