@@ -25,8 +25,8 @@ public abstract class FSM_Base
   public void SetSubState(FSM_Base _subState)
   {
     subState = _subState;
-    subState.SetSuperState(this);
-    subState.Enter();
+    // subState?.SetSuperState(this);
+    subState?.Enter();
   }
   protected void SetSuperState(FSM_Base _superState)
   {

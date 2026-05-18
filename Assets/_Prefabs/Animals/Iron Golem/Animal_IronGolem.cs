@@ -188,7 +188,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
       inTransit = false;
       running = false;
       if (initPlayerDetected == null)
-      {
+      { 
         movementMotorCoroutine = null;
         if (initPlayerDetected == null)
         {

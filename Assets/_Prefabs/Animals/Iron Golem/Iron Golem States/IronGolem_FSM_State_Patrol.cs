@@ -5,30 +5,37 @@ public class IronGolem_FSM_State_Patrol : FSM_Base
 {
   IronGolem_FSM_Controller controller;
 
+  private WaypointSystem waypointSystem;
   private bool running;
   private Vector3 direction;
+  public Vector3? interruptPosition;
   Coroutine movementMotorCoroutine = null;
   private IronGolem_FSM_State_Searching searchingSubState;
 
   public IronGolem_FSM_State_Patrol(IronGolem_FSM_Controller c) : base(c)
   {
     this.controller = c;
-    searchingSubState = new IronGolem_FSM_State_Searching(controller);
   }
 
   public override void Enter()
   {
     Debug.Log($"{controller.transform.name} entered patrol mode");
-    SetSubState(searchingSubState);
+
+    if (waypointSystem == null) waypointSystem = controller.GetComponentInChildren<WaypointSystem>();
+    movementMotorCoroutine = null;
+    if (subState == null)
+    {
+      searchingSubState = new IronGolem_FSM_State_Searching(controller);
+      SetSubState(searchingSubState);
+    }
   }
 
   public override void Loop()
   {
     if (movementMotorCoroutine == null)
     {
-      movementMotorCoroutine = controller.StartCoroutine(IEMovementMotor());
+        movementMotorCoroutine = controller.StartCoroutine(IEMovementMotor(controller.transform.position));
     }
-
     UpdateAnimation();
     UpdateRotation();
   }
@@ -36,8 +43,9 @@ public class IronGolem_FSM_State_Patrol : FSM_Base
 
   public override void Exit()
   {
-    controller.StopAllCoroutines();
-    searchingSubState = null;
+    controller.StopCoroutine(movementMotorCoroutine);
+    running = false;
+    SetSubState(null);
   }
 
   IEnumerator IEMovementMotor(Vector3? interruptVector = null) // nullable value type
@@ -45,16 +53,16 @@ public class IronGolem_FSM_State_Patrol : FSM_Base
 
     int activeIndex;
 
-    if (controller.waypointSystem.activeWaypointTarget == null)
+    if (waypointSystem.activeWaypointTarget == null)
     {
       activeIndex = 0;
     }
     else
     {
-      activeIndex = controller.waypointSystem.activeWaypointTarget.index;
+      activeIndex = waypointSystem.activeWaypointTarget.index;
     }
 
-    for (int i = activeIndex; i < controller.waypointSystem.waypoints.Count; i++)
+    for (int i = activeIndex; i < waypointSystem.waypoints.Count; i++)
     {
       Vector3 originVector;
       if (interruptVector.HasValue)
@@ -62,23 +70,23 @@ public class IronGolem_FSM_State_Patrol : FSM_Base
         originVector = interruptVector.GetValueOrDefault(); // nullable value type
         interruptVector = null;
       }
-      else originVector = controller.waypointSystem.waypoints[i].location;
+      else originVector = waypointSystem.waypoints[i].location;
 
-      controller.waypointSystem.activeWaypointTarget = controller.waypointSystem.waypoints[i];
+      waypointSystem.activeWaypointTarget = waypointSystem.waypoints[i];
       running = true;
       direction = (
-          originVector - controller.waypointSystem.waypoints[i].neighborNext.location
+          originVector - waypointSystem.waypoints[i].neighborNext.location
       ).normalized;
       float distance = Vector3.Distance(
           originVector,
-          controller.waypointSystem.waypoints[i].neighborNext.location
+          waypointSystem.waypoints[i].neighborNext.location
       );
       float calculatedSpeed = distance / controller.animalScript.speed;
 
       for (float j = 0; j < 1; j += Time.deltaTime / calculatedSpeed)
       {
         controller.rB.MovePosition(
-            Vector3.Lerp(originVector, controller.waypointSystem.waypoints[i].neighborNext.location, j)
+            Vector3.Lerp(originVector, waypointSystem.waypoints[i].neighborNext.location, j)
         );
         yield return null;
       }
@@ -86,7 +94,7 @@ public class IronGolem_FSM_State_Patrol : FSM_Base
       yield return new WaitForSeconds(1);
     }
     movementMotorCoroutine = null;
-    controller.waypointSystem.activeWaypointTarget = null;
+    waypointSystem.activeWaypointTarget = null;
   }
 
   void UpdateAnimation()

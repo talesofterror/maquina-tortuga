@@ -5,20 +5,23 @@ using UnityEngine.AI;
 
 public class IronGolem_FSM_Controller : FSM_BaseController
 {
-  public Animal_IronGolem animalScript;
+  [HideInInspector] public Animal_IronGolem animalScript;
+  [HideInInspector] public WaypointSystem waypointSystem;
+  [HideInInspector] public Animator animator;
+  [HideInInspector] public AnimatorStateInfo animatorStateInfo;
+  [HideInInspector] public NavMeshAgent navMeshAgent;
+  [HideInInspector] public Rigidbody rB;
+  [HideInInspector] public LayerMask playerLayerMask;
+  [HideInInspector] public GameObject focus;
 
-  public WaypointSystem waypointSystem;
-  public Animator animator;
-  public AnimatorStateInfo animatorStateInfo;
-  public NavMeshAgent navMeshAgent;
-  LayerMask playerLayerMask;
-  public Rigidbody rB;
+  public float forgettingDistance = 10;
 
   public IronGolem_FSM_State_Patrol state_Patrol;
+  public IronGolem_FSM_State_Alert state_Alert;
 
   void Awake()
   {
-    waypointSystem = GetComponentInChildren<WaypointSystem>();
+    
     animator = GetComponent<Animator>();
     animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
     playerLayerMask = LayerMask.GetMask("Player");
@@ -27,6 +30,7 @@ public class IronGolem_FSM_Controller : FSM_BaseController
     animalScript = GetComponent<Animal_IronGolem>();
 
     state_Patrol = new IronGolem_FSM_State_Patrol(this);
+    state_Alert = new IronGolem_FSM_State_Alert(this);
 
     SwitchState(state_Patrol);
   }
