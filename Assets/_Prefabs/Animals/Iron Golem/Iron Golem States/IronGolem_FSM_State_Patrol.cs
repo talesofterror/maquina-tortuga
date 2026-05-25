@@ -45,6 +45,7 @@ public class IronGolem_FSM_State_Patrol : FSM_Base
   {
     controller.StopCoroutine(movementMotorCoroutine);
     running = false;
+    // controller.animator.SetBool("isRunning", false);
     SetSubState(null);
   }
 

@@ -9,11 +9,15 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 {
   [Header("ScriptableObject")]
   public SO_IronGolem stats;
+  public IronGolem_FSM_Controller controller;
 
   [Header("Stats")]
   public int _hp;
   public int _ap;
   public int _mp;
+  public bool dead;
+  public bool resurrectable = false;
+  public float resurrectionDelay = 30;
 
   public int hp
   {
@@ -55,8 +59,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   [SerializeField]
   float sightDistance;
 
-  [SerializeField]
-  float forgetDistance;
+  public float forgetDistance;
 
   [SerializeField]
   float scanSpeed;
@@ -105,6 +108,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   private Coroutine initPlayerDetected;
   private Coroutine alertStartBehavior;
   private Coroutine attackBehavior;
+  public bool isTakingDamage = false;
   private Coroutine takingDamageBehavior;
 
   void Awake()
@@ -130,7 +134,7 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     waypointSystem = GetComponentInChildren<WaypointSystem>();
 
-    mode = EnemyMode.Patrol;
+    // mode = EnemyMode.Patrol;
     rB = GetComponent<Rigidbody>();
     animator = GetComponent<Animator>();
     animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -140,491 +144,41 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     smashDetector.golem = this;
   }
 
-  void OnValidate()
+  public void TakeDamage(int amount, GameObject focus)
   {
-    waypointSystem = GetComponentInChildren<WaypointSystem>();
-    waypointSystem.gizmoLineColor = _waypointSystemLineColor;
-    waypointSystem.gizmoMarkerColor = _waypointMarkerColor;
-  }
+    controller.cachedState = controller._currentState;
+    controller.focus = focus;
+    controller.SwitchState(controller.state_TakingDamage, amount);
+    //   controller.focus = focus;
+    //   isTakingDamage = true;
+    //   hp = hp - amount;
+    //   Debug.Log("Iron Golem took " + amount + " damage!");
+    //   DialogueManager.ShowAlert("Iron Golem took " + amount + " damage!");
 
-  public void Patrol()
-  {
-    if (_currentMode != EnemyMode.Patrol)
-    {
-      _currentMode = EnemyMode.Patrol;
-      navMeshAgent.ResetPath();
-      navMeshAgent.isStopped = true;
-      navMeshAgent.updateRotation = false;
-    }
+    //   if (hp <= 0)
+    //   {
+    //     controller.SwitchState(controller.state_Dead);
+    //     return;
+    //   }
 
-    if (!inTransit)
-    {
-      inTransit = true;
-      waypointSystem.speed = speed;
+    //   Debug.Log(transform.name + " switched to Damage mode.");
 
-      if (movementMotorCoroutine == null)
-      {
-        if (returningFromInterrupt)
-        {
-          movementMotorCoroutine = StartCoroutine(
-              PatrolWaypointMotor(transform.position)
-          );
-          returningFromInterrupt = false;
-        }
-        else
-          movementMotorCoroutine = StartCoroutine(PatrolWaypointMotor());
-        initPlayerDetected = null;
-      }
-    }
+    //   isTakingDamage = true;
 
-    // if (direction.sqrMagnitude > 0)
-    //     transform.rotation = Quaternion.LookRotation(-direction);
+    //   if (takingDamageBehavior == null)
+    //   {
+    //     takingDamageBehavior = StartCoroutine(TakingDamageCoroutine());
+    //   }
 
-    if (PlayerDetected())
-    {
-      Debug.Log(transform.name + " detected the player!");
-      mode = EnemyMode.Alert;
-      StopCoroutine(movementMotorCoroutine);
-      inTransit = false;
-      running = false;
-      if (initPlayerDetected == null)
-      { 
-        movementMotorCoroutine = null;
-        if (initPlayerDetected == null)
-        {
-          initPlayerDetected = StartCoroutine(InitPlayerDetected());
-        }
-      }
-    }
-  }
+    //   IEnumerator TakingDamageCoroutine()
+    //   {
+    //     animator.SetTrigger("Knockback");
+    //     yield return new WaitForSeconds(3);
+    //     animator.ResetTrigger("Knockback");
 
-  bool PlayerDetected()
-  {
-    float angle = Mathf.Sin(Time.time * scanSpeed) * scanAngle;
-    Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
-
-    bool playerSighted = Physics.Raycast(
-        transform.position + new Vector3(0, sightHeight, 0),
-        direction,
-        out playerRaycastHit,
-        sightDistance,
-        playerLayerMask
-    );
-    return playerSighted;
-  }
-
-  IEnumerator InitPlayerDetected()
-  {
-    yield return null;
-    initPlayerDetected = null;
-  }
-
-  public void Alert()
-  {
-    if (_currentMode != EnemyMode.Alert)
-    {
-      Debug.Log(transform.name + " was alerted by " + PLAYERSingleton.i.name);
-      _currentMode = EnemyMode.Alert;
-      if (alertStartBehavior == null)
-      {
-        alertStartBehavior = StartCoroutine(AlertCoroutine());
-      }
-      alertBehaviorActive = true;
-      navMeshAgent.updateRotation = false;
-    }
-
-    Vector3 targetPos = PLAYERSingleton.i.transform.position;
-    targetPos.y = transform.position.y;
-    direction = (transform.position - targetPos).normalized;
-
-    if (Vector3.Distance(transform.position, targetPos) > forgetDistance)
-    {
-      mode = EnemyMode.Patrol;
-      navMeshAgent.ResetPath();
-      return;
-    }
-
-    if (alertBehaviorActive == false)
-    {
-      alertStartBehavior = null;
-      mode = EnemyMode.Pursue;
-    }
-  }
-
-  IEnumerator AlertCoroutine()
-  {
-    yield return new WaitForSeconds(alertDuration);
-    alertBehaviorActive = false;
-  }
-
-  IEnumerator InitReturnToPatrol()
-  {
-    yield return null;
-  }
-
-  void Pursue()
-  {
-    if (_currentMode != EnemyMode.Pursue)
-    {
-      Debug.Log(transform.name + " has started pursuing " + PLAYERSingleton.i.name + "!!");
-      _currentMode = EnemyMode.Pursue;
-      navMeshAgent.isStopped = false;
-      navMeshAgent.updateRotation = false;
-      rB.isKinematic = true;
-      attacking = false;
-    }
-
-    Vector3 targetPos = PLAYERSingleton.i.transform.position;
-    targetPos.y = transform.position.y;
-    direction = transform.position - targetPos;
-
-    // Throttle NavMesh destination updates
-    pathUpdateTimer -= Time.deltaTime;
-    if (pathUpdateTimer <= 0)
-    {
-      if (navMeshAgent.isActiveAndEnabled)
-      {
-        navMeshAgent.SetDestination(PLAYERSingleton.i.transform.position);
-      }
-      pathUpdateTimer = pathUpdateFrequency;
-    }
-
-    TargetRangeBehavior(PLAYERSingleton.i.rB.position);
-  }
-
-  void Attack(bool retrigger = false)
-  {
-    if ((_currentMode != EnemyMode.Attack) && !attacking)
-    {
-      _currentMode = EnemyMode.Attack;
-    }
-
-    if (attackBehavior == null && !attacking)
-    {
-      running = false;
-      navMeshAgent.isStopped = true;
-      navMeshAgent.updateRotation = false;
-      attackBehavior = StartCoroutine(AttackCoroutine());
-    }
-
-    TargetRangeBehavior(PLAYERSingleton.i.rB.position);
-  }
-
-  IEnumerator AttackCoroutine()
-  {
-    attacking = true;
-
-    yield return null;
-
-    float currentAnimLength = animator.GetCurrentAnimatorStateInfo(0).length;
-
-    yield return new WaitForSeconds(smashDamageDelay);
-
-    for (float t = 0; t < smashDamageDuration; t += Time.deltaTime)
-    {
-      DoPlayerDamage(castSmashSphere(smashRadius));
-      yield return null;
-    }
-
-    float remainingTime = currentAnimLength - (smashDamageDelay + smashDamageDuration);
-    if (remainingTime > 0)
-      yield return new WaitForSeconds(remainingTime);
-
-    rB.isKinematic = true;
-    attacking = false;
-
-    yield return new WaitForSeconds(attackCooldown);
-
-    attackBehavior = null;
-  }
-
-  bool castSmashSphere(float radius)
-  {
-    return Physics.CheckSphere(
-      smashDetector.gameObject.transform.position,
-      radius,
-      PLAYERSingleton.i.layerMask);
-  }
-
-  public void Die()
-  {
-    if (_currentMode != EnemyMode.Die)
-    {
-      Debug.Log(transform.name + " has died.");
-      mode = EnemyMode.Die;
-      _currentMode = EnemyMode.Die;
-      if (navMeshAgent.isActiveAndEnabled)
-      {
-        navMeshAgent.isStopped = true;
-        navMeshAgent.ResetPath();
-      }
-      navMeshAgent.updateRotation = false;
-      rB.isKinematic = true;
-      attacking = false;
-      StopAllCoroutines();
-    }
-    animator.SetTrigger("Die");
-  }
-
-  public bool takingDamage = false;
-
-  public void TakeDamage(int amount)
-  {
-    hp = hp - amount;
-    Debug.Log("Iron Golem took " + amount + " damage!");
-    DialogueManager.ShowAlert("Iron Golem took " + amount + " damage!");
-
-    if (hp <= 0)
-    {
-      Die();
-      return;
-    }
-
-    if (mode != EnemyMode.Damage && mode != EnemyMode.Die)
-    {
-      Debug.Log(transform.name + " switched to Damage mode.");
-      running = false;
-      attacking = false;
-      takingDamage = true;
-      EnemyMode prevMode = mode;
-
-      mode = EnemyMode.Damage;
-      _currentMode = EnemyMode.Damage;
-
-      if (movementMotorCoroutine != null)
-      {
-        StopCoroutine(movementMotorCoroutine);
-        movementMotorCoroutine = null;
-        inTransit = false;
-        returningFromInterrupt = true;
-      }
-
-      if (attackBehavior != null)
-      {
-        StopCoroutine(attackBehavior);
-        attackBehavior = null;
-      }
-
-      if (navMeshAgent.isActiveAndEnabled)
-      {
-        navMeshAgent.isStopped = true;
-        navMeshAgent.ResetPath();
-        if (takingDamageBehavior == null)
-        {
-          takingDamageBehavior = StartCoroutine(TakingDamageCoroutine(prevMode));
-        }
-      }
-    }
-
-    IEnumerator TakingDamageCoroutine(EnemyMode previousMode)
-    {
-      Debug.Log(transform.name + " damage coroutine started");
-      animator.SetTrigger("Knockback");
-      yield return new WaitForSeconds(3);
-      animator.ResetTrigger("Knockback");
-
-      if (mode != EnemyMode.Die)
-      {
-        if (previousMode == EnemyMode.Pursue || previousMode == EnemyMode.Attack)
-        {
-          mode = EnemyMode.Pursue;
-        }
-        else if (previousMode == EnemyMode.Patrol)
-        {
-          mode = EnemyMode.Alert;
-        }
-        else
-        {
-          mode = previousMode;
-        }
-      }
-
-      takingDamageBehavior = null;
-      takingDamage = false;
-      Debug.Log(transform.name + " damage coroutine ended");
-    }
-  }
-
-  public void DoPlayerDamage(bool contactMade)
-  {
-    if (contactMade)
-    {
-      PLAYERSingleton.i.playerHealth.TakeDamage(10);
-      PLAYERSingleton.i.playerHealth.DamageKnockback(
-         rB.position,
-         smashKnockbackForce
-      );
-    }
-  }
-
-  void TargetRangeBehavior(Vector3 target)
-  {
-    bool targetTooFar = Vector3.Distance(transform.position, target) > forgetDistance;
-    bool targetInAttackRange =
-        Vector3.Distance(transform.position, target) <= navMeshAgent.stoppingDistance;
-
-    if (attacking)
-      return;
-
-    if (targetTooFar)
-    {
-      mode = EnemyMode.Patrol;
-      returningFromInterrupt = true;
-      inTransit = false;
-      StopAllCoroutines();
-      movementMotorCoroutine = null;
-      navMeshAgent.ResetPath();
-    }
-    else if (targetInAttackRange)
-    {
-      if (mode != EnemyMode.Attack)
-      {
-        mode = EnemyMode.Attack;
-      }
-    }
-    else if (mode != EnemyMode.Pursue)
-      mode = EnemyMode.Pursue;
-  }
-
-  IEnumerator PatrolWaypointMotor(Vector3? interruptVector = null) // nullable value type
-  {
-    int activeIndex;
-
-    if (waypointSystem.activeWaypointTarget == null)
-    {
-      activeIndex = 0;
-    }
-    else
-    {
-      activeIndex = waypointSystem.activeWaypointTarget.index;
-    }
-
-    for (int i = activeIndex; i < waypointSystem.waypoints.Count; i++)
-    {
-      Vector3 originVector;
-      if (interruptVector.HasValue)
-      {
-        originVector = interruptVector.GetValueOrDefault(); // nullable value type
-        interruptVector = null;
-      }
-      else
-        originVector = waypointSystem.waypoints[i].location;
-      waypointSystem.activeWaypointTarget = waypointSystem.waypoints[i];
-      running = true;
-      direction = (
-          originVector - waypointSystem.waypoints[i].neighborNext.location
-      ).normalized;
-      float distance = Vector3.Distance(
-          originVector,
-          waypointSystem.waypoints[i].neighborNext.location
-      );
-      float calculatedSpeed = distance / speed;
-
-      for (float j = 0; j < 1; j += Time.deltaTime / calculatedSpeed)
-      {
-        rB.MovePosition(
-            Vector3.Lerp(originVector, waypointSystem.waypoints[i].neighborNext.location, j)
-        );
-        yield return null;
-      }
-      running = false;
-      yield return new WaitForSeconds(1);
-    }
-    inTransit = false;
-    movementMotorCoroutine = null;
-    waypointSystem.activeWaypointTarget = null;
-  }
-
-  void OnTriggerEnter(Collider other)
-  {
-    // if (other.CompareTag("PlayerDamage") && PLAYERSingleton.i.playerIsAttacking)
-    // {
-    //   UISingleton.i.debug.pushMessage(
-    //       other.transform.root + " hit " + transform.name,
-    //       "#ff3355"
-    //   );
-    //   UISingleton.i.debug.pushMessage(transform.name + " took", "#ff3355", false);
-    //   UISingleton.i.debug.pushMessage(" " + 10, "#ff3355", false);
-    //   UISingleton.i.debug.pushMessage(" damage!", "#ff3355");
-    //   PLAYERSingleton.i.playerIsAttacking = false;
-
-    //   TakeDamage(10);
+    //     takingDamageBehavior = null;
+    //     isTakingDamage = false;
+    //   }
     // }
   }
-
-  void Update()
-  {
-    UpdateAnimation();
-    UpdateRotation();
-    UpdateMode();
-  }
-
-  private bool rotationPaused = false;
-
-  void UpdateRotation()
-  {
-    if (rotationPaused || mode == EnemyMode.Die)
-      return;
-    if (direction.sqrMagnitude > 0)
-      transform.rotation = Quaternion.LookRotation(-direction);
-  }
-
-  void FixedUpdate() { }
-
-  private void UpdateMode()
-  {
-    if (mode == EnemyMode.Idle) { }
-    if (mode == EnemyMode.Patrol)
-    {
-      Patrol();
-    }
-    if (mode == EnemyMode.Alert)
-    {
-      Alert();
-    }
-    if (mode == EnemyMode.Pursue)
-    {
-      Pursue();
-    }
-    if (mode == EnemyMode.Attack)
-    {
-      Attack();
-    }
-    if (mode == EnemyMode.Retreat) { }
-    if (mode == EnemyMode.Damage)
-    {
-
-    }
-    if (mode == EnemyMode.Die)
-    {
-
-    }
-  }
-
-  void UpdateAnimation()
-  {
-    if (
-        (running || (mode == EnemyMode.Pursue && navMeshAgent.velocity.magnitude > 0.02))
-        && !attacking
-    )
-      animator.SetBool("isRunning", true);
-    else if (!running)
-    {
-      animator.SetBool("isRunning", false);
-    }
-
-    if (attacking)
-    {
-      animator.SetBool("isAttacking", true);
-    }
-    else if (!attacking)
-    {
-      animator.SetBool("isAttacking", false);
-    }
-    if (mode == EnemyMode.Die)
-    {
-
-    }
-  }
-
 }

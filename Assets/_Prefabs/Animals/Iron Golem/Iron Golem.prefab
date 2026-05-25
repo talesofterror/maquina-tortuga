@@ -1092,6 +1092,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3575665557860549920}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1334936970309603163}
   m_SourcePrefab: {fileID: 100100000, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}
 --- !u!1 &2405049013960905928 stripped
 GameObject:
@@ -1180,14 +1183,14 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.29
-  m_Speed: 10
+  m_Speed: 8
   m_Acceleration: 60
   avoidancePriority: 50
   m_AngularSpeed: 300
   m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
-  m_AutoRepath: 1
+  m_AutoRepath: 0
   m_Height: 12.5
   m_BaseOffset: -0.02
   m_WalkableMask: 4294967295
@@ -1205,9 +1208,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animal_IronGolem
   stats: {fileID: 11400000, guid: dd845bd8c42af5f4bab4b7ef57a98e9b, type: 2}
+  controller: {fileID: 1334936970309603163}
   _hp: 100
   _ap: 0
   _mp: 0
+  dead: 0
+  resurrectable: 1
+  resurrectionDelay: 30
   speed: 3
   alertDuration: 1
   attacking: 0
@@ -1232,7 +1239,7 @@ MonoBehaviour:
   rB: {fileID: 0}
   _waypointSystemLineColor: {r: 1, g: 0, b: 0, a: 1}
   _waypointMarkerColor: {r: 1, g: 0.20594245, b: 0.1566037, a: 1}
-  takingDamage: 0
+  isTakingDamage: 0
 --- !u!114 &7369813321150215424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1251,7 +1258,7 @@ MonoBehaviour:
   sightState: 0
   reachState: 1
   customOutlineColor: {r: 1, g: 0, b: 0.26826477, a: 1}
-  customOutlineThickness: 0.25
+  customOutlineThickness: 0.36
 --- !u!114 &3575665557860549920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1313,6 +1320,28 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+--- !u!114 &1334936970309603163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405049013960905928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71cc48053b32eb8599538506d0986d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IronGolem_FSM_Controller
+  animalScript: {fileID: 0}
+  waypointSystem: {fileID: 0}
+  animator: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  rB: {fileID: 0}
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  focus: {fileID: 0}
+  forgettingDistance: 10
 --- !u!4 &3038702665215987314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 452d5cdd17f04ca4ba34392c1baf6c5f, type: 3}

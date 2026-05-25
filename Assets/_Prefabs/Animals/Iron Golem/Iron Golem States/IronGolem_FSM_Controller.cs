@@ -18,6 +18,12 @@ public class IronGolem_FSM_Controller : FSM_BaseController
 
   public IronGolem_FSM_State_Patrol state_Patrol;
   public IronGolem_FSM_State_Alert state_Alert;
+  public IronGolem_FSM_State_Pursue state_Pursue;
+  public IronGolem_FSM_State_Attack state_Attack;
+  public IronGolem_FSM_State_TakingDamage state_TakingDamage;
+  public IronGolem_FSM_State_Dead state_Dead;
+
+  public FSM_Base cachedState;
 
   void Awake()
   {
@@ -31,6 +37,10 @@ public class IronGolem_FSM_Controller : FSM_BaseController
 
     state_Patrol = new IronGolem_FSM_State_Patrol(this);
     state_Alert = new IronGolem_FSM_State_Alert(this);
+    state_Pursue = new IronGolem_FSM_State_Pursue(this);
+    state_Attack = new IronGolem_FSM_State_Attack(this);
+    state_TakingDamage = new IronGolem_FSM_State_TakingDamage(this);
+    state_Dead = new IronGolem_FSM_State_Dead(this);
 
     SwitchState(state_Patrol);
   }
@@ -42,12 +52,47 @@ public class IronGolem_FSM_Controller : FSM_BaseController
   void Update()
   {
     _currentState?.Update();
+
+    if (!animalScript.dead) ListenForDeath();
   }
 
-  public override void SwitchState(FSM_Base newState)
+  public override void SwitchState(FSM_Base newState, int option = 0)
   {
     _currentState?.Exit();
     _currentState = newState;
+    if (option != 0) _currentState.Option(option);
     _currentState?.Enter();
   }
+
+  void ListenForDeath ()
+  {
+    if (animalScript.hp <= 0)
+    {
+      SwitchState(state_Dead);
+    }
+  }
 }
+
+/*
+
+  IronGolem_FSM_Controller controller;
+
+  IronGolem_FSM_State_[[[STATE]]] (IronGolem_FSM_Controller c) : base (c)
+  {
+    controller = c;
+  }
+  
+  public override void Enter()
+  {
+    
+  }
+  public override void Loop()
+  {
+    
+  }
+  public override void Exit()
+  {
+    
+  }
+
+*/

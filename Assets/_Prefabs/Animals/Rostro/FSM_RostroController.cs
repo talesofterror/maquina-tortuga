@@ -35,7 +35,7 @@ public class FSM_RostroController : FSM_BaseController
     _currentState?.Update();
   }
 
-  public override void SwitchState(FSM_Base newState)
+  public override void SwitchState(FSM_Base newState, int option = 0)
   {
     _currentState?.Exit();  // Clean up old state
     _currentState = newState;

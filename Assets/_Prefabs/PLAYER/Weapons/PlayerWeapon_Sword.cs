@@ -56,21 +56,40 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
                   out hit,
                   raycastDistance);
 
-    if (rayHit)
+    // if (rayHit)
+    // {
+    //   if (hit.transform.CompareTag("Interactable"))
+    //   {
+    //     Interactable interactable = hit.transform.GetComponent<Interactable>();
+
+    //     float animLength = PLAYERSingleton.i.animations.stateInfo.length;
+    //     if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength/2)
+    //     {
+    //       Debug.Log("The sword struck " + interactable._name);
+    //       lastHitTime = Time.time;
+
+    //       if (interactable.type == InteractionType.Enemy)
+    //       { 
+    //         interactable.gameObject.GetComponent<I_Animal>().TakeDamage(10, interactable.gameObject); 
+    //       }
+    //     }
+    //   }
+    // }
+    float animLength = PLAYERSingleton.i.animations.stateInfo.length;
+    if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength / 2)
     {
-      if (hit.transform.CompareTag("Interactable"))
+      if (rayHit)
       {
-        Interactable interactable = hit.transform.GetComponent<Interactable>();
-        
-        float animLength = PLAYERSingleton.i.animations.stateInfo.length;
-        if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength/2)
+        if (hit.transform.CompareTag("Interactable"))
         {
+          Interactable interactable = hit.transform.GetComponent<Interactable>();
+
           Debug.Log("The sword struck " + interactable._name);
           lastHitTime = Time.time;
 
           if (interactable.type == InteractionType.Enemy)
-          { 
-            interactable.gameObject.GetComponent<I_Animal>().TakeDamage(10); 
+          {
+            interactable.gameObject.GetComponent<I_Animal>().TakeDamage(10, PLAYERSingleton.i.gameObject);
           }
         }
       }
@@ -79,20 +98,20 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
 
   void StopAttacking()
   {
-      // Debug.Log("The sword attack has ended.");
-      attacking = false;
-      listeningForDamage = false;
-      attackTimeStart = 0;
-      PLAYERSingleton.i.playerIsAttacking = false;
+    // Debug.Log("The sword attack has ended.");
+    attacking = false;
+    listeningForDamage = false;
+    attackTimeStart = 0;
+    PLAYERSingleton.i.playerIsAttacking = false;
   }
 
-  
+
 
   void Update()
   {
     if (listeningForDamage)
     {
-        listenForDamage();
+      listenForDamage();
     }
   }
 

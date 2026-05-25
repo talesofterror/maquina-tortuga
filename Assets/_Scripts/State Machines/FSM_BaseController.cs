@@ -9,5 +9,5 @@ public abstract class FSM_BaseController : MonoBehaviour
     
   }
 
-  public abstract void SwitchState(FSM_Base newState);
+  public abstract void SwitchState(FSM_Base newState, int option = 0);
 }
