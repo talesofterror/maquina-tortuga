@@ -19,13 +19,13 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
     // Debug.Log("~~~~---~~~~~");
     // Debug.Log("~----------~");
   }
-  
+
   public override void Exit()
   {
     sightedInteractable = null;
   }
 
-  public override void Update_Additive()
+  public override void Loop()
   {
     lookForInteractions();
   }
@@ -99,6 +99,8 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
     if (sightedInteractable == null) { return; }
     if (sightedInteractable.CanReach())
     {
+
+      // Don't modify UI strings here; Selector_CustomRaycast_Camera updates text and colors each frame.
 
       if (sightedInteractable.reachState != Interactable.ReachState.Reachable)
       {

@@ -223,12 +223,13 @@ namespace Invector.vCharacterController
             Vector3 targetPosition =
                 (useRootMotion ? animator.rootPosition : _rigidbody.position)
                 + _direction * (stopMove ? 0 : moveSpeed) * Time.fixedDeltaTime;
-            targetVelocity = (targetPosition - _rigidbody.position) / Time.fixedDeltaTime;
+            targetVelocity = (targetPosition - _rigidbody.position) / Time.fixedDeltaTime + platformVelocity ;
 
             bool useVerticalVelocity = true;
             if (useVerticalVelocity)
                 targetVelocity.y = _rigidbody.linearVelocity.y;
-            _rigidbody.linearVelocity = targetVelocity + platformVelocity + knockbackVelocity;
+            _rigidbody.linearVelocity = targetVelocity + knockbackVelocity;
+            if (_direction == Vector3.zero && PLAYERSingleton.i.rB.isKinematic == false) { PLAYERSingleton.i.rB.linearVelocity = Vector3.zero; }
         }
 
         public virtual void CheckSlopeLimit()

@@ -72,7 +72,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
   float pathUpdateFrequency;
   float pathUpdateTimer;
   LayerMask playerLayerMask;
-  RaycastHit playerRaycastHit;
 
   [HideInInspector]
   public EnemyMode mode;
@@ -134,7 +133,6 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
 
     waypointSystem = GetComponentInChildren<WaypointSystem>();
 
-    // mode = EnemyMode.Patrol;
     rB = GetComponent<Rigidbody>();
     animator = GetComponent<Animator>();
     animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -149,36 +147,5 @@ public class Animal_IronGolem : MonoBehaviour, I_Animal
     controller.cachedState = controller._currentState;
     controller.focus = focus;
     controller.SwitchState(controller.state_TakingDamage, amount);
-    //   controller.focus = focus;
-    //   isTakingDamage = true;
-    //   hp = hp - amount;
-    //   Debug.Log("Iron Golem took " + amount + " damage!");
-    //   DialogueManager.ShowAlert("Iron Golem took " + amount + " damage!");
-
-    //   if (hp <= 0)
-    //   {
-    //     controller.SwitchState(controller.state_Dead);
-    //     return;
-    //   }
-
-    //   Debug.Log(transform.name + " switched to Damage mode.");
-
-    //   isTakingDamage = true;
-
-    //   if (takingDamageBehavior == null)
-    //   {
-    //     takingDamageBehavior = StartCoroutine(TakingDamageCoroutine());
-    //   }
-
-    //   IEnumerator TakingDamageCoroutine()
-    //   {
-    //     animator.SetTrigger("Knockback");
-    //     yield return new WaitForSeconds(3);
-    //     animator.ResetTrigger("Knockback");
-
-    //     takingDamageBehavior = null;
-    //     isTakingDamage = false;
-    //   }
-    // }
   }
 }

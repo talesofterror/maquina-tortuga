@@ -37,6 +37,11 @@ public class IronGolem_FSM_State_Attack : FSM_Base
   {
     controller.animalScript.attacking = false;
     animationActive = false;
+    if (attackBehavior != null)
+    {
+      controller.StopCoroutine(attackBehavior);
+      attackBehavior = null;
+    }
     controller.animator.SetBool("isAttacking", false);
   }
 
@@ -99,7 +104,7 @@ public class IronGolem_FSM_State_Attack : FSM_Base
     return Physics.CheckSphere(
       controller.animalScript.smashDetector.gameObject.transform.position,
       radius,
-      PLAYERSingleton.i.layerMask);
+      PLAYERSingleton.i.layerMask_Player);
   }
 
   public void DoPlayerDamage(bool contactMade)

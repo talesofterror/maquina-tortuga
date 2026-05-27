@@ -18,8 +18,7 @@ public class IronGolem_FSM_State_Searching : FSM_Base
 
   public override void Enter()
   {
-    Debug.Log($"{controller.transform.name} is searching.");
-
+    
   }
 
   public override void Loop()

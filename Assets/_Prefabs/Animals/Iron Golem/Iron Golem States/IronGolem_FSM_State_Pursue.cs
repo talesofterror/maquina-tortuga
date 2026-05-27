@@ -18,51 +18,57 @@ public class IronGolem_FSM_State_Pursue : FSM_Base
   {
     controller.animator.SetBool("isRunning", true);
     controller.navMeshAgent.isStopped = false;
+    // controller.navMeshAgent.updatePosition = true;
+    // controller.navMeshAgent.updateRotation = true;
+    controller.rB.isKinematic = true;
   }
 
   public override void Loop()
   {
-    if (controller != null)
+    // if (controller != null)
+    // {
+    Vector3 targetPos = PLAYERSingleton.i.transform.position;
+    targetPos.y = controller.transform.position.y;
+    direction = controller.transform.position - controller.focus.transform.position;
+
+    // Throttle NavMesh destination updates
+    pathUpdateTimer -= Time.deltaTime;
+    if (pathUpdateTimer <= 0)
     {
-      Vector3 targetPos = PLAYERSingleton.i.transform.position;
-      targetPos.y = controller.transform.position.y;
-      direction = controller.transform.position - controller.focus.transform.position;
-
-      // Throttle NavMesh destination updates
-      pathUpdateTimer -= Time.deltaTime;
-      if (pathUpdateTimer <= 0)
+      if (controller.navMeshAgent.isActiveAndEnabled)
       {
-        if (controller.navMeshAgent.isActiveAndEnabled)
-        {
-          controller.navMeshAgent.SetDestination(PLAYERSingleton.i.transform.position);
-        }
-        pathUpdateTimer = pathUpdateFrequency;
+        controller.navMeshAgent.SetDestination(PLAYERSingleton.i.transform.position);
       }
-
-      bool targetTooFar = Vector3.Distance(controller.transform.position, controller.focus.transform.position) > controller.animalScript.forgetDistance;
-      bool targetInAttackRange =
-          Vector3.Distance(controller.transform.position, controller.focus.transform.position) <= controller.navMeshAgent.stoppingDistance;
-
-      if (targetTooFar)
-      {
-        controller.navMeshAgent.ResetPath();
-        controller.SwitchState(controller.state_Patrol);
-      }
-      if (targetInAttackRange)
-      {
-        controller.SwitchState(controller.state_Attack);
-      }
-
-      UpdateRotation();
+      pathUpdateTimer = pathUpdateFrequency;
     }
-    else
+
+    bool targetTooFar = Vector3.Distance(controller.transform.position, controller.focus.transform.position) > controller.animalScript.forgetDistance;
+    bool targetInAttackRange =
+        Vector3.Distance(controller.transform.position, controller.focus.transform.position) <= controller.navMeshAgent.stoppingDistance;
+
+    if (targetTooFar)
     {
+      controller.navMeshAgent.ResetPath();
       controller.SwitchState(controller.state_Patrol);
     }
+    if (targetInAttackRange)
+    {
+      controller.SwitchState(controller.state_Attack);
+    }
+
+    UpdateRotation();
+    // }
+    // else
+    // {
+    //   controller.SwitchState(controller.state_Patrol);
+    // }
   }
   public override void Exit()
   {
     controller.animator.SetBool("isRunning", false);
+    controller.rB.isKinematic = false;
+    // controller.navMeshAgent.updatePosition = false;
+    // controller.navMeshAgent.updateRotation = false;
     controller.navMeshAgent.isStopped = true;
   }
 

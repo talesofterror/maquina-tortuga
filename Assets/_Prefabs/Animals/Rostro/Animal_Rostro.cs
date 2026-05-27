@@ -1,13 +1,34 @@
+using PixelCrushers.DialogueSystem.Demo;
 using UnityEngine;
 
-public class Animal_Rostro : MonoBehaviour
+public class Animal_Rostro : MonoBehaviour, I_Animal
 {
   public SO_Rostro stats;
 
   [HideInInspector] public Animation anim;
 
-  public int currentHP;
-  public int currentAP;
+
+  public int hp
+  {
+    get { return _hp; }
+    set { _hp = value; }
+  }
+
+  public int ap
+  {
+    get { return _ap; }
+    set { _ap = value; }
+  }
+
+  public int mp
+  {
+    get { return _mp; }
+    set { _mp = value; }
+  }
+
+  public int _hp;
+  public int _mp;
+  public int _ap;
   public float currentRotationSpeed;
 
   LaserGenerator laserGenerator;
@@ -16,8 +37,8 @@ public class Animal_Rostro : MonoBehaviour
   {
 
     //health setttings
-    currentHP = stats.maxHP;
-    currentAP = stats.maxAP;
+    _hp = stats.maxHP;
+    _ap = stats.maxAP;
     currentRotationSpeed = stats.rotationSpeed;
 
     // animation settings
@@ -35,6 +56,11 @@ public class Animal_Rostro : MonoBehaviour
     laserGenerator.laserLength = stats.laserLength;
     laserGenerator.extendSpeed = stats.laserExtendSpeed;
     laserGenerator.retractSpeed = stats.laserRetractSpeed;
+  }
+
+  public void TakeDamage (int amount, GameObject focus)
+  {
+    Debug.Log($"{transform.name} called TakeDamage()");
   }
 
 }

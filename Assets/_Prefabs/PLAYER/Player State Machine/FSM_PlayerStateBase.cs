@@ -22,10 +22,10 @@ public abstract class FSM_PlayerStateBase
   public void Update()
   {
     _currentSubState?.Update();
-    Update_Additive();
+    Loop();
   }
 
-  public virtual void Update_Additive()
+  public virtual void Loop()
   {
 
   }

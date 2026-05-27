@@ -24,7 +24,7 @@ public class FSM_PlayerState_Fight : FSM_PlayerStateBase
     currentWeapon = null;
   }
 
-  public override void Update_Additive()
+  public override void Loop()
   {
     listenForAttackInput();
   }

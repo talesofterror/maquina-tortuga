@@ -50,10 +50,10 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, _maxHealth);
 
         UISingleton.i.debug.pushMessage(
-            $"Player took {amount} damage. Current Health: {currentHealth}",
+            "<b>Player</b> took <b><color=#10ffcc>" + amount + "</color> damage</b>. <i>Current Health: " + currentHealth + "</i>",
             "#cc1122"
         );
-        DialogueManager.ShowAlert($"Player took {amount} damage. Current Health: {currentHealth}");
+        DialogueManager.ShowAlert("<b>Player</b> took <b><color=#10ffcc>" + amount + "</color> damage</b>. <i>Current Health: " + currentHealth + "</i>");
 
         UISingleton.i.RefreshUI();
 

@@ -19,8 +19,6 @@ public class IronGolem_FSM_State_Patrol : FSM_Base
 
   public override void Enter()
   {
-    Debug.Log($"{controller.transform.name} entered patrol mode");
-
     if (waypointSystem == null) waypointSystem = controller.GetComponentInChildren<WaypointSystem>();
     movementMotorCoroutine = null;
     if (subState == null)

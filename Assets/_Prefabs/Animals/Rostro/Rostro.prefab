@@ -215,6 +215,9 @@ PrefabInstance:
       addedObject: {fileID: 1110905524640165690}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 6350624631855426730}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 48837838574179796}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
       insertIndex: -1
@@ -262,8 +265,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Animal_Rostro
   stats: {fileID: 11400000, guid: f9b7c902a6291d446868c3b67912ba79, type: 2}
   anim: {fileID: 0}
-  currentHP: 0
-  currentAP: 0
+  _hp: 10
+  _mp: 100
+  _ap: 10
   currentRotationSpeed: 0
 --- !u!114 &1110905524640165690
 MonoBehaviour:
@@ -280,6 +284,33 @@ MonoBehaviour:
   animalRostro: {fileID: 1961822282660109735}
   laserGenerator: {fileID: 896627490696525544}
   anim: {fileID: 0}
+--- !u!54 &6350624631855426730
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769842455280156269}
+  serializedVersion: 5
+  m_Mass: 200
+  m_LinearDamping: 2
+  m_AngularDamping: 1
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!135 &48837838574179796
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -340,6 +371,8 @@ MonoBehaviour:
   description: 
   sightState: 0
   reachState: 1
+  customOutlineColor: {r: 0, g: 0, b: 1, a: 1}
+  customOutlineThickness: 2
 --- !u!114 &6747867418686561439
 MonoBehaviour:
   m_ObjectHideFlags: 0

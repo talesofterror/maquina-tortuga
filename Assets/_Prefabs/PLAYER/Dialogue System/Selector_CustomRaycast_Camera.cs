@@ -1,7 +1,6 @@
 using UnityEngine;
 using PixelCrushers.DialogueSystem;
 using PixelCrushers;
-using Unity.VisualScripting;
 
 public class Selector_CustomRaycast_Camera : Selector
 {
@@ -87,6 +86,7 @@ public class Selector_CustomRaycast_Camera : Selector
 
 
             SetCurrentUsable(hitUsable);
+            SetSelectorElementsActive(true);
           }
         }
         else
@@ -101,6 +101,13 @@ public class Selector_CustomRaycast_Camera : Selector
         DeselectTarget();
       }
       lastHit = hit;
+
+    }
+
+    // Refresh selector visuals each frame while a usable is selected so colors update in real time
+    if (this.usable != null)
+    {
+      SetSelectorElementsActive(true);
     }
   }
 
@@ -121,18 +128,41 @@ public class Selector_CustomRaycast_Camera : Selector
       heading = string.Empty;
       useMessage = string.Empty;
 
-      SetSelectorElementsActive(true);
+
       OnSelectedUsableObject(usable);
     }
   }
 
   void SetSelectorElementsActive(bool state)
   {
+    if (CurrentUsable == null)
+    {
+      UISingleton.i.selectorElements.gameObject.SetActive(false);
+      return;
+    }
+    bool inUseRange = (distance <= PLAYERSingleton.i.interactionReachDistance);
     if (state == true)
     {
       UISingleton.i.selectorElements.gameObject.SetActive(true);
+      // Set raw text and use TMP color properties for real-time updates
       UISingleton.i.selectorName.text = usable.GetName();
-      UISingleton.i.selectorUseMessage.text = DialogueManager.GetLocalizedText(string.IsNullOrEmpty(usable.overrideUseMessage) ? defaultUseMessage : usable.overrideUseMessage);
+      Color nameColor;
+      if (!UnityEngine.ColorUtility.TryParseHtmlString(inUseRange ? "#FF0072" : "#777777", out nameColor)) nameColor = Color.white;
+      UISingleton.i.selectorName.color = nameColor;
+
+      string useMsg;
+      if (inUseRange)
+      {
+        useMsg = string.IsNullOrEmpty(usable.overrideUseMessage) ? defaultUseMessage : usable.overrideUseMessage;
+      }
+      else
+      {
+        useMsg = "Get closer to interact";
+      }
+      UISingleton.i.selectorUseMessage.text = DialogueManager.GetLocalizedText(useMsg);
+      Color msgColor;
+      if (!UnityEngine.ColorUtility.TryParseHtmlString(inUseRange ? "#10ccff" : "#777777", out msgColor)) msgColor = Color.white;
+      UISingleton.i.selectorUseMessage.color = msgColor;
     }
     else
     {
@@ -140,7 +170,6 @@ public class Selector_CustomRaycast_Camera : Selector
       UISingleton.i.selectorName.text = "";
       UISingleton.i.selectorUseMessage.text = defaultUseMessage;
     }
-
   }
 
   public void DeselectTarget_External()
@@ -166,7 +195,7 @@ public class Selector_CustomRaycast_Camera : Selector
         heading = usable.GetName();
         useMessage = DialogueManager.GetLocalizedText(string.IsNullOrEmpty(usable.overrideUseMessage) ? defaultUseMessage : usable.overrideUseMessage);
       }
-      
+
       // original reticule code for onGUI
       // Texture2D reticleTexture = inUseRange ? reticle.inRange : reticle.outOfRange;
       // if (reticleTexture != null) GUI.Label(new Rect(0.5f * (Screen.width - reticle.width), 0.5f * (Screen.height - reticle.height), reticle.width, reticle.height), reticleTexture);

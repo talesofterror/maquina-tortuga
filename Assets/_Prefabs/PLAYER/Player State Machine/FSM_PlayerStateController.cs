@@ -26,7 +26,7 @@ public class FSM_PlayerStateController : MonoBehaviour
   void Update()
   {
     currentState?.Update();
-    currentState?.Update_Additive();
+    currentState?.Loop();
   }
 
   public void SwitchState(FSM_PlayerStateBase state)

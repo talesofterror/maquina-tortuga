@@ -51,32 +51,20 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
     // Debug.Log("The sword is listening for damage");
     RaycastHit hit;
     float raycastDistance = Vector3.Distance(rayStart.transform.position, rayEnd.transform.position);
-    bool rayHit = Physics.Raycast(rayStart.transform.position,
+    // bool rayHit = Physics.Raycast(rayStart.transform.position,
+    //               rayStart.transform.up,
+    //               out hit,
+    //               raycastDistance);
+    bool rayHit = Physics.SphereCast(rayStart.transform.position,
+                  0.05f,
                   rayStart.transform.up,
                   out hit,
-                  raycastDistance);
+                  raycastDistance,
+                  PLAYERSingleton.i.layerMask_Interactable);
 
-    // if (rayHit)
-    // {
-    //   if (hit.transform.CompareTag("Interactable"))
-    //   {
-    //     Interactable interactable = hit.transform.GetComponent<Interactable>();
-
-    //     float animLength = PLAYERSingleton.i.animations.stateInfo.length;
-    //     if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength/2)
-    //     {
-    //       Debug.Log("The sword struck " + interactable._name);
-    //       lastHitTime = Time.time;
-
-    //       if (interactable.type == InteractionType.Enemy)
-    //       { 
-    //         interactable.gameObject.GetComponent<I_Animal>().TakeDamage(10, interactable.gameObject); 
-    //       }
-    //     }
-    //   }
-    // }
     float animLength = PLAYERSingleton.i.animations.stateInfo.length;
-    if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength / 2)
+    // if (Time.time >= lastHitTime + animLength)
+    if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength / 2f)
     {
       if (rayHit)
       {
@@ -105,9 +93,7 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
     PLAYERSingleton.i.playerIsAttacking = false;
   }
 
-
-
-  void Update()
+  void FixedUpdate()
   {
     if (listeningForDamage)
     {

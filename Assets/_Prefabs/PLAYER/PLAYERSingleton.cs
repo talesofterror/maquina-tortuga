@@ -37,7 +37,8 @@ public class PLAYERSingleton : MonoBehaviour
 
   public bool endlessJumping;
 
-  public LayerMask layerMask;
+  public LayerMask layerMask_Player;
+  public LayerMask layerMask_Interactable;
 
   [Header("Diaglogue Settings")]
   public Selector_CustomRaycast_Camera dialogueSelector;
@@ -67,7 +68,8 @@ public class PLAYERSingleton : MonoBehaviour
     vInput = GetComponent<vThirdPersonInput>();
     playerHealth = GetComponent<PlayerHealth>();
 
-    layerMask = LayerMask.GetMask("Player");
+    layerMask_Player = LayerMask.GetMask("Player");
+    layerMask_Interactable = LayerMask.GetMask("Interactable");
 
   }
 

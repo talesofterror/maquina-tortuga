@@ -20,7 +20,7 @@ public class FSM_PlayerState_Normal : FSM_PlayerStateBase
     // currentInteractable = null;
   }
 
-  public override void Update_Additive()
+  public override void Loop()
   {
 
   }
