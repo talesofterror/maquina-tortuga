@@ -19,6 +19,7 @@ public class IronGolem_FSM_State_Dead : FSM_Base
     controller.animator.SetTrigger("Die");
     // controller.focus = null;
     controller.animalScript.dead = true;
+    controller.animator.SetBool("isDead", true);
     if (controller.animalScript.resurrectable) resurrectionTimer = controller.StartCoroutine(ResurrectionCountdown());
   }
 
@@ -29,7 +30,7 @@ public class IronGolem_FSM_State_Dead : FSM_Base
 
   public override void Exit()
   {
-    
+    controller.animator.SetBool("isDead", false);
   }
 
   IEnumerator ResurrectionCountdown ()
