@@ -85,7 +85,11 @@ public class PLAYERSingleton : MonoBehaviour
 
   void Update()
   {
-    ListenForModeChangeInput();
+    
+    if (!ignoreModeChange)
+    { ListenForModeChangeInput(); }
+    if (ignoreModeChange) 
+    { ignoreModeChange = false; }
 
     if (movementDisabled || DialogueManager.IsConversationActive)
     {
@@ -104,6 +108,8 @@ public class PLAYERSingleton : MonoBehaviour
       // vInput.inputAction_Move.Enable();
     }
   }
+
+  public bool ignoreModeChange = false;
 
   void ListenForModeChangeInput()
   {

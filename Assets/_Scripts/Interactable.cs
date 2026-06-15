@@ -34,12 +34,17 @@ public class Interactable : MonoBehaviour
   {
     if (type == InteractionType.Warp)
     {
-      GMSingleton.i.currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
+      // GMSingleton.i.currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
+      PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
+      PLAYERSingleton.i.dialogueSelector.UseCurrentSelection();
+      // PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Normal);
     }
     if (type == InteractionType.Friend)
     {
+      PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
       PLAYERSingleton.i.dialogueSelector.UseCurrentSelection();
       // DialogueManager.StartConversation("Introductory exchange");
+      // PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Normal);
     }
   }
 

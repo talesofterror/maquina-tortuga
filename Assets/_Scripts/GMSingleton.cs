@@ -60,6 +60,11 @@ public class GMSingleton : MonoBehaviour
   {
   }
 
+  public void LoadScene()
+  {
+    GMSingleton.i.currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
+  }
+
   void OnDestroy()
   {
     if (_gmSingleton == this)

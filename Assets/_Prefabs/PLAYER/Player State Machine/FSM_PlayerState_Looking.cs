@@ -124,7 +124,8 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
   {
     if (GMSingleton.i.inputManager.interaction.WasPressedThisFrame())
     {
-      PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
+      // PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
+      Interactable.Interact(sightedInteractable.type);
     }
   }
 }
