@@ -12,6 +12,42 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 251cab636adf8d74e8a58e2d105c0725, type: 2}
+    - target: {fileID: 289094785379982503, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 809120543161072338, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 969461190729986514, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1289377082376379165, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986728641465620265, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2083859299985985502, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2319907671036646819, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625609499236565902, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2887571098236157231, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2951572923822760996, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.721
@@ -52,6 +88,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3337347087660297816, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4128156815180109269, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.150039
@@ -60,9 +100,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 14.283453
       objectReference: {fileID: 0}
+    - target: {fileID: 5076904835259653648, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5229372149025386433, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
       propertyPath: m_Name
       value: Teleport Station - Mound - Test Grounds Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5229372149025386433, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5547047651076946579, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6148002568235136757, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
       propertyPath: m_overrideName
@@ -76,9 +128,41 @@ PrefabInstance:
       propertyPath: isInitialSpawnPoint
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6687053070692167009, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7103370494034665358, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454993575699314520, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521684357257956888, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633543941597203132, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7796501704467376525, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
       propertyPath: description
       value: Interact to warp to Test Grounds 01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8203603381829053600, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810453481259971137, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837512159066608342, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

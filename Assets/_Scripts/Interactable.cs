@@ -29,6 +29,20 @@ public class Interactable : MonoBehaviour
     outlineLayer = LayerMask.NameToLayer("Outlined");
   }
 
+
+  public static void Interact(InteractionType type)
+  {
+    if (type == InteractionType.Warp)
+    {
+      GMSingleton.i.currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
+    }
+    if (type == InteractionType.Friend)
+    {
+      PLAYERSingleton.i.dialogueSelector.UseCurrentSelection();
+      // DialogueManager.StartConversation("Introductory exchange");
+    }
+  }
+
   public void SetSightState(SightState newState)
   {
     if (sightState == newState) return;

@@ -5,6 +5,8 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
 {
   public FSM_PlayerState_Interact(FSM_PlayerStateController c) : base(c) { }
 
+  Interaction interaction;
+
   public override void Enter()
   {
     // * pause movement
@@ -13,13 +15,16 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
 
     PLAYERSingleton.i.movementDisabled = true;
     CAMERASingleton.i.cameraSwitchDisabled = true;
+
+    interaction = GMSingleton.i.currentInteraction;
+    DialogueLua.SetVariable("StationName", interaction.name);
     Debug.Log(">> Press Submit to Interact.");
     Debug.Log(">> Press Cancel to Exit.");
 
   }
   public override void Exit()
   {
-
+    interaction = null;
     PLAYERSingleton.i.movementDisabled = false;
     CAMERASingleton.i.cameraSwitchDisabled = false;
     Debug.Log("Exiting Interact Mode");
@@ -32,7 +37,7 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
       Debug.Log("Entering Interact Mode");
       if (GMSingleton.i.currentInteraction is null)
         Debug.Log("Player could not interact -> GM.currentInteraction is null!");
-      else Interact(GMSingleton.i.currentInteraction.type);
+      else Interactable.Interact(GMSingleton.i.currentInteraction.type);
       controller.SwitchState(controller.state_Normal);
     }
     if (GMSingleton.i.inputManager.ui_Cancel.WasPressedThisFrame())
@@ -41,16 +46,4 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
     }
   }
 
-  public static void Interact(InteractionType type)
-  {
-    if (type == InteractionType.Warp)
-    {
-      GMSingleton.i.currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
-    }
-    if (type == InteractionType.Friend)
-    {
-      PLAYERSingleton.i.dialogueSelector.UseCurrentSelection();
-      // DialogueManager.StartConversation("Introductory exchange");
-    }
-  }
 }
