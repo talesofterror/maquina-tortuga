@@ -120,6 +120,18 @@ PrefabInstance:
       propertyPath: m_overrideName
       value: Terminal to Test Grounds 01
       objectReference: {fileID: 0}
+    - target: {fileID: 6248263618160549498, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: exclusive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248263618160549498, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: stopConversationOnTriggerExit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248263618160549498, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
+      propertyPath: preventRestartOnSameFrameEnded
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6589418750310216323, guid: 62720e4bcb2883345b67c93b0ff8209e, type: 3}
       propertyPath: sceneToLoad
       value: TestGrounds01
