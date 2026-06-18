@@ -796,7 +796,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: None()
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3

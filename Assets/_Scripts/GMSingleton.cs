@@ -56,15 +56,15 @@ public class GMSingleton : MonoBehaviour
     // Cursor.visible = false;
     // Cursor.lockState = CursorLockMode.Confined;
 
-    
+
   }
 
   void OnEnable()
   {
     DialogueManager.instance.conversationEnded += OnDialogueEnded;
 
-    Lua.RegisterFunction("LoadScene", this, SymbolExtensions.GetMethodInfo( () => DialogueFunction_LoadScene()));
-    Lua.RegisterFunction("EndConvo", this, SymbolExtensions.GetMethodInfo( () => DialogueFunction_EndConvo()));
+    Lua.RegisterFunction("LoadScene", this, SymbolExtensions.GetMethodInfo(() => DialogueFunction_LoadScene()));
+    Lua.RegisterFunction("EndConvo", this, SymbolExtensions.GetMethodInfo(() => DialogueFunction_EndConvo()));
   }
 
   void OnDisable()
@@ -76,21 +76,22 @@ public class GMSingleton : MonoBehaviour
   }
 
   private void OnDialogueEnded(Transform actor)
-    {
-        Debug.Log("Global Hook: Dialogue finished.");
-        PLAYERSingleton.i.stateController.BeNormal();
-    }
+  {
+    Debug.Log("Global Hook: Dialogue finished.");
+    PLAYERSingleton.i.stateController.BeNormal();
+  }
 
-  public void DialogueFunction_LoadScene ()
+  public void DialogueFunction_LoadScene()
   {
     currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
   }
 
-  public void DialogueFunction_EndConvo ()
+  public void DialogueFunction_EndConvo()
   {
     DialogueManager.StopAllConversations();
     PLAYERSingleton.i.stateController.BeNormal();
   }
+
 
   void Start()
   {

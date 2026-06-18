@@ -77,6 +77,13 @@ public class UISingleton : MonoBehaviour
     // Debug.Log($"Conversation ended with: {actor.name}");
   }
 
+  public void SetContinueButton(bool state)
+  {
+    // This shortcut property handles the casting internally under the hood!
+    var continueBtn = DialogueManager.standardDialogueUI.conversationUIElements.subtitlePanels[0].continueButton;
+    Tools.SetGameObjectActive(continueBtn, state);
+  }
+
   void OnDestroy()
   {
     if (_uiSingleton == this)
