@@ -29,6 +29,11 @@ public class FSM_PlayerStateController : MonoBehaviour
     currentState?.Loop();
   }
 
+  public void BeNormal()
+  {
+    SwitchState(state_Normal);
+  }
+
   public void SwitchState(FSM_PlayerStateBase state)
   {
     currentState.Exit();

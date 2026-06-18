@@ -73,6 +73,7 @@ namespace PixelCrushers.DialogueSystem
                 if (hideContinueButtonOnContinue && continueButton != null)
                 {
                     continueButton.gameObject.SetActive(false);
+                    Debug.Log($"Clicked continue button. Has UI?={(runtimeDialogueUI != null)}");
                     UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
                 }
                 if (runtimeDialogueUI != null)

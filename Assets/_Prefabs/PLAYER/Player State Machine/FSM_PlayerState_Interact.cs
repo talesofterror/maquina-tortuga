@@ -36,6 +36,9 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
     Debug.Log("Exiting Interact Mode");
     // GMSingleton.i.currentInteraction = null;
   }
+
+  
+
   public override void Loop()
   {
     // if (GMSingleton.i.inputManager.ui_Submit.WasPressedThisFrame())

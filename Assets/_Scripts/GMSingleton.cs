@@ -1,4 +1,5 @@
 using System.Numerics;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -54,6 +55,41 @@ public class GMSingleton : MonoBehaviour
     PixelCrushers.CursorControl.LockCursor(true);
     // Cursor.visible = false;
     // Cursor.lockState = CursorLockMode.Confined;
+
+    
+  }
+
+  void OnEnable()
+  {
+    DialogueManager.instance.conversationEnded += OnDialogueEnded;
+
+    Lua.RegisterFunction("LoadScene", this, SymbolExtensions.GetMethodInfo( () => DialogueFunction_LoadScene()));
+    Lua.RegisterFunction("EndConvo", this, SymbolExtensions.GetMethodInfo( () => DialogueFunction_EndConvo()));
+  }
+
+  void OnDisable()
+  {
+    DialogueManager.instance.conversationEnded -= OnDialogueEnded;
+
+    Lua.UnregisterFunction("LoadScene");
+    Lua.UnregisterFunction("EndConvo");
+  }
+
+  private void OnDialogueEnded(Transform actor)
+    {
+        Debug.Log("Global Hook: Dialogue finished.");
+        PLAYERSingleton.i.stateController.BeNormal();
+    }
+
+  public void DialogueFunction_LoadScene ()
+  {
+    currentInteraction.i.gameObject.GetComponent<SceneLoader>().loadLevel();
+  }
+
+  public void DialogueFunction_EndConvo ()
+  {
+    DialogueManager.StopAllConversations();
+    PLAYERSingleton.i.stateController.BeNormal();
   }
 
   void Start()
