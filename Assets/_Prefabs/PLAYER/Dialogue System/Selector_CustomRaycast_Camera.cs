@@ -18,10 +18,35 @@ public class Selector_CustomRaycast_Camera : Selector
     }
   }
 
+  /**
+
+  variables for the graphic patch
+
+  **/
+  public Canvas uiCanvas;               // assign your Canvas in the Inspector
+  public RectTransform reticleRect;     // assign a child Image's RectTransform
+  public Vector2 reticleScreenOffset;   // optional pixel offset
+
+  //end 
+
+  public Vector3 rayDirectionEulerOffset = Vector3.zero;  // X (pitch), Y (yaw), Z (roll) in degrees
+
+  // Sticky selection: keeps current selection unless threshold is met or closer target appears
+  public float stickySelectionDeadzone = 2.0f;  // distance the raycast can drift from selected target before losing focus
+  public float closerTargetThreshold = 0.5f;   // how much closer a new target must be to override current selection
+
   protected override void Run3DRaycast()
   {
     Ray ray = UnityEngine.Camera.main.ScreenPointToRay(GetSelectionPoint());
     lastRay = ray;
+// Apply direction offset to both raycasts only when zooming
+    Vector3 rayDirection = ray.direction;
+    if (CAMERASingleton.i.zooming && rayDirectionEulerOffset != Vector3.zero)
+    {
+      Quaternion offsetRotation = Quaternion.Euler(rayDirectionEulerOffset);
+      rayDirection = offsetRotation * rayDirection;
+    }
+    Ray offsetRay = new Ray(ray.origin, rayDirection);
 
     // New Variable rayCastDistance is used below for the raycasts instead of maxSelectionDistance to be able to set it to infinity (if using DistanceFrom.GameObject) instead of maxSelectionDistance:
     // Credit: Daniel D. (Thank you!)
@@ -32,8 +57,13 @@ public class Selector_CustomRaycast_Camera : Selector
 
       // Run RaycastAll:
       if (lastHits == null) lastHits = new RaycastHit[MaxHits];
-      numLastHits = Physics.RaycastNonAlloc(ray, lastHits, raycastDistance, layerMask);
+      numLastHits = Physics.RaycastNonAlloc(offsetRay, lastHits, raycastDistance, layerMask);
       bool foundUsable = false;
+      Usable closestNewUsable = null;
+      float closestNewDistance = Mathf.Infinity;
+      float currentSelectionDistance = Mathf.Infinity;
+      bool currentSelectionStillVisible = false;
+
       for (int i = 0; i < numLastHits; i++)
       {
         var hit = lastHits[i];
@@ -43,22 +73,45 @@ public class Selector_CustomRaycast_Camera : Selector
                 : Vector3.Distance(actorTransform.position, hit.collider.transform.position);
         if (selection == hit.collider.gameObject)
         {
-          foundUsable = true;
-          distance = hitDistance;
-          break;
+          currentSelectionStillVisible = true;
+          currentSelectionDistance = hitDistance;
+          // Keep current selection if within deadzone
+          if (hitDistance <= stickySelectionDeadzone)
+          {
+            foundUsable = true;
+            distance = hitDistance;
+            lastHit = hit;
+            break;
+          }
         }
         else
         {
           Usable hitUsable = hit.collider.GetComponent<Usable>();
           if (hitUsable != null && hitUsable.enabled && hitDistance <= maxSelectionDistance)
           {
-            foundUsable = true;
-            distance = hitDistance;
-            SetCurrentUsable(hitUsable);
-            break;
+            // Track the closest new usable for comparison
+            if (hitDistance < closestNewDistance)
+            {
+              closestNewUsable = hitUsable;
+              closestNewDistance = hitDistance;
+            }
           }
         }
       }
+
+      // If current selection wasn't found in deadzone, check if we should switch to a closer target
+      if (!foundUsable && closestNewUsable != null)
+      {
+        // Switch to new target if current selection is not visible or new target is significantly closer
+        if (!currentSelectionStillVisible || (closestNewDistance + closerTargetThreshold < currentSelectionDistance))
+        {
+          foundUsable = true;
+          distance = closestNewDistance;
+          SetCurrentUsable(closestNewUsable);
+          lastHit = lastHits[0]; // Update lastHit to the new selection (you may want to find the exact hit)
+        }
+      }
+
       if (!foundUsable)
       {
         DeselectTarget();
@@ -71,7 +124,7 @@ public class Selector_CustomRaycast_Camera : Selector
       // Cast a ray and see what we hit:
       RaycastHit hit;
       // if (Physics.Raycast(ray, out hit, maxSelectionDistance, layerMask))
-      if (Physics.SphereCast(ray, 0.5f, out hit, maxSelectionDistance, layerMask))
+      if (Physics.SphereCast(offsetRay, 0.5f, out hit, maxSelectionDistance, layerMask))
       {
         distance = (distanceFrom == DistanceFrom.Camera) ? hit.distance
             : (distanceFrom == DistanceFrom.GameObject || actorTransform == null)
@@ -82,9 +135,22 @@ public class Selector_CustomRaycast_Camera : Selector
         {
           if (selection != hit.collider.gameObject)
           {
+            // Sticky selection: only switch if new target is significantly closer
+            if (usable != null)
+            {
+              float currentDistance = (distanceFrom == DistanceFrom.Camera) ? Vector3.Distance(Camera.main.transform.position, usable.transform.position)
+                  : (distanceFrom == DistanceFrom.GameObject || actorTransform == null)
+                      ? Vector3.Distance(gameObject.transform.position, usable.transform.position)
+                      : Vector3.Distance(actorTransform.position, usable.transform.position);
+              // Only switch if new target is closer by threshold amount
+              if (distance + closerTargetThreshold >= currentDistance)
+              {
+                SetSelectorElementsActive(true);
+                lastHit = hit;
+                return; // Keep current selection
+              }
+            }
             // Debug.Log("Usable hit: " + hitUsable.GetName());
-
-
             SetCurrentUsable(hitUsable);
             SetSelectorElementsActive(true);
           }
@@ -102,6 +168,27 @@ public class Selector_CustomRaycast_Camera : Selector
       }
       lastHit = hit;
 
+    }
+
+    if (reticleRect != null)
+    {
+      if (CAMERASingleton.i.zooming && lastHit.collider != null)
+      {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(lastHit.point);
+        if (screenPos.z > 0f)
+        {
+          reticleRect.gameObject.SetActive(true);
+          reticleRect.position = screenPos + (Vector3)reticleScreenOffset;
+        }
+        else
+        {
+          reticleRect.gameObject.SetActive(false);
+        }
+      }
+      else
+      {
+        reticleRect.gameObject.SetActive(false);  // Hide reticle when zooming or no hit
+      }
     }
 
     // Refresh selector visuals each frame while a usable is selected so colors update in real time

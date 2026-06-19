@@ -33,12 +33,16 @@ public class PLAYERSingleton : MonoBehaviour
   [HideInInspector]
   public bool playerIsAttacking;
 
+
   public bool movementDisabled;
 
   public bool endlessJumping;
 
+  public GameObject cameraTargetGameobject;
+
   public LayerMask layerMask_Player;
   public LayerMask layerMask_Interactable;
+  public LayerMask LayerMask_Attackable;
 
   [Header("Diaglogue Settings")]
   public Selector_CustomRaycast_Camera dialogueSelector;
@@ -85,10 +89,10 @@ public class PLAYERSingleton : MonoBehaviour
 
   void Update()
   {
-    
+
     if (!ignoreModeChange)
     { ListenForModeChangeInput(); }
-    if (ignoreModeChange) 
+    if (ignoreModeChange)
     { ignoreModeChange = false; }
 
     if (movementDisabled || DialogueManager.IsConversationActive)

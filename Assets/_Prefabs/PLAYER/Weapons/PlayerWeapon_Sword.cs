@@ -46,11 +46,16 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
     Invoke("StopAttacking", PLAYERSingleton.i.animations.stateInfo.length);
   }
 
+  Vector3 prevSwordPos;
   void listenForDamage()
   {
     // Debug.Log("The sword is listening for damage");
     RaycastHit hit;
-    float raycastDistance = Vector3.Distance(rayStart.transform.position, rayEnd.transform.position);
+    if (prevSwordPos == null) { prevSwordPos = rayEnd.transform.position; }
+
+    // float raycastDistance = Vector3.Distance(PLAYERSingleton.i.cameraTargetGameobject.transform.position, rayEnd.transform.position);
+    float raycastDistance = Vector3.Distance(PLAYERSingleton.i.cameraTargetGameobject.transform.position, prevSwordPos);
+    prevSwordPos = rayEnd.transform.position;
     // bool rayHit = Physics.Raycast(rayStart.transform.position,
     //               rayStart.transform.up,
     //               out hit,
@@ -60,8 +65,8 @@ public class PlayerWeapon_Sword : PlayerWeapon_BASE
                   rayStart.transform.up,
                   out hit,
                   raycastDistance,
-                  PLAYERSingleton.i.layerMask_Interactable);
-
+                  PLAYERSingleton.i.LayerMask_Attackable);
+    
     float animLength = PLAYERSingleton.i.animations.stateInfo.length;
     // if (Time.time >= lastHitTime + animLength)
     if (Time.time >= lastHitTime + animLength && Time.time >= attackTimeStart + animLength / 2f)

@@ -28,6 +28,7 @@ public class CAMERASingleton : MonoBehaviour
   public int previousCameraIndex = 0;
 
   public bool cameraSwitchDisabled = false;
+  public bool zooming;
 
   void Awake()
   {
@@ -79,6 +80,7 @@ public class CAMERASingleton : MonoBehaviour
   {
     if (GMSingleton.i.inputManager.zoom.IsPressed())
     {
+      zooming = true;
       cachedActiveCameraIndex = currentCameraIndex;
       setCurrentCamera(-2); // Assuming the zoom camera is at index 2
       primaryZoomFreelook.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis =
@@ -86,6 +88,7 @@ public class CAMERASingleton : MonoBehaviour
     }
     else
     {
+      zooming = false;
       setCurrentCamera(currentCameraIndex);
     }
 

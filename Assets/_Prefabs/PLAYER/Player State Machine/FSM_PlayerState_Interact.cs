@@ -23,7 +23,8 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
     interaction = GMSingleton.i.currentInteraction;
     if (GMSingleton.i.currentInteraction.type == InteractionType.Warp)
     {
-      DialogueLua.SetVariable("StationName", interaction.name);
+      string warpDestination = interaction.i.gameObject.GetComponent<SceneLoader>().sceneToLoad;
+      DialogueLua.SetVariable("StationName", warpDestination);
     }
   }
   public override void Exit()

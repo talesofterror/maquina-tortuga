@@ -1145,11 +1145,16 @@ MonoBehaviour:
   playerIsAttacking: 0
   movementDisabled: 0
   endlessJumping: 0
-  layerMask:
+  cameraTargetGameobject: {fileID: 7822931082040408722}
+  layerMask_Player:
+    serializedVersion: 2
+    m_Bits: 0
+  layerMask_Interactable:
     serializedVersion: 2
     m_Bits: 0
   dialogueSelector: {fileID: 0}
   useStandardUIElementsComponent: {fileID: 0}
+  ignoreModeChange: 0
 --- !u!114 &7501054586340291668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1257,6 +1262,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debug: 0
+  uiCanvas: {fileID: 0}
+  reticleRect: {fileID: 0}
+  reticleScreenOffset: {x: 0, y: 0}
+  rayDirectionEulerOffset: {x: 0, y: 0, z: 0}
+  stickySelectionDeadzone: 2
+  closerTargetThreshold: 0.5
 --- !u!54 &50013978740932018 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4425428723088313497, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
@@ -1265,6 +1276,11 @@ Rigidbody:
 --- !u!4 &50013978740932022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4425428723088313501, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
+  m_PrefabInstance: {fileID: 4457411930630746411}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7822931082040408722 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5857858030853688249, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
   m_PrefabInstance: {fileID: 4457411930630746411}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6968303307467009781

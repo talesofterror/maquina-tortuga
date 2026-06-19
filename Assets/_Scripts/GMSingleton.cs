@@ -68,8 +68,9 @@ public class GMSingleton : MonoBehaviour
   }
 
   void OnDisable()
-  {
-    DialogueManager.instance.conversationEnded -= OnDialogueEnded;
+  { 
+    if (DialogueManager.instance != null)
+      DialogueManager.instance.conversationEnded -= OnDialogueEnded;
 
     Lua.UnregisterFunction("LoadScene");
     Lua.UnregisterFunction("EndConvo");
