@@ -142,7 +142,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2139295481258942012}
+    m_TransformParent: {fileID: 7439625034147907870}
     m_Modifications:
     - target: {fileID: 8397027863895490650, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_Name
@@ -1152,6 +1152,9 @@ MonoBehaviour:
   layerMask_Interactable:
     serializedVersion: 2
     m_Bits: 0
+  LayerMask_Attackable:
+    serializedVersion: 2
+    m_Bits: 0
   dialogueSelector: {fileID: 0}
   useStandardUIElementsComponent: {fileID: 0}
   ignoreModeChange: 0
@@ -1655,6 +1658,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1918462042684736036, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c96fce9a641d1a642aa071592020fe51, type: 2}
     - target: {fileID: 1961095900640998843, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -1874,16 +1881,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 9008376933142606025, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8110144563367429073}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
---- !u!4 &2139295481258942012 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9008376933142606025, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
-  m_PrefabInstance: {fileID: 6968303307467009781}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7439625034147907870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
