@@ -1,4 +1,5 @@
 using System;
+using PixelCrushers.DialogueSystem;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class Interactable : MonoBehaviour
   public SightState sightState = SightState.Unsighted;
   public ReachState reachState = ReachState.Unreachable;
 
+  DialogueSystemTrigger dialogueSystemTrigger;
+
 
   // * Outline Layers
   protected int defaultLayer;
@@ -27,6 +30,10 @@ public class Interactable : MonoBehaviour
   {
     defaultLayer = gameObject.layer;
     outlineLayer = LayerMask.NameToLayer("Outlined");
+    if (TryGetComponent(out DialogueSystemTrigger dialogueSystemTrigger))
+    {
+      dialogueSystemTrigger.maxConversationDistance = GetComponent<Usable>().maxUseDistance;
+    }
   }
 
 

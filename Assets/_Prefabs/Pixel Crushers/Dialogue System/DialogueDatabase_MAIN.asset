@@ -38,7 +38,7 @@ MonoBehaviour:
   - id: 1
     fields:
     - title: Name
-      value: You
+      value: <color=#FF00AD>You</color>
       type: 0
       typeString: CustomFieldType_Text
     - title: Pictures
@@ -53,6 +53,10 @@ MonoBehaviour:
       value: True
       type: 2
       typeString: CustomFieldType_Boolean
+    - title: Actor Color
+      value: '#FF00AD63'
+      type: 0
+      typeString: CustomFieldType_Text
     portrait: {fileID: 2800000, guid: b31676a3103837945920ebc3cff4e14e, type: 3}
     spritePortrait: {fileID: 0}
     alternatePortraits: []
@@ -62,7 +66,7 @@ MonoBehaviour:
     - title: Name
       value: Clone
       type: 0
-      typeString: 
+      typeString: CustomFieldType_Text
     - title: Pictures
       value: '[]'
       type: 3
@@ -82,7 +86,7 @@ MonoBehaviour:
   - id: 3
     fields:
     - title: Name
-      value: Teleportation Mound
+      value: <color=#FFDC4F>Teleportation Mound</color>
       type: 0
       typeString: CustomFieldType_Text
     - title: Pictures
@@ -97,6 +101,10 @@ MonoBehaviour:
       value: False
       type: 2
       typeString: CustomFieldType_Boolean
+    - title: Actor Color
+      value: '#FFDC4F'
+      type: 0
+      typeString: CustomFieldType_Text
     portrait: {fileID: 2800000, guid: 07b8ebe48bd7a9c4b839624823c06712, type: 3}
     spritePortrait: {fileID: 0}
     alternatePortraits: []

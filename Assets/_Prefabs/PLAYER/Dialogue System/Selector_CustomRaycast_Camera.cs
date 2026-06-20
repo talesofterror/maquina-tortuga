@@ -222,6 +222,15 @@ public class Selector_CustomRaycast_Camera : Selector
 
   void SetSelectorElementsActive(bool state)
   {
+    // If a dialogue/conversation is active, always hide selector elements
+    if (DialogueManager.isConversationActive)
+    {
+      UISingleton.i.selectorElements.gameObject.SetActive(false);
+      UISingleton.i.selectorName.text = "";
+      UISingleton.i.selectorUseMessage.text = defaultUseMessage;
+      return;
+    }
+
     if (CurrentUsable == null)
     {
       UISingleton.i.selectorElements.gameObject.SetActive(false);

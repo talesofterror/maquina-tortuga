@@ -48,7 +48,9 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
       hasSightedInteractable = false;
     }
 
-    bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+    // bool rayHit = Physics.Raycast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+    bool rayHit = Physics.SphereCast(PLAYERSingleton.i.transform.position + new Vector3(0, 0.5f, 0),
+                      0.3f,
                       PLAYERSingleton.i.transform.forward,
                       out rayHitInteractable,
                       PLAYERSingleton.i.interactionSightDistance);
