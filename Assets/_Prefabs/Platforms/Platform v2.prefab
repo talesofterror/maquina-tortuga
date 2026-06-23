@@ -337,7 +337,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 260c7592c895c13499593548ebe64da2, type: 2}
+  - {fileID: 2100000, guid: 33b5fd8fdeecd1842b05afe68d5caa10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -448,6 +448,22 @@ PrefabInstance:
     - target: {fileID: 204854205648950321, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003304152190025355, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: gizmoMarkerColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003304152190025355, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: gizmoMarkerColor.g
+      value: 0.6117647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204426666833336212, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: gizmoMarkerColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204426666833336212, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: gizmoMarkerColor.g
+      value: 0.6117647
       objectReference: {fileID: 0}
     - target: {fileID: 4021325189905389903, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -572,6 +588,14 @@ PrefabInstance:
     - target: {fileID: 8004135551943359574, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040224860021735411, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: gizmoMarkerColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040224860021735411, guid: 2917bd9ff327e7f43bd45915c6d7bcbe, type: 3}
+      propertyPath: gizmoMarkerColor.g
+      value: 0.6117647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

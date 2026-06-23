@@ -117,10 +117,10 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Power: 2.72
+    - _Power: 1.27
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Scale: 2.21
+    - _Scale: 6.66
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

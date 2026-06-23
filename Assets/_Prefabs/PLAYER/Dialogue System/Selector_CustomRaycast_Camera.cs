@@ -18,22 +18,16 @@ public class Selector_CustomRaycast_Camera : Selector
     }
   }
 
-  /**
+  [Header("Selector UI")]
+  public Canvas uiCanvas;
+  public RectTransform reticleRect;
+  public Vector2 reticleScreenOffset;
 
-  variables for the graphic patch
+  [Header("Raycast Settings")]
+  public Vector3 rayDirectionEulerOffset = Vector3.zero;
 
-  **/
-  public Canvas uiCanvas;               // assign your Canvas in the Inspector
-  public RectTransform reticleRect;     // assign a child Image's RectTransform
-  public Vector2 reticleScreenOffset;   // optional pixel offset
-
-  //end 
-
-  public Vector3 rayDirectionEulerOffset = Vector3.zero;  // X (pitch), Y (yaw), Z (roll) in degrees
-
-  // Sticky selection: keeps current selection unless threshold is met or closer target appears
-  public float stickySelectionDeadzone = 2.0f;  // distance the raycast can drift from selected target before losing focus
-  public float closerTargetThreshold = 0.5f;   // how much closer a new target must be to override current selection
+  public float stickySelectionDeadzone = 2.0f;
+  public float closerTargetThreshold = 0.5f;
 
   protected override void Run3DRaycast()
   {

@@ -74,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 465ff71f18c2bd8408c75c721742d1c4, type: 3}
+        m_Texture: {fileID: 2800000, guid: a600c2cd1fddf094bafd88ca09d02ccb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -111,7 +111,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _BaseColor: 0.6
-    - _BaseMultAdd: 3.43
+    - _BaseMultAdd: 5.67
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -127,7 +127,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Intensity: -1.72
+    - _Intensity: -0.44
     - _Metallic: 0
     - _NormalObjectSpace: 0
     - _NormalUVFromView: 1
@@ -153,6 +153,6 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmitColor: {r: 0.10949801, g: 0.51192415, b: 0.6377357, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SubColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SubColor: {r: 0.84359705, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

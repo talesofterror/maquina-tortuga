@@ -304,6 +304,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -1929895499148260862, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9037399b7e7b71b10946253e9f5166a2, type: 2}
     - target: {fileID: -1691156936747058407, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -416,6 +420,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2802763668615107451, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9037399b7e7b71b10946253e9f5166a2, type: 2}
     - target: {fileID: 3033226724966396369, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -737,7 +745,7 @@ MonoBehaviour:
   allowBarksDuringConversations: 0
   skipBarkIfNoValidEntries: 0
   cacheBarkLines: 0
-  conversation: Understanding symbols
+  conversation: Introductory exchange
   conversationConversant: {fileID: 4746358485589340810}
   conversationActor: {fileID: 0}
   startConversationEntryID: -1

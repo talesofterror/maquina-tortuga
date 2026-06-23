@@ -10,16 +10,29 @@ public class PLAYERSingleton : MonoBehaviour
     get { return _playerSingleton; }
   }
 
+  [Header("Player References")]
   public FSM_PlayerStateController stateController;
 
   public PlayerHealth playerHealth;
   public bool isTakingDamage;
 
+  [Header("Interaction Settings")]
   public float interactionSightDistance = 10;
   public float interactionReachDistance = 2;
 
+  [Header("Weapon & Animation")]
   public PlayerWeapons playerWeapons;
   public PlayerAnimations animations;
+
+  [Header("Movement & Camera")]
+  public bool movementDisabled;
+  public bool endlessJumping;
+  public GameObject cameraTargetGameobject;
+
+  [Header("Layer Masks")]
+  public LayerMask layerMask_Player;
+  public LayerMask layerMask_Interactable;
+  public LayerMask LayerMask_Attackable;
 
   [HideInInspector]
   public vThirdPersonController vController;
@@ -33,18 +46,7 @@ public class PLAYERSingleton : MonoBehaviour
   [HideInInspector]
   public bool playerIsAttacking;
 
-
-  public bool movementDisabled;
-
-  public bool endlessJumping;
-
-  public GameObject cameraTargetGameobject;
-
-  public LayerMask layerMask_Player;
-  public LayerMask layerMask_Interactable;
-  public LayerMask LayerMask_Attackable;
-
-  [Header("Diaglogue Settings")]
+  [Header("Dialogue Settings")]
   public Selector_CustomRaycast_Camera dialogueSelector;
   public SelectorUseStandardUIElements useStandardUIElementsComponent;
 

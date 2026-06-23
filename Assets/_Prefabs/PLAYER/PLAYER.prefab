@@ -1139,22 +1139,22 @@ MonoBehaviour:
   interactionReachDistance: 2
   playerWeapons: {fileID: 2530257093723870595}
   animations: {fileID: 8197704855131972922}
-  vController: {fileID: 0}
-  vInput: {fileID: 0}
-  rB: {fileID: 50013978740932018}
-  playerIsAttacking: 0
   movementDisabled: 0
   endlessJumping: 0
   cameraTargetGameobject: {fileID: 7822931082040408722}
   layerMask_Player:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   layerMask_Interactable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   LayerMask_Attackable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
+  vController: {fileID: 0}
+  vInput: {fileID: 0}
+  rB: {fileID: 50013978740932018}
+  playerIsAttacking: 0
   dialogueSelector: {fileID: 0}
   useStandardUIElementsComponent: {fileID: 0}
   ignoreModeChange: 0

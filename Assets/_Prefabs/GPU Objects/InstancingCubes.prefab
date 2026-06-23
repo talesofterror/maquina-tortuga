@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InstancingCubes
   size: 10
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  material: {fileID: 2100000, guid: be4b80f107184d4428b66898b3c726ed, type: 2}
+  material: {fileID: 2100000, guid: 2107fdf832fad694dadf5442a22ba46c, type: 2}
 --- !u!65 &6337332248056214133
 BoxCollider:
   m_ObjectHideFlags: 0
