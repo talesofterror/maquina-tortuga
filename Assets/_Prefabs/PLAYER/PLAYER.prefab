@@ -142,39 +142,51 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 7439625034147907870}
+    m_TransformParent: {fileID: 1976450754258004459}
     m_Modifications:
     - target: {fileID: 8397027863895490650, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0053
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0053000054
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0053
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.00027876341
+      value: 0.00026
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0009411275
+      value: 0.00089
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.00036716159
+      value: -0.00034
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.85334116
+      value: -0.1601984
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.501707
+      value: -0.007211142
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.030672362
+      value: -0.6983301
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.13841343
+      value: -0.6975813
       objectReference: {fileID: 0}
     - target: {fileID: 9206462608041581280, guid: 8f0159243f881234c86100a76f14e0bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -307,8 +319,16 @@ PrefabInstance:
       value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4425428723088313497, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425428723088313497, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
       propertyPath: m_AngularDamping
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425428723088313497, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4425428723088313499, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
       propertyPath: m_Icon
@@ -397,6 +417,10 @@ PrefabInstance:
     - target: {fileID: 4425428723088313503, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
       propertyPath: useRootMotion
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425428723088313503, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
+      propertyPath: locomotionType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4425428723088313503, guid: fc9b148a2950aaf4cba8422632222c5d, type: 3}
       propertyPath: targetVelocity.x
@@ -1230,7 +1254,7 @@ MonoBehaviour:
   selectAt: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 193
+    m_Bits: 449
   distanceFrom: 2
   maxSelectionDistance: 50
   runRaycasts: 1
@@ -1268,8 +1292,8 @@ MonoBehaviour:
   uiCanvas: {fileID: 0}
   reticleRect: {fileID: 0}
   reticleScreenOffset: {x: 0, y: 0}
-  rayDirectionEulerOffset: {x: 0, y: 0, z: 0}
-  stickySelectionDeadzone: 2
+  rayDirectionEulerOffset: {x: 0, y: -7, z: 0}
+  stickySelectionDeadzone: 0.02
   closerTargetThreshold: 0.5
 --- !u!54 &50013978740932018 stripped
 Rigidbody:
@@ -1881,11 +1905,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 8924341763630024478, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8110144563367429073}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
+--- !u!4 &1976450754258004459 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8924341763630024478, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}
+  m_PrefabInstance: {fileID: 6968303307467009781}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7439625034147907870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: df37cc960dd269d43a919cf4fe0b55e2, type: 3}

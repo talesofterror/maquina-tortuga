@@ -116,7 +116,7 @@ Shader "Custom/HumanSkinSSS"
                 // Wrapped Diffuse (Front Scattering)
                 float NdotL = dot(normalWS, lightDir);
                 float wrappedNdotL = saturate((NdotL + _WrappedDiffuse) / (1.0 + _WrappedDiffuse));
-                float3 wrappedLighting = wrappedNdotL * lightColor * sssColor * 0.5; // Tint shadows with SSS color
+                float3 wrappedLighting = wrappedNdotL * lightColor * sssColor * 0.5;
 
                 return translucency + wrappedLighting;
             }
@@ -136,7 +136,7 @@ Shader "Custom/HumanSkinSSS"
                 Light mainLight = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
                 float mainShadowAtten = lerp(1.0, mainLight.shadowAttenuation, _ReceiveShadows);
                 float3 mainLightColor = mainLight.color * mainLight.distanceAttenuation * mainShadowAtten;
-                
+
                 // Standard Diffuse
                 float NdotL = saturate(dot(normalWS, mainLight.direction));
                 float3 diffuse = albedo * mainLightColor * NdotL;
@@ -152,16 +152,17 @@ Shader "Custom/HumanSkinSSS"
                     float NdotL_add = saturate(dot(normalWS, light.direction));
                     float addShadowAtten = lerp(1.0, light.shadowAttenuation, _ReceiveShadows);
                     float3 lightColor_add = light.color * light.distanceAttenuation * addShadowAtten;
-                    
+
                     diffuse += albedo * lightColor_add * NdotL_add;
                     sss += CalculateSSS(light, normalWS, viewDirWS, thickness, _SSSColor.rgb);
                 }
 
-                // Combine
-                float3 finalColor = diffuse + sss;
-                
-                // Simple Ambient
-                finalColor += albedo * 0.1; // Fake ambient
+                // Evaluate Light Probes / Spherical Harmonics
+                float3 irradiance = SampleSH(normalWS);
+                float3 ambient = albedo * irradiance;
+
+                // Combine Direct, SSS, and Indirect Ambient Light
+                float3 finalColor = diffuse + sss + ambient;
 
                 return half4(finalColor, 1.0);
             }

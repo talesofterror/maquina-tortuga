@@ -193,6 +193,24 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  ui_Submit:
+    m_Name: Ui_Submit
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ced11681-881c-4b19-a150-c430771a063d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  ui_Cancel:
+    m_Name: Ui_Cancel
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c8fc750c-34b5-473c-90df-6e71a75b947c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   vInput: {fileID: 0}
 --- !u!1 &4281162520579249965
 GameObject:
@@ -243,7 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GMSingleton
   gameStarted: 0
-  primaryPlayerInput: {fileID: 0}
   userInterface: {fileID: 0}
   player: {fileID: 0}
   cameraSingleton: {fileID: 0}

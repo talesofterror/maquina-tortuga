@@ -43,6 +43,10 @@ public class CAMERASingleton : MonoBehaviour
       DontDestroyOnLoad(this.gameObject);
     }
 
+  }
+
+  void OnEnable()
+  {
     setCurrentCamera(initialCameraIndex);
   }
 
@@ -56,6 +60,7 @@ public class CAMERASingleton : MonoBehaviour
 
     for (int i = 0; i < cameraArray.Length; i++)
     {
+      cameraArray[i].Target.TrackingTarget = GMSingleton.i.player.cameraTargetGameobject.transform;
       if (i == index)
       {
         cameraArray[i].enabled = true;

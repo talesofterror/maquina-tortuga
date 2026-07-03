@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TestGrounds00_old.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/_Prefabs/Lab 01/Lab 01.unity
+    guid: 2bf8e07f08a233c70a80e85138dbca02
+  - enabled: 1
     path: Assets/Scenes/TestGrounds00.unity
     guid: 879bedf107dd9c444918828b78cd63dd
   - enabled: 1
