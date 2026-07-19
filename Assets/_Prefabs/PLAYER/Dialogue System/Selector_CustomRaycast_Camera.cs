@@ -164,26 +164,27 @@ public class Selector_CustomRaycast_Camera : Selector
 
     }
 
-    if (reticleRect != null)
-    {
-      if (CAMERASingleton.i.zooming && lastHit.collider != null)
-      {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(lastHit.point);
-        if (screenPos.z > 0f)
-        {
-          reticleRect.gameObject.SetActive(true);
-          reticleRect.position = screenPos + (Vector3)reticleScreenOffset;
-        }
-        else
-        {
-          reticleRect.gameObject.SetActive(false);
-        }
-      }
-      else
-      {
-        reticleRect.gameObject.SetActive(false);  // Hide reticle when zooming or no hit
-      }
-    }
+    // RETICLE CODE
+    // if (reticleRect != null)
+    // {
+    //   if (CAMERASingleton.i.zooming && lastHit.collider != null)
+    //   {
+    //     Vector3 screenPos = Camera.main.WorldToScreenPoint(lastHit.point);
+    //     if (screenPos.z > 0f)
+    //     {
+    //       reticleRect.gameObject.SetActive(true);
+    //       reticleRect.position = screenPos + (Vector3)reticleScreenOffset;
+    //     }
+    //     else
+    //     {
+    //       reticleRect.gameObject.SetActive(false);
+    //     }
+    //   }
+    //   else
+    //   {
+    //     reticleRect.gameObject.SetActive(false);  // Hide reticle when zooming or no hit
+    //   }
+    // }
 
     // Refresh selector visuals each frame while a usable is selected so colors update in real time
     if (this.usable != null)
@@ -230,7 +231,7 @@ public class Selector_CustomRaycast_Camera : Selector
       UISingleton.i.selectorElements.gameObject.SetActive(false);
       return;
     }
-    bool inUseRange = (distance <= PLAYERSingleton.i.interactionReachDistance);
+    bool inUseRange = (distance <= CurrentUsable.maxUseDistance);
     if (state == true)
     {
       UISingleton.i.selectorElements.gameObject.SetActive(true);

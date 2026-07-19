@@ -21,7 +21,7 @@ public abstract class FSM_PlayerStateBase
 
   public void Update()
   {
-    _currentSubState?.Update();
+    _currentSubState?.Loop();
     Loop();
   }
 
@@ -32,6 +32,7 @@ public abstract class FSM_PlayerStateBase
 
   public void SetSubState(FSM_PlayerStateBase subState)
   {
+    _currentSubState?.Exit();
     _currentSubState = subState;
     subState.SetSuperState(this);
     subState.Enter();

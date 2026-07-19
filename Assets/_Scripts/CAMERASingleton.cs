@@ -1,5 +1,8 @@
+using NUnit.Framework.Constraints;
+using Palmmedia.ReportGenerator.Core;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class CAMERASingleton : MonoBehaviour
@@ -14,6 +17,9 @@ public class CAMERASingleton : MonoBehaviour
   public CinemachineCamera primaryFreelook;
   public CinemachineCamera primaryCloseFreelook;
   public CinemachineCamera primaryZoomFreelook;
+  CinemachineOrbitalFollow primaryFreeLookOrbital;
+  CinemachineOrbitalFollow primaryCloseFreelookOrbital;
+  CinemachineOrbitalFollow primaryZoomFreelookOrbital;
   public Camera uiCamera;
 
   public CinemachineCamera[] cameraArray;
@@ -30,6 +36,9 @@ public class CAMERASingleton : MonoBehaviour
   public bool cameraSwitchDisabled = false;
   public bool zooming;
 
+  public GameObject effectVolume;
+  public Volume effectVolumeComponent;
+
   void Awake()
   {
     if (_cameraSingleton != null && _cameraSingleton != this)
@@ -43,11 +52,28 @@ public class CAMERASingleton : MonoBehaviour
       DontDestroyOnLoad(this.gameObject);
     }
 
+    primaryFreeLookOrbital = primaryFreelook.GetComponent<CinemachineOrbitalFollow>();
+    primaryCloseFreelookOrbital = primaryCloseFreelook.GetComponent<CinemachineOrbitalFollow>();
+    primaryZoomFreelookOrbital = primaryZoomFreelook.GetComponent<CinemachineOrbitalFollow>();
+
+    effectVolume.SetActive(false);
+    effectVolumeComponent = effectVolume.GetComponent<Volume>();
+
   }
 
   void OnEnable()
   {
-    setCurrentCamera(initialCameraIndex);
+    SceneManager.sceneLoaded += OnSceneLoaded;
+  }
+
+  void OnDisable()
+  {
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+  }
+
+  void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+  {
+    InitializeLevelSettings();
   }
 
   void setCurrentCamera(int index)
@@ -80,22 +106,21 @@ public class CAMERASingleton : MonoBehaviour
     }
   }
 
-  int cachedActiveCameraIndex;
   void Update()
   {
-    if (GMSingleton.i.inputManager.zoom.IsPressed())
-    {
-      zooming = true;
-      cachedActiveCameraIndex = currentCameraIndex;
-      setCurrentCamera(-2); // Assuming the zoom camera is at index 2
-      primaryZoomFreelook.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis =
-          cameraArray[cachedActiveCameraIndex].GetComponent<CinemachineOrbitalFollow>().HorizontalAxis;
-    }
-    else
-    {
-      zooming = false;
-      setCurrentCamera(currentCameraIndex);
-    }
+    // if (GMSingleton.i.inputManager.zoom.IsPressed())
+    // {
+    //   zooming = true;
+    //   cachedActiveCameraIndex = currentCameraIndex;
+    //   setCurrentCamera(-2); // Assuming the zoom camera is at index 2
+    //   primaryZoomFreelook.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis =
+    //       cameraArray[cachedActiveCameraIndex].GetComponent<CinemachineOrbitalFollow>().HorizontalAxis;
+    // }
+    // else
+    // {
+    //   zooming = false;
+    //   setCurrentCamera(currentCameraIndex);
+    // }
 
     if (!cameraSwitchDisabled)
     {
@@ -132,6 +157,28 @@ public class CAMERASingleton : MonoBehaviour
       }
     }
 
+
+  }
+
+  public void InitializeLevelSettings()
+  {
+    SO_CameraSettings settings = GameObject.FindWithTag("CameraSettings").GetComponent<CameraSettings>().settings;
+
+    if (settings != null)
+    {
+      primaryFreelook.Lens.FieldOfView = settings.primaryFreelookLens;
+      primaryCloseFreelookOrbital.Radius = settings.primaryFreelookRadius;
+
+      primaryCloseFreelook.Lens.FieldOfView = settings.primaryCloseFreelookLens;
+      primaryCloseFreelookOrbital.Radius = settings.primaryCloseFreelookRadius;
+
+      primaryZoomFreelook.Lens.FieldOfView = settings.primaryZoomFreelookLens;
+      primaryZoomFreelookOrbital.Radius = settings.primaryZoomFreelookRadius;
+
+      setCurrentCamera(settings.initialCameraIndex);
+    }
+    else
+    { Debug.Log("missing CameraSettings gameobject or scriptable object"); }
   }
 
   void FixedUpdate() { }

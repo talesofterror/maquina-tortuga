@@ -192,7 +192,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Zoom"",
+                    ""name"": ""CastFocus"",
                     ""type"": ""Button"",
                     ""id"": ""0475a1c5-49aa-4619-bea0-0cc37a2b4efe"",
                     ""expectedControlType"": """",
@@ -555,7 +555,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Zoom"",
+                    ""action"": ""CastFocus"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -566,7 +566,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Zoom"",
+                    ""action"": ""CastFocus"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -577,7 +577,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XR"",
-                    ""action"": ""Zoom"",
+                    ""action"": ""CastFocus"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -976,6 +976,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""0e0d2f43-e70c-43fb-bb14-018f223ad0f0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1d51b7b9-ad2d-4fab-b1a4-bc5347327f63"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
@@ -988,6 +999,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a66a2f65-d821-4a21-91b4-c50df19aa6a4"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b5a7c24-bf35-468e-ac84-d03fe0f6862e"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
@@ -1273,7 +1295,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Strafe = m_Player.FindAction("Strafe", throwIfNotFound: true);
         m_Player_ModeChange = m_Player.FindAction("ModeChange", throwIfNotFound: true);
-        m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
+        m_Player_CastFocus = m_Player.FindAction("CastFocus", throwIfNotFound: true);
         m_Player_DisableMouseInput = m_Player.FindAction("DisableMouseInput", throwIfNotFound: true);
         m_Player_NextCamera = m_Player.FindAction("NextCamera", throwIfNotFound: true);
         m_Player_PrevCamera = m_Player.FindAction("PrevCamera", throwIfNotFound: true);
@@ -1382,7 +1404,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Strafe;
     private readonly InputAction m_Player_ModeChange;
-    private readonly InputAction m_Player_Zoom;
+    private readonly InputAction m_Player_CastFocus;
     private readonly InputAction m_Player_DisableMouseInput;
     private readonly InputAction m_Player_NextCamera;
     private readonly InputAction m_Player_PrevCamera;
@@ -1442,9 +1464,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @ModeChange => m_Wrapper.m_Player_ModeChange;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Zoom".
+        /// Provides access to the underlying input action "Player/CastFocus".
         /// </summary>
-        public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
+        public InputAction @CastFocus => m_Wrapper.m_Player_CastFocus;
         /// <summary>
         /// Provides access to the underlying input action "Player/DisableMouseInput".
         /// </summary>
@@ -1516,9 +1538,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ModeChange.started += instance.OnModeChange;
             @ModeChange.performed += instance.OnModeChange;
             @ModeChange.canceled += instance.OnModeChange;
-            @Zoom.started += instance.OnZoom;
-            @Zoom.performed += instance.OnZoom;
-            @Zoom.canceled += instance.OnZoom;
+            @CastFocus.started += instance.OnCastFocus;
+            @CastFocus.performed += instance.OnCastFocus;
+            @CastFocus.canceled += instance.OnCastFocus;
             @DisableMouseInput.started += instance.OnDisableMouseInput;
             @DisableMouseInput.performed += instance.OnDisableMouseInput;
             @DisableMouseInput.canceled += instance.OnDisableMouseInput;
@@ -1572,9 +1594,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ModeChange.started -= instance.OnModeChange;
             @ModeChange.performed -= instance.OnModeChange;
             @ModeChange.canceled -= instance.OnModeChange;
-            @Zoom.started -= instance.OnZoom;
-            @Zoom.performed -= instance.OnZoom;
-            @Zoom.canceled -= instance.OnZoom;
+            @CastFocus.started -= instance.OnCastFocus;
+            @CastFocus.performed -= instance.OnCastFocus;
+            @CastFocus.canceled -= instance.OnCastFocus;
             @DisableMouseInput.started -= instance.OnDisableMouseInput;
             @DisableMouseInput.performed -= instance.OnDisableMouseInput;
             @DisableMouseInput.canceled -= instance.OnDisableMouseInput;
@@ -1973,12 +1995,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnModeChange(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CastFocus" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnZoom(InputAction.CallbackContext context);
+        void OnCastFocus(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "DisableMouseInput" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

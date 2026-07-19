@@ -20,6 +20,7 @@ public class Interactable : MonoBehaviour
   public ReachState reachState = ReachState.Unreachable;
 
   DialogueSystemTrigger dialogueSystemTrigger;
+  Usable usable;
 
 
   // * Outline Layers
@@ -30,10 +31,11 @@ public class Interactable : MonoBehaviour
   {
     defaultLayer = gameObject.layer;
     outlineLayer = LayerMask.NameToLayer("Outlined");
-    if (TryGetComponent(out DialogueSystemTrigger dialogueSystemTrigger))
-    {
-      dialogueSystemTrigger.maxConversationDistance = GetComponent<Usable>().maxUseDistance;
-    }
+    usable = GetComponent<Usable>();
+    // if (TryGetComponent(out DialogueSystemTrigger dialogueSystemTrigger))
+    // {
+    //   dialogueSystemTrigger.maxConversationDistance = GetComponent<Usable>().maxUseDistance;
+    // }
   }
 
 
@@ -89,7 +91,7 @@ public class Interactable : MonoBehaviour
   public bool CanReach()
   {
     if (Vector3.Distance(
-        PLAYERSingleton.i.transform.position, transform.position) < PLAYERSingleton.i.interactionReachDistance
+        PLAYERSingleton.i.transform.position, transform.position) < usable.maxUseDistance
         && PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
     {
       return true;

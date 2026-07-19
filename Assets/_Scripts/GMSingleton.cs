@@ -62,13 +62,20 @@ public class GMSingleton : MonoBehaviour
   void OnEnable()
   {
     DialogueManager.instance.conversationEnded += OnDialogueEnded;
+    SceneManager.sceneLoaded += OnSceneLoaded;
 
+  }
+
+  private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+  {
     Lua.RegisterFunction("LoadScene", this, SymbolExtensions.GetMethodInfo(() => DialogueFunction_LoadScene()));
     Lua.RegisterFunction("EndConvo", this, SymbolExtensions.GetMethodInfo(() => DialogueFunction_EndConvo()));
   }
 
   void OnDisable()
   { 
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+    
     if (DialogueManager.instance != null)
       DialogueManager.instance.conversationEnded -= OnDialogueEnded;
 

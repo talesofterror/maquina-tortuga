@@ -8,6 +8,7 @@ public class FSM_PlayerStateController : MonoBehaviour
   public FSM_PlayerState_Looking state_Looking;
   public FSM_PlayerState_Fight state_Fight;
   public FSM_PlayerState_Interact state_Interact;
+  public FSM_PlayerState_Casting state_Casting;
 
   void Awake()
   {
@@ -15,12 +16,12 @@ public class FSM_PlayerStateController : MonoBehaviour
     state_Looking = new FSM_PlayerState_Looking(this);
     state_Fight = new FSM_PlayerState_Fight(this);
     state_Interact = new FSM_PlayerState_Interact(this);
+    state_Casting = new FSM_PlayerState_Casting(this);
   }
 
   void Start()
   {
     currentState = state_Normal;
-    state_Normal.SetSubState(state_Looking);
   }
 
   void Update()

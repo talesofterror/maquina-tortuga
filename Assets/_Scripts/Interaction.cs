@@ -11,10 +11,6 @@ public class Interaction
   public Interaction(Interactable _interactable)
   {
     i = _interactable;
-    this.name = _interactable._name;
-    this.type = _interactable.type;
-    this.transform = _interactable.transform;
-    this.description = _interactable.description;
   }
   
 }

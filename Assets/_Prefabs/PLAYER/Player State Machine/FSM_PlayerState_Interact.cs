@@ -7,7 +7,7 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
 
   public FSM_PlayerState_Interact(FSM_PlayerStateController c) : base(c) { }
 
-  Interaction interaction;
+  Interactable interactable;
 
   public override void Enter()
   {
@@ -17,20 +17,20 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
 
     Debug.Log("Entering Interact Mode");
 
-    PLAYERSingleton.i.movementDisabled = true;
+    PLAYERSingleton.i.inputDisabled = true;
     CAMERASingleton.i.cameraSwitchDisabled = true;
 
-    interaction = GMSingleton.i.currentInteraction;
-    if (GMSingleton.i.currentInteraction.type == InteractionType.Warp)
+    interactable = PLAYERSingleton.i.sightedInteractable;
+    if (interactable.type == InteractionType.Warp)
     {
-      string warpDestination = interaction.i.gameObject.GetComponent<SceneLoader>().sceneToLoad;
+      string warpDestination = interactable.gameObject.GetComponent<SceneLoader>().sceneToLoad;
       DialogueLua.SetVariable("StationName", warpDestination);
     }
   }
   public override void Exit()
   {
-    interaction = null;
-    PLAYERSingleton.i.movementDisabled = false;
+    interactable = null;
+    PLAYERSingleton.i.inputDisabled = false;
     PLAYERSingleton.i.ignoreModeChange = true;
     CAMERASingleton.i.cameraSwitchDisabled = false;
     if (DialogueManager.IsConversationActive) DialogueManager.StopAllConversations();

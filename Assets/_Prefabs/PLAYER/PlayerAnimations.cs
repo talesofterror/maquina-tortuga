@@ -28,9 +28,9 @@ public class PlayerAnimations : MonoBehaviour
     public IEnumerator PlayAndFreeze(float time, string animation)
     {
         PLAYERSingleton.i.animations.animator.SetTrigger(animation);
-        PLAYERSingleton.i.movementDisabled = true;
+        PLAYERSingleton.i.inputDisabled = true;
         yield return new WaitForSeconds(time);
 
-        PLAYERSingleton.i.movementDisabled = false;
+        PLAYERSingleton.i.inputDisabled = false;
     }
 }

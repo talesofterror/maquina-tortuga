@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ArrowGizmo : MonoBehaviour
 {
+    public Color xColor = Color.red;
+    public Color yColor = Color.yellow;
+    public Color zColor = Color.blue;
     public bool DrawX;
     public bool DrawY;
     public bool DrawZ;
@@ -24,7 +27,7 @@ public class ArrowGizmo : MonoBehaviour
         Vector3 arrowRim;
         if (DrawX)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = xColor;
 
             arrowHead = transform.position + Length * transform.right;
             arrowRim = transform.position + Length * 0.66f * transform.right;
@@ -51,7 +54,7 @@ public class ArrowGizmo : MonoBehaviour
         }
         if (DrawY)
         {
-            Gizmos.color = Color.green;
+            Gizmos.color = yColor;
 
             arrowHead = transform.position + Length * transform.up;
             arrowRim = transform.position + Length * 0.66f * transform.up;
@@ -78,7 +81,7 @@ public class ArrowGizmo : MonoBehaviour
         }
         if (DrawZ)
         {
-            Gizmos.color = Color.blue;
+            Gizmos.color = zColor;
 
             arrowHead = transform.position + Length * transform.forward;
             arrowRim = transform.position + Length * 0.66f * transform.forward;

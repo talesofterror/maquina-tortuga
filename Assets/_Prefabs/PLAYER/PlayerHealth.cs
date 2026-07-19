@@ -77,6 +77,8 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator KnockbackCoroutine(Vector3 source, float peakForce)
     {
+        PLAYERSingleton.i.animations.animator.SetBool("Knockback", true);
+
         Vector3 direction = (PLAYERSingleton.i.rB.position - source);
         direction.y = 0;
         direction.Normalize();
@@ -88,6 +90,7 @@ public class PlayerHealth : MonoBehaviour
         // Asin(0) = 0, Asin(1) = PI/2
         float startAngle = Mathf.Asin(Mathf.Clamp01(_startKnockbackPercentage));
         float endAngle = Mathf.PI;
+
 
         float timer = 0f;
         while (timer < _knockbackDuration)
@@ -104,10 +107,13 @@ public class PlayerHealth : MonoBehaviour
             if (PLAYERSingleton.i.vController != null)
             {
                 PLAYERSingleton.i.vController.knockbackVelocity = peakVelocity * curve;
+                Debug.Log("knockback velocity" + PLAYERSingleton.i.vController.knockbackVelocity);
             }
 
             yield return null;
         }
+
+        PLAYERSingleton.i.animations.animator.SetBool("Knockback", false);
 
         if (PLAYERSingleton.i.vController != null)
             PLAYERSingleton.i.vController.knockbackVelocity = Vector3.zero;

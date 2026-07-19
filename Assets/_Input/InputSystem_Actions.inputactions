@@ -106,7 +106,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Zoom",
+                    "name": "CastFocus",
                     "type": "Button",
                     "id": "0475a1c5-49aa-4619-bea0-0cc37a2b4efe",
                     "expectedControlType": "",
@@ -469,7 +469,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Zoom",
+                    "action": "CastFocus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -480,7 +480,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Zoom",
+                    "action": "CastFocus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -491,7 +491,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Zoom",
+                    "action": "CastFocus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -890,6 +890,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0e0d2f43-e70c-43fb-bb14-018f223ad0f0",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1d51b7b9-ad2d-4fab-b1a4-bc5347327f63",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -902,6 +913,17 @@
                 {
                     "name": "",
                     "id": "a66a2f65-d821-4a21-91b4-c50df19aa6a4",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b5a7c24-bf35-468e-ac84-d03fe0f6862e",
                     "path": "",
                     "interactions": "",
                     "processors": "",

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: SO_Rostro
   m_EditorClassIdentifier: Assembly-CSharp::SO_Rostro
   maxHP: 100
+  rotationSpeed: 0.4
   maxAP: 10
-  laserScale: 0.2
-  laserLength: 8
+  laserScale: 1
+  laserLength: 25
   laserExtendSpeed: 10
   laserRetractSpeed: 10

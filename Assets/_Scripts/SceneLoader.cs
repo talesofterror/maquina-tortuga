@@ -5,7 +5,6 @@ using UnityEditor;
 
 public class SceneLoader : MonoBehaviour
 {
-  public int level;
   public string sceneToLoad;
   public bool isInitialSpawnPoint = true;
 

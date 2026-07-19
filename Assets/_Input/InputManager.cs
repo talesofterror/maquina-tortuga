@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
     public InputSystem_Actions inputSystem;
     public InputAction interaction;
     public InputAction attack;
-    public InputAction zoom;
+    public InputAction cast;
     public InputAction modeChange;
     public InputAction disableMouseInput;
     public InputAction nextCamera;
@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
 
         interaction = inputSystem.Player.Interact;
         attack = inputSystem.Player.Attack;
-        zoom = inputSystem.Player.Zoom;
+        cast = inputSystem.Player.CastFocus;
         modeChange = inputSystem.Player.ModeChange;
         disableMouseInput = inputSystem.Player.DisableMouseInput;
         nextCamera = inputSystem.Player.NextCamera;
@@ -63,7 +63,7 @@ public class InputManager : MonoBehaviour
             "#ffaacc"
         );
         UISingleton.i.debug.pushMessage(
-            "Zoom: " + InputActionRebindingExtensions.GetBindingDisplayString(zoom),
+            "Cast: " + InputActionRebindingExtensions.GetBindingDisplayString(cast),
             "#ffaacc"
         );
         UISingleton.i.debug.pushMessage(

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2f235172c8b9838950f20c7ec408b7, type: 3}
+  m_Name: CameraSettings_TestGrounds00
+  m_EditorClassIdentifier: Assembly-CSharp::SO_CameraSettings
+  primaryFreelookRadius: 8.8
+  primaryFreelookLens: 60
+  primaryCloseFreelookRadius: 10.53
+  primaryCloseFreelookLens: 35.8
+  primaryZoomFreelookRadius: 6
+  primaryZoomFreelookLens: 38
+  initialCameraIndex: 1

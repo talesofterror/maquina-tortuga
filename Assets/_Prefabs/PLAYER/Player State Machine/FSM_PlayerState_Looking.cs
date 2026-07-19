@@ -60,9 +60,13 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
 
       // * Listen for Interactable.Sighted
 
-      if (rayHitInteractable.transform.CompareTag("Interactable"))
+      if (rayHitInteractable.transform.CompareTag("Interactable") && sightedInteractable == null)
       {
-        listenForSight();
+        // listenForSight();
+        PLAYERSingleton.i.sightedInteractable = rayHitInteractable.transform.gameObject.GetComponent<Interactable>();
+        listenForReachability();
+        // GMSingleton.i.currentInteraction = new Interaction(rayHitInteractable.transform.gameObject.GetComponent<Interactable>());
+        // sightedInteractable.SetAsCurrentReachableInteraction();
       }
     }
     else
@@ -81,8 +85,8 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
   {
     if (sightedInteractable == null)
     {
-      GMSingleton.i.currentInteraction = new Interaction(rayHitInteractable.transform.gameObject.GetComponent<Interactable>());
-      sightedInteractable = GMSingleton.i.currentInteraction.i;
+      // GMSingleton.i.currentInteraction = new Interaction(rayHitInteractable.transform.gameObject.GetComponent<Interactable>());
+      sightedInteractable = rayHitInteractable.transform.gameObject.GetComponent<Interactable>();
 
       if (sightedInteractable.sightState == Interactable.SightState.Unsighted)
       {
@@ -98,36 +102,30 @@ public class FSM_PlayerState_Looking : FSM_PlayerStateBase
 
   private void listenForReachability()
   {
-    if (sightedInteractable == null) { return; }
-    if (sightedInteractable.CanReach())
+    if (PLAYERSingleton.i.sightedInteractable == null) { return; }
+    if (PLAYERSingleton.i.sightedInteractable.CanReach())
     {
-
-      // Don't modify UI strings here; Selector_CustomRaycast_Camera updates text and colors each frame.
-
-      if (sightedInteractable.reachState != Interactable.ReachState.Reachable)
+      if (PLAYERSingleton.i.sightedInteractable.reachState != Interactable.ReachState.Reachable)
       {
-        sightedInteractable.SetReachState(Interactable.ReachState.Reachable);
-        sightedInteractable.SetAsCurrentReachableInteraction();
-        Debug.Log("Listening for intraction input on" + sightedInteractable.name);
+        PLAYERSingleton.i.sightedInteractable.SetReachState(Interactable.ReachState.Reachable);
+        PLAYERSingleton.i.sightedInteractable.SetAsCurrentReachableInteraction();
+        Debug.Log("Listening for intraction input on" + PLAYERSingleton.i.sightedInteractable.name);
       }
-      else
-      {
-        listenForInteractionInput();
-      }
+      listenForInteractionInput();
     }
     else
     {
-      sightedInteractable.reachState = Interactable.ReachState.Unreachable;
+      PLAYERSingleton.i.sightedInteractable.reachState = Interactable.ReachState.Unreachable;
       // Debug.Log("Player is listening for reachability of " + currentInteractable.name);
     }
   }
 
   void listenForInteractionInput()
   {
-    if (GMSingleton.i.inputManager.interaction.WasPressedThisFrame())
+    if (GMSingleton.i.inputManager.interaction.WasPressedThisFrame() && PLAYERSingleton.i.dialogueSelector.CurrentUsable != null)
     {
       // PLAYERSingleton.i.stateController.SwitchState(PLAYERSingleton.i.stateController.state_Interact);
-      Interactable.Interact(sightedInteractable.type);
+      Interactable.Interact(PLAYERSingleton.i.sightedInteractable.type);
     }
   }
 }

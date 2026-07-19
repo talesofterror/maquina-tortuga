@@ -37,7 +37,7 @@ public class IronGolem_FSM_State_TakingDamage : FSM_Base
     controller.animalScript.isTakingDamage = true;
     controller.animalScript.hp = controller.animalScript.hp - amount;
     Debug.Log("Iron Golem took " + amount + " damage!");
-    DialogueManager.ShowAlert("<b>Iron Golem</b> took <color=#10ccff><b>" + amount + "</color> damage!</b>");
+    DialogueManager.ShowAlert("<b>Iron Golem</b> took <color=#10ccff><b>" + amount + "</color> damage!</b>", 1f);
 
     if (controller.animalScript.hp <= 0)
     {
