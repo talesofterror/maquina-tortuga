@@ -21,6 +21,7 @@ public class FSM_PlayerState_Casting : FSM_PlayerStateBase
     PLAYERSingleton.i.rB.linearVelocity = Vector3.zero;
     CAMERASingleton.i.effectVolume.SetActive(true);
     computerController.Opening();
+    SetSubState(controller.state_Looking);
   }
 
   public override void Exit()

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.VolumeProfile
   components:
   - {fileID: 6353184035658667918}
+  - {fileID: 8008794799678169982}
   - {fileID: 1728296673264832562}
 --- !u!114 &1728296673264832562
 MonoBehaviour:
@@ -65,3 +66,46 @@ MonoBehaviour:
   distance:
     m_OverrideState: 1
     m_Value: 100
+--- !u!114 &8008794799678169982
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f0f34434172684f90e4c0903cf4488, type: 3}
+  m_Name: DitherVol
+  m_EditorClassIdentifier: Masking.Runtime::VolFx.DitherVol
+  active: 1
+  m_Impact:
+    m_OverrideState: 1
+    m_Value: 1
+  m_Power:
+    m_OverrideState: 1
+    m_Value: 0.926
+  m_Scale:
+    m_OverrideState: 1
+    m_Value: 1
+  m_Pixelate:
+    m_OverrideState: 0
+    m_Value: 1
+  m_Fps:
+    m_OverrideState: 1
+    m_Value: 69
+  m_Palette:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: de59be140a6a3f640a33401ee7c83c18, type: 3}
+  m_Pattern:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: 349aad560c9df8343a28deb0dad611ee, type: 3}
+  m_Mode:
+    m_OverrideState: 1
+    m_Value: 1
+  m_NoiseScale:
+    m_OverrideState: 1
+    m_Value: 7
+  m_Noise:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: 2600079fc3c0bcd4e9f07d5cac498666, type: 3}
