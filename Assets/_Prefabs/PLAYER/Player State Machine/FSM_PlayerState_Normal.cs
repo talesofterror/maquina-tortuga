@@ -16,7 +16,7 @@ public class FSM_PlayerState_Normal : FSM_PlayerStateBase
     // this.SetSubState(new FSM_PlayerState_Looking(controller));
     // PLAYERSingleton.i.movementDisabled = false;
     Debug.Log("Entering Normal State");
-    Debug.Log("Substate: " + this._currentSubState);
+    Debug.Log("Substate: " + this.subState);
     SetSubState(controller.state_Looking);
   }
 

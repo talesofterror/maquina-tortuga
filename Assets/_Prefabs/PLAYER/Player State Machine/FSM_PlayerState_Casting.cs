@@ -38,7 +38,7 @@ public class FSM_PlayerState_Casting : FSM_PlayerStateBase
     if (GMSingleton.i.inputManager.cast.WasReleasedThisFrame())
     {
       computerController.Closing();
-      _superState?.SetSubState(controller.state_Looking);
+      superState?.SetSubState(controller.state_Looking);
     }
   }
 

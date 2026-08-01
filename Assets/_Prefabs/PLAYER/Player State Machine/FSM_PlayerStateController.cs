@@ -9,6 +9,7 @@ public class FSM_PlayerStateController : MonoBehaviour
   public FSM_PlayerState_Fight state_Fight;
   public FSM_PlayerState_Interact state_Interact;
   public FSM_PlayerState_Casting state_Casting;
+  public FSM_PlayerState_Dead state_Dead;
 
   void Awake()
   {
@@ -17,6 +18,7 @@ public class FSM_PlayerStateController : MonoBehaviour
     state_Fight = new FSM_PlayerState_Fight(this);
     state_Interact = new FSM_PlayerState_Interact(this);
     state_Casting = new FSM_PlayerState_Casting(this);
+    state_Dead = new FSM_PlayerState_Dead(this);
   }
 
   void Start()

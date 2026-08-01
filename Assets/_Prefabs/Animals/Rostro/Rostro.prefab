@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 136698013111827180}
   - component: {fileID: 7128652762074527353}
   - component: {fileID: 5467410010384344126}
+  - component: {fileID: 2526816435329303374}
   m_Layer: 8
   m_Name: Eye Back Right
   m_TagString: Untagged
@@ -90,6 +91,26 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2526816435329303374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261525303959710578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ae2de924f4ad79190b659e131fcf39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IntervalProjector
+  poolSize: 10
+  scale: 1
+  intervalOffset: 0
+  projectileDistance: 50
+  projectileTravelTime: 1
+  projectileSpeed: 20
+  projectileDamage: 10
+  PrefabName: RostroProjectile
 --- !u!1 &6076098642839363614
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +122,7 @@ GameObject:
   - component: {fileID: 8526634721652980893}
   - component: {fileID: 6969354084723788157}
   - component: {fileID: 4009198764355987369}
+  - component: {fileID: 1939658698010753969}
   m_Layer: 8
   m_Name: Eye Front Left
   m_TagString: Untagged
@@ -180,6 +202,79 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1939658698010753969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6076098642839363614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ae2de924f4ad79190b659e131fcf39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IntervalProjector
+  poolSize: 10
+  scale: 1
+  intervalOffset: 0
+  projectileDistance: 50
+  projectileTravelTime: 1
+  projectileSpeed: 20
+  projectileDamage: 10
+  PrefabName: RostroProjectile
+--- !u!1 &6278125509473393870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 221772152379375469}
+  - component: {fileID: 3750529097305882745}
+  m_Layer: 2
+  m_Name: Player Detector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &221772152379375469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278125509473393870}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5294600234133660887}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3750529097305882745
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278125509473393870}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 8
+  m_Center: {x: -0.000000059604645, y: -0.0003336668, z: 0}
 --- !u!1 &7277051406822835119
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +286,7 @@ GameObject:
   - component: {fileID: 3063479735569435264}
   - component: {fileID: 5849841877977515314}
   - component: {fileID: 2304195611402462621}
+  - component: {fileID: 5499079418129744478}
   m_Layer: 8
   m_Name: Eye Front Right
   m_TagString: Untagged
@@ -270,6 +366,26 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5499079418129744478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277051406822835119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ae2de924f4ad79190b659e131fcf39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IntervalProjector
+  poolSize: 10
+  scale: 1
+  intervalOffset: 0
+  projectileDistance: 50
+  projectileTravelTime: 1
+  projectileSpeed: 20
+  projectileDamage: 10
+  PrefabName: RostroProjectile
 --- !u!1 &7417780849519770344
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,6 +397,7 @@ GameObject:
   - component: {fileID: 3594404910237897051}
   - component: {fileID: 4621271017664515473}
   - component: {fileID: 2269439654202119742}
+  - component: {fileID: 2787866705297863154}
   m_Layer: 8
   m_Name: Eye Back Left
   m_TagString: Untagged
@@ -360,6 +477,26 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2787866705297863154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7417780849519770344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ae2de924f4ad79190b659e131fcf39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IntervalProjector
+  poolSize: 10
+  scale: 1
+  intervalOffset: 0
+  projectileDistance: 50
+  projectileTravelTime: 1
+  projectileSpeed: 20
+  projectileDamage: 10
+  PrefabName: RostroProjectile
 --- !u!1001 &5688199853402866492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -443,6 +580,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3594404910237897051}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 221772152379375469}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9da56b31480feb141ad7118645c027f6, type: 3}
       insertIndex: -1
@@ -509,6 +649,8 @@ MonoBehaviour:
   _mp: 100
   _ap: 10
   currentRotationSpeed: 0
+  projector: []
+  detector: {fileID: 3750529097305882745}
 --- !u!114 &1110905524640165690
 MonoBehaviour:
   m_ObjectHideFlags: 0

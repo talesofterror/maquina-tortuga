@@ -19,3 +19,10 @@ MonoBehaviour:
   laserLength: 25
   laserExtendSpeed: 10
   laserRetractSpeed: 10
+  projectileInterval: 1.5
+  projectilePoolSize: 10
+  projectileSpeed: 10
+  projectileDistance: 15
+  projectileDamage: 25
+  projectileForce: 5
+  detectionRadius: 10

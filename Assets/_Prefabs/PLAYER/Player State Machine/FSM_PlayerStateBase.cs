@@ -6,8 +6,8 @@ public abstract class FSM_PlayerStateBase
 {
   protected FSM_PlayerStateController controller;
 
-  protected FSM_PlayerStateBase _currentSubState;
-  protected FSM_PlayerStateBase _superState;
+  protected FSM_PlayerStateBase subState;
+  protected FSM_PlayerStateBase superState;
 
   // public FSM_PlayerStateBase(FSM_PlayerStateController controller)
   // {
@@ -21,7 +21,7 @@ public abstract class FSM_PlayerStateBase
 
   public void Update()
   {
-    _currentSubState?.Loop();
+    subState?.Loop();
     Loop();
   }
 
@@ -30,15 +30,15 @@ public abstract class FSM_PlayerStateBase
 
   }
 
-  public void SetSubState(FSM_PlayerStateBase subState)
+  public void SetSubState(FSM_PlayerStateBase _subState)
   {
-    _currentSubState?.Exit();
-    _currentSubState = subState;
-    subState.SetSuperState(this);
-    subState.Enter();
+    this.subState?.Exit();
+    this.subState = _subState;
+    _subState.SetSuperState(this);
+    _subState.Enter();
   }
   protected void SetSuperState(FSM_PlayerStateBase superState)
   {
-    _superState = superState;
+    this.superState = superState;
   }
 }

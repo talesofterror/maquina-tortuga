@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9eaf1b34c65380e8c75f43c661990d, type: 3}
   m_Name: CustomCameraEffect_RenderFeature
   m_EditorClassIdentifier: Assembly-CSharp::CustomCameraEffect_RenderFeature
-  m_Active: 1
+  m_Active: 0
   settings:
     material: {fileID: 2100000, guid: f3d67349b61723861991662f5e8d6c4b, type: 2}
     renderPassEvent: 600

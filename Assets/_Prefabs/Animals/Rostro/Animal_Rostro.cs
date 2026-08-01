@@ -32,6 +32,9 @@ public class Animal_Rostro : MonoBehaviour, I_Animal
   public float currentRotationSpeed;
 
   LaserGenerator laserGenerator;
+  public IntervalProjector[] projector;
+
+  public SphereCollider detector;
 
   void Start()
   {
@@ -42,14 +45,28 @@ public class Animal_Rostro : MonoBehaviour, I_Animal
     currentRotationSpeed = stats.rotationSpeed;
 
     // animation settings
-    
+
     anim = GetComponent<Animation>();
     foreach (AnimationState state in anim)
     {
-      state.speed = currentRotationSpeed; 
+      state.speed = currentRotationSpeed;
       // Debug.Log("Animation: " + state.name + " Length: " + state.length);
     }
 
+    detector.radius = stats.detectionRadius;
+
+    InitLasers();
+    projector = GetComponentsInChildren<IntervalProjector>();
+    foreach (IntervalProjector p in projector)
+    {
+      p.projectileSpeed = stats.projectileSpeed;
+      p.projectileDistance = stats.projectileDistance;
+      p.InitProjectiles(stats.projectileDamage, stats.projectileForce);
+    }
+  }
+
+  private void InitLasers()
+  {
     // laser settings
     laserGenerator = GetComponent<LaserGenerator>();
     laserGenerator.laserScale = stats.laserScale;
@@ -58,9 +75,14 @@ public class Animal_Rostro : MonoBehaviour, I_Animal
     laserGenerator.retractSpeed = stats.laserRetractSpeed;
   }
 
-  public void TakeDamage (int amount, GameObject focus)
+  public void TakeDamage(int amount, GameObject focus)
   {
     Debug.Log($"{transform.name} called TakeDamage()");
+  }
+
+  void OnDrawGizmosSelected()
+  {
+    Gizmos.DrawWireSphere(transform.position, stats.detectionRadius);
   }
 
 }

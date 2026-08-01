@@ -142,7 +142,6 @@ public class PLAYERSingleton : MonoBehaviour
 
   void Update()
   {
-
     if (!ignoreModeChange)
     { ListenForModeChangeInput(); }
     if (ignoreModeChange)
@@ -153,27 +152,12 @@ public class PLAYERSingleton : MonoBehaviour
 
       vInput.inputAction_Move.Disable();
       vInput.inputAction_Jump.Disable();
-      // vInput.enabled = false;
-      // GMSingleton.i.inputManager.inputSystem.Player.Disable();
     }
     else
     {
       vInput.inputAction_Move.Enable();
       vInput.inputAction_Jump.Enable();
-      // vInput.enabled = true;
-      // GMSingleton.i.inputManager.inputSystem.Player.Enable();
-      // vInput.inputAction_Move.Enable();
     }
-
-    // if (movementDisabled)
-    // {
-    //   cachedRBConstraints = rB.constraints;
-    //   rB.constraints = RigidbodyConstraints.FreezePosition;
-    // }
-    // else
-    // {
-    //   rB.constraints = RigidbodyConstraints.FreezeRotation;
-    // }
   }
 
   public bool ignoreModeChange = false;

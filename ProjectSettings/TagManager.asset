@@ -9,6 +9,7 @@ TagManager:
   - Warp
   - PlayerDamage
   - CameraSettings
+  - Detector
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - PlayerSpecial
   - Cameras
   - Volumes
-  - 
+  - Projectile
   - 
   - 
   - 
