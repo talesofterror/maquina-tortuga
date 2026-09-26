@@ -21,7 +21,7 @@ public abstract class FSM_Base
   public abstract void Loop();
 
   public abstract void Exit();    // Cleanup logic
-  public virtual void Option(int option) { }
+  public virtual void Option(long option) { }
 
   public void SetSubState(FSM_Base _subState)
   {

@@ -26,9 +26,9 @@ public class IronGolem_FSM_State_TakingDamage : FSM_Base
 
   }
 
-  public override void Option(int option)
+  public override void Option(long option)
   {
-    damageAmount = option;
+    damageAmount = (int)option;
   }
 
   public void TakeDamage(int amount, GameObject focus)

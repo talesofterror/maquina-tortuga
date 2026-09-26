@@ -51,12 +51,19 @@ public class IronGolem_FSM_Controller : FSM_BaseController
 
   void Update()
   {
-    _currentState?.Update();
+    if (animalScript.hp <= 0 || animalScript.dead)
+    {
+      if (_currentState != state_Dead)
+      {
+        SwitchState(state_Dead);
+      }
+      return;
+    }
 
-    if (!animalScript.dead) ListenForDeath();
+    _currentState?.Update();
   }
 
-  public override void SwitchState(FSM_Base newState, int option = 0)
+  public override void SwitchState(FSM_Base newState, long option = 0)
   {
     _currentState?.Exit();
     _currentState = newState;

@@ -22,6 +22,18 @@ public class IronGolem_FSM_State_Attack : FSM_Base
   }
   public override void Loop()
   {
+    if (controller.animalScript.hp <= 0 || controller.animalScript.dead)
+    {
+      controller.SwitchState(controller.state_Dead);
+      return;
+    }
+
+    if (controller.animalScript.isTakingDamage)
+    {
+      controller.navMeshAgent.ResetPath();
+      return;
+    }
+
     bool targetTooFar = Vector3.Distance(controller.transform.position, controller.focus.transform.position) > controller.animalScript.forgetDistance;
     bool targetInAttackRange =
         Vector3.Distance(controller.transform.position, controller.focus.transform.position) <= controller.navMeshAgent.stoppingDistance;

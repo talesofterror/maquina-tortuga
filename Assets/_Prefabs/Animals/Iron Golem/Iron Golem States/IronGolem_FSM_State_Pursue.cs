@@ -25,6 +25,12 @@ public class IronGolem_FSM_State_Pursue : FSM_Base
 
   public override void Loop()
   {
+    if (controller.animalScript.dead || controller.animalScript.isTakingDamage)
+    {
+      controller.navMeshAgent.ResetPath();
+      return;
+    }
+
     // if (controller != null)
     // {
     Vector3 targetPos = PLAYERSingleton.i.transform.position;
