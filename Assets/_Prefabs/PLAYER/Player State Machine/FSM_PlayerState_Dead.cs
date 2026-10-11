@@ -15,7 +15,7 @@ public class FSM_PlayerState_Dead : FSM_PlayerStateBase
     UISingleton.i.debug.pushMessage("x_x;;");
 
     PLAYERSingleton.i.inputDisabled = true;
-    PLAYERSingleton.i.ignoreModeChange = true;
+    PLAYERSingleton.i.stateController.ignoreModeChange = true;
     CAMERASingleton.i.cameraSwitchDisabled = true;
     if (DialogueManager.IsConversationActive) DialogueManager.StopAllConversations();
 
@@ -38,7 +38,7 @@ public class FSM_PlayerState_Dead : FSM_PlayerStateBase
   {
     resurrectionTimerCoroutine = null;
     PLAYERSingleton.i.inputDisabled = false;
-    PLAYERSingleton.i.ignoreModeChange = false;
+    PLAYERSingleton.i.stateController.ignoreModeChange = false;
     CAMERASingleton.i.cameraSwitchDisabled = false;
     PLAYERSingleton.i.transform.position = GameObject.FindWithTag("Respawn").transform.position;
     PLAYERSingleton.i.transform.rotation = GameObject.FindWithTag("Respawn").transform.rotation;

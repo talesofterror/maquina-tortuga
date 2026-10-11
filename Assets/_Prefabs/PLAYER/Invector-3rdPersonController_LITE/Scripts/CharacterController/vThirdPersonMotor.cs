@@ -128,6 +128,7 @@ namespace Invector.vCharacterController
         internal Vector3 colliderCenter; // storage the center of the capsule collider info
         internal Vector3 inputSmooth; // generate smooth input based on the inputSmooth value
         internal Vector3 moveDirection; // used to know the direction you're moving
+        internal bool customAction; // bool to defined when a custom action is ocurring.
         #endregion
 
         public void Init()

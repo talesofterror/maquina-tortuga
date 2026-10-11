@@ -11,6 +11,7 @@ public class PlayerAnimations : MonoBehaviour
     public AnimatorState state;
     public int FightStance;
     public int FightSlash1;
+    public int Sliding;
 
     void Awake()
     {
@@ -18,6 +19,7 @@ public class PlayerAnimations : MonoBehaviour
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         FightStance = Animator.StringToHash("FightStance");
         FightSlash1 = Animator.StringToHash("slash1");
+        Sliding = Animator.StringToHash("Sliding");
     }
 
     public float CurrentAnimationLength()

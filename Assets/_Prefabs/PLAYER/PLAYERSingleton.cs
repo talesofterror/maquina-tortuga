@@ -36,15 +36,17 @@ public class PLAYERSingleton : MonoBehaviour
   public bool movementDisabled;
   public bool endlessJumping;
   public GameObject cameraTargetGameobject;
+  public ParticleSystem[] slideParticles;
 
   [Header("Layer Masks")]
   public LayerMask layerMask_Player;
   public LayerMask layerMask_Interactable;
   public LayerMask LayerMask_Attackable;
+  public LayerMask groundLayer;
+  public LayerMask wallLayer;
 
   [HideInInspector]
   public vThirdPersonController vController;
-
   [HideInInspector]
   public vThirdPersonInput vInput;
 
@@ -142,11 +144,6 @@ public class PLAYERSingleton : MonoBehaviour
 
   void Update()
   {
-    if (!ignoreModeChange)
-    { ListenForModeChangeInput(); }
-    if (ignoreModeChange)
-    { ignoreModeChange = false; }
-
     if (inputDisabled || DialogueManager.IsConversationActive)
     {
 
@@ -160,21 +157,6 @@ public class PLAYERSingleton : MonoBehaviour
     }
   }
 
-  public bool ignoreModeChange = false;
 
-  void ListenForModeChangeInput()
-  {
-    if (GMSingleton.i.inputManager.modeChange.WasPressedThisFrame())
-    {
-      if (PLAYERSingleton.i.stateController.currentState != PLAYERSingleton.i.stateController.state_Fight)
-      {
-        stateController.SwitchState(stateController.state_Fight);
-      }
-      else
-      {
-        stateController.SwitchState(stateController.state_Normal);
-      }
-    }
-  }
 
 }

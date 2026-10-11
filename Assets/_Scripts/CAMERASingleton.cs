@@ -1,5 +1,3 @@
-using NUnit.Framework.Constraints;
-using Palmmedia.ReportGenerator.Core;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -59,6 +57,7 @@ public class CAMERASingleton : MonoBehaviour
     effectVolume.SetActive(false);
     effectVolumeComponent = effectVolume.GetComponent<Volume>();
 
+    SetCurrentCamera(initialCameraIndex);
   }
 
   void OnEnable()
@@ -76,7 +75,7 @@ public class CAMERASingleton : MonoBehaviour
     InitializeLevelSettings();
   }
 
-  void setCurrentCamera(int index)
+  void SetCurrentCamera(int index)
   {
     if (index < 0)
     {
@@ -90,6 +89,7 @@ public class CAMERASingleton : MonoBehaviour
       if (i == index)
       {
         cameraArray[i].enabled = true;
+        currentCameraIndex = i;
       }
       else
       {
@@ -127,8 +127,8 @@ public class CAMERASingleton : MonoBehaviour
       if (GMSingleton.i.inputManager.nextCamera.WasReleasedThisFrame())
       {
         previousCameraIndex = currentCameraIndex;
-        currentCameraIndex = (currentCameraIndex + 1) % cameraArray.Length;
-        setCurrentCamera(currentCameraIndex);
+        currentCameraIndex = (currentCameraIndex + 1 + cameraArray.Length) % cameraArray.Length;
+        SetCurrentCamera(currentCameraIndex);
         cameraArray[currentCameraIndex]
             .GetComponent<CinemachineOrbitalFollow>()
             .HorizontalAxis = cameraArray[previousCameraIndex]
@@ -144,7 +144,7 @@ public class CAMERASingleton : MonoBehaviour
       {
         previousCameraIndex = currentCameraIndex;
         currentCameraIndex = (currentCameraIndex - 1 + cameraArray.Length) % cameraArray.Length;
-        setCurrentCamera(currentCameraIndex);
+        SetCurrentCamera(currentCameraIndex);
         cameraArray[currentCameraIndex]
             .GetComponent<CinemachineOrbitalFollow>()
             .HorizontalAxis = cameraArray[previousCameraIndex]
@@ -156,8 +156,6 @@ public class CAMERASingleton : MonoBehaviour
         );
       }
     }
-
-
   }
 
   public void InitializeLevelSettings()
@@ -175,7 +173,7 @@ public class CAMERASingleton : MonoBehaviour
       primaryZoomFreelook.Lens.FieldOfView = settings.primaryZoomFreelookLens;
       primaryZoomFreelookOrbital.Radius = settings.primaryZoomFreelookRadius;
 
-      setCurrentCamera(settings.initialCameraIndex);
+      SetCurrentCamera(settings.initialCameraIndex);
     }
     else
     { Debug.Log("missing CameraSettings gameobject or scriptable object"); }

@@ -16,7 +16,7 @@ public class Clone_State_Walk : FSM_Base
 
   public override void Option(long option)
   {
-    targetPosition = UTILITY.VectorPacker.UnpackVector3(option);
+    // targetPosition = UTILITY.VectorPacker.UnpackVector3(option);
   }
 
   public override void Enter()
@@ -35,7 +35,6 @@ public class Clone_State_Walk : FSM_Base
 
   IEnumerator IETransitCoroutine (Vector3 startingPos, Vector3 targetPos)
   {
-    
     yield return null;
   }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using PixelCrushers.DialogueSystem;
 
 public class Clone_StateController : Maquina_BaseController
 {

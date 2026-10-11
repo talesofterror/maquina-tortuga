@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 35654391901857756}
+  - component: {fileID: 7863200292699247301}
   m_Layer: 0
   m_Name: SCENE SPAWN POINT
   m_TagString: Respawn
@@ -32,6 +33,18 @@ Transform:
   - {fileID: 40703984660552455}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 156.34, z: 0}
+--- !u!114 &7863200292699247301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183578841347493196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb1a97df3875e372b53ec2e748eabd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
 --- !u!1 &4739194423215183022
 GameObject:
   m_ObjectHideFlags: 0

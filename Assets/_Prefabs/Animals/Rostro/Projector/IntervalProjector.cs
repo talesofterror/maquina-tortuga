@@ -16,7 +16,7 @@ public class IntervalProjector : MonoBehaviour
 
   void Start()
   {
-    projectileArray = new GameObject[poolSize];
+    // projectileArray = new GameObject[poolSize];
     // for (int i = 0; i < poolSize; i++)
     // {
     //   projectileArray[i] = GMSingleton.i.prefabManager.InstantiatePrefab(PrefabName, transform.position, transform.rotation);

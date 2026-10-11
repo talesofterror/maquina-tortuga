@@ -5,7 +5,6 @@ public class IronGolem_FSM_State_Alert : FSM_Base
   IronGolem_FSM_Controller controller;
   Vector3 direction;
   float timer = 0;
-  bool alertTimedOut;
 
   public IronGolem_FSM_State_Alert(IronGolem_FSM_Controller c) : base(c)
   {
@@ -16,7 +15,6 @@ public class IronGolem_FSM_State_Alert : FSM_Base
   {
     Debug.Log($"{controller.transform.name} saw you.");
 
-    alertTimedOut = false;
     timer = Time.time;
   }
 

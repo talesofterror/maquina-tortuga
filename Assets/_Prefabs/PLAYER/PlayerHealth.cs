@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
   public int currentHealth { get; private set; }
   public float deathDuration = 3;
   [HideInInspector] public bool dead = false;
-
+  
   public int hp
   {
     get { return currentHealth; }
@@ -20,8 +20,9 @@ public class PlayerHealth : MonoBehaviour
   [Header("Invulnerability Settings")]
   [SerializeField]
   private float _invulnerabilityDuration = 1f;
-  private bool _isInvulnerable = false;
+  public bool _isInvulnerable = false;
 
+  public bool canBeKnockedback = true;
   [SerializeField]
   private float _knockbackDuration = 1f;
 
@@ -75,13 +76,16 @@ public class PlayerHealth : MonoBehaviour
 
     PLAYERSingleton.i.isTakingDamage = true;
     Debug.Log("Player was knocked back!");
-    if (_knockbackCoroutine == null)
+    if (_knockbackCoroutine == null && canBeKnockedback)
       _knockbackCoroutine = StartCoroutine(KnockbackCoroutine(source, force * 12));
   }
 
   IEnumerator KnockbackCoroutine(Vector3 source, float peakForce)
   {
     PLAYERSingleton.i.animations.animator.SetBool("Knockback", true);
+    canBeKnockedback = false;
+
+    PLAYERSingleton.i.inputDisabled = true;
 
     Vector3 direction = (PLAYERSingleton.i.rB.position - source);
     direction.y = 0;
@@ -102,29 +106,28 @@ public class PlayerHealth : MonoBehaviour
     {
       timer += Time.deltaTime;
       float progress = Mathf.Clamp01(timer / _knockbackDuration);
-
       // Interpolate angle from Start to PI
       float currentAngle = Mathf.Lerp(startAngle, endAngle, progress);
-
       // Calculate curve using Sin of the interpolated angle
       float curve = Mathf.Sin(currentAngle);
-
       if (PLAYERSingleton.i.vController != null)
       {
         PLAYERSingleton.i.vController.RotateToDirection(-direction, 15f);
         PLAYERSingleton.i.vController.knockbackVelocity = peakVelocity * curve;
         Debug.Log("knockback velocity" + PLAYERSingleton.i.vController.knockbackVelocity);
       }
-
       yield return null;
     }
 
     PLAYERSingleton.i.animations.animator.SetBool("Knockback", false);
+    PLAYERSingleton.i.inputDisabled = false;
 
     if (PLAYERSingleton.i.vController != null)
       PLAYERSingleton.i.vController.knockbackVelocity = Vector3.zero;
 
     PLAYERSingleton.i.isTakingDamage = false;
+
+    canBeKnockedback = true;
     _knockbackCoroutine = null;
   }
 

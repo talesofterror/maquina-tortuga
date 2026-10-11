@@ -7,7 +7,6 @@ public class SO_Rostro : ScriptableObject
     public int maxHP = 100;
 
     public float rotationSpeed = 0.4f;
-    private bool invulnerable = false;
 
     [Header("Laser Settings")]
     public int maxAP = 10;

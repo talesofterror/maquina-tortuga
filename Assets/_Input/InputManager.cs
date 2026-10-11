@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     public InputSystem_Actions inputSystem;
     public InputAction interaction;
     public InputAction attack;
+    public InputAction dash;
     public InputAction cast;
     public InputAction modeChange;
     public InputAction disableMouseInput;
@@ -30,6 +31,7 @@ public class InputManager : MonoBehaviour
         interaction = inputSystem.Player.Interact;
         attack = inputSystem.Player.Attack;
         cast = inputSystem.Player.CastFocus;
+        dash = inputSystem.Player.Dash;
         modeChange = inputSystem.Player.ModeChange;
         disableMouseInput = inputSystem.Player.DisableMouseInput;
         nextCamera = inputSystem.Player.NextCamera;

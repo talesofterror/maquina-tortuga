@@ -31,7 +31,7 @@ public class FSM_PlayerState_Interact : FSM_PlayerStateBase
   {
     interactable = null;
     PLAYERSingleton.i.inputDisabled = false;
-    PLAYERSingleton.i.ignoreModeChange = true;
+    PLAYERSingleton.i.stateController.ignoreModeChange = true;
     CAMERASingleton.i.cameraSwitchDisabled = false;
     if (DialogueManager.IsConversationActive) DialogueManager.StopAllConversations();
     Debug.Log("Exiting Interact Mode");

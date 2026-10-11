@@ -140,6 +140,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "6768f4b6-2bcd-4564-aa5e-2b9757b959fe",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -432,7 +441,7 @@
                 {
                     "name": "",
                     "id": "93b434c2-7053-40da-9e77-74e3dd4446d7",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -646,6 +655,28 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "PrevCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c63ab1cf-bc29-4ef5-9291-e86d204f8347",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9cceb3c5-1e37-4650-8867-b946017c7c13",
+                    "path": "<Keyboard>/leftAlt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
