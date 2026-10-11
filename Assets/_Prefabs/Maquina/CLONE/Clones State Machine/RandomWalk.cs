@@ -6,15 +6,15 @@ public class RandomWalk : MonoBehaviour
 
 	[SerializeField, Min(1)] private int maxSamplingAttempts = 4096;
 
-	public Transform PreviousWaypoint { get; private set; }
-	public Transform CurrentWaypoint { get; private set; }
-	public Transform FutureWaypoint { get; private set; }
+	public RandomWalk_Waypoint PreviousWaypoint { get; private set; }
+	public RandomWalk_Waypoint CurrentWaypoint { get; private set; }
+	public RandomWalk_Waypoint FutureWaypoint { get; private set; }
 	public float PreviousToCurrentDistance { get; private set; }
 	public float CurrentToFutureDistance { get; private set; }
 
 	private int waypointNumber;
 
-	public Transform GetCurrentWaypoint()
+	public RandomWalk_Waypoint GetCurrentWaypoint()
 	{
 		if (CurrentWaypoint == null)
 		{
@@ -89,20 +89,20 @@ public class RandomWalk : MonoBehaviour
 		Gizmos.color = previousColor;
 	}
 
-	private void DrawWaypoint(Transform waypoint, Color color)
+	private void DrawWaypoint(RandomWalk_Waypoint waypoint, Color color)
 	{
-		if (waypoint == null)
+		if (waypoint == null || waypoint.transform == null)
 		{
 			return;
 		}
 
 		Color previousColor = Gizmos.color;
 		Gizmos.color = color;
-		Gizmos.DrawSphere(waypoint.position, 0.2f);
+		Gizmos.DrawSphere(waypoint.transform.position, 0.2f);
 		Gizmos.color = previousColor;
 	}
 
-	private Transform GenerateWaypoint()
+	private RandomWalk_Waypoint GenerateWaypoint()
 	{
 		if (!TryGetBounds(out Vector2 minimum, out Vector2 maximum))
 		{
@@ -122,7 +122,7 @@ public class RandomWalk : MonoBehaviour
 				GameObject waypoint = new GameObject($"Waypoint {++waypointNumber}");
 				waypoint.transform.SetParent(transform, true);
 				waypoint.transform.position = new Vector3(point.x, point.y, transform.position.z);
-				return waypoint.transform;
+				return new RandomWalk_Waypoint(waypoint.transform);
 			}
 		}
 
@@ -197,11 +197,13 @@ public class RandomWalk : MonoBehaviour
 
 	private void UpdateDistances()
 	{
-		PreviousToCurrentDistance = PreviousWaypoint != null && CurrentWaypoint != null
-			? Vector3.Distance(PreviousWaypoint.position, CurrentWaypoint.position)
+		PreviousToCurrentDistance = PreviousWaypoint != null && PreviousWaypoint.transform != null &&
+			CurrentWaypoint != null && CurrentWaypoint.transform != null
+			? Vector3.Distance(PreviousWaypoint.transform.position, CurrentWaypoint.transform.position)
 			: 0f;
-		CurrentToFutureDistance = CurrentWaypoint != null && FutureWaypoint != null
-			? Vector3.Distance(CurrentWaypoint.position, FutureWaypoint.position)
+		CurrentToFutureDistance = CurrentWaypoint != null && CurrentWaypoint.transform != null &&
+			FutureWaypoint != null && FutureWaypoint.transform != null
+			? Vector3.Distance(CurrentWaypoint.transform.position, FutureWaypoint.transform.position)
 			: 0f;
 	}
 }

@@ -18,7 +18,13 @@ public class Clone_State_Idle : FSM_Base
     controller.cachedDirection = controller.transform.forward;
   }
 
+  Vector3 targetDirection;
   public override void Loop()
+  {
+    AttentionBehavior();
+  }
+
+  private void AttentionBehavior()
   {
     if (controller.attentionTarget == null)
     {
@@ -32,7 +38,7 @@ public class Clone_State_Idle : FSM_Base
       return;
     }
 
-    Vector3 targetDirection = controller.attentionTarget.transform.position - controller.transform.position;
+    targetDirection = controller.attentionTarget.transform.position - controller.transform.position;
     if (targetDirection.sqrMagnitude <= 0.01f)
     {
       return;

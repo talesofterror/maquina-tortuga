@@ -56,7 +56,7 @@ public class FSM_PlayerState_Sliding : FSM_PlayerStateBase
 
         cc.lockMovement = true;
         cc.lockRotation = true;
-        
+
         yield return new WaitForFixedUpdate();
 
         Vector3 slideDir = cc.moveDirection.normalized;
@@ -81,6 +81,8 @@ public class FSM_PlayerState_Sliding : FSM_PlayerStateBase
 
         while (elapsed < slideDuration)
         {
+
+
             Vector3 rayOrigin = cc._rigidbody.position + Vector3.up * 0.5f;
             Vector3 adjustedSlideDir = slideDir;
 
@@ -89,10 +91,19 @@ public class FSM_PlayerState_Sliding : FSM_PlayerStateBase
                 adjustedSlideDir = Vector3.ProjectOnPlane(slideDir, hit.normal).normalized;
             }
 
-            Vector3 targetPos = cc._rigidbody.position + adjustedSlideDir * speed * Time.fixedDeltaTime;
+            float moveDistance = speed * Time.fixedDeltaTime;
+            Vector3 targetPos = cc._rigidbody.position + adjustedSlideDir * moveDistance;
+            Vector3 movementDirection = (targetPos - cc._rigidbody.position).normalized;
+            if (cc._rigidbody.SweepTest(adjustedSlideDir, out _, moveDistance, QueryTriggerInteraction.Collide)
+                || Physics.Raycast(rayOrigin, movementDirection, moveDistance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide))
+            {
+                break;
+            }
+
             cc._rigidbody.MovePosition(targetPos);
 
             elapsed += Time.deltaTime;
+
             yield return new WaitForFixedUpdate();
         }
 
